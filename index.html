@@ -7,26 +7,57 @@
   <meta name="description" content="FreeSurf is an open-source platform connecting people directly with contractors — plus free tools for invoices, link-in-bio pages, cross-posting, and more. No middleman fees, no subscriptions." />
   <style>
     :root {
-      --bg: #0b1020;
-      --card: #111937;
-      --text: #e8ecff;
-      --muted: #b3bddf;
-      --accent: #5b8cff;
-      --accent-2: #78e6c4;
-      --border: #2a3568;
+      --bg: #0a0a0c;
+      --bg-alt: #111115;
+      --surface: #16161a;
+      --panel: rgba(22, 22, 26, 0.85);
+      --border: #252530;
+      --border-light: #1e1e28;
+      --text: #e4e4ed;
+      --text-secondary: #9898a8;
+      --text-muted: #686878;
+      --brand: #6b8cff;
+      --brand-dark: #5a78e8;
+      --brand-light: #8aa4ff;
+      --brand-soft: rgba(107, 140, 255, 0.12);
+      --brand-ring: rgba(107, 140, 255, 0.15);
+      --success: #34d399;
+      --success-soft: rgba(52, 211, 153, 0.12);
+      --warning: #fbbf24;
+      --warning-soft: rgba(251, 191, 36, 0.12);
+      --radius: 14px;
+      --radius-lg: 20px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.4);
+      --shadow-lg: 0 12px 48px rgba(0,0,0,0.5);
     }
-    * { box-sizing: border-box; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      margin: 0;
-      font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(circle at 10% 10%, #16204a 0%, var(--bg) 55%);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
       color: var(--text);
       line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    a { color: var(--accent); text-decoration: none; }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 44px 44px;
+      z-index: 0;
+    }
+
+    a { color: var(--brand); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    .wrap { max-width: 960px; margin: 0 auto; padding: 24px; }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 24px; position: relative; z-index: 1; }
 
     .nav {
       display: flex; justify-content: space-between; align-items: center;
@@ -35,21 +66,20 @@
     .brand { font-size: 1.05rem; font-weight: 700; }
     .nav-right { display: flex; align-items: center; gap: 14px; }
 
-    /* App launcher */
     .app-launcher { position: relative; }
     .app-launcher-btn {
-      background: none; border: 1px solid var(--border); color: var(--muted);
+      background: none; border: 1px solid var(--border); color: var(--text-muted);
       width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       font-size: 1.1rem; transition: border-color 0.15s;
     }
-    .app-launcher-btn:hover { border-color: var(--accent); color: var(--text); }
+    .app-launcher-btn:hover { border-color: var(--brand); color: var(--text); }
 
     .app-dropdown {
       display: none; position: absolute; right: 0; top: 44px;
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 12px; width: 280px;
-      box-shadow: 0 16px 48px rgba(2,7,20,0.5); z-index: 50;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 12px; width: 280px;
+      box-shadow: var(--shadow-lg); z-index: 50;
       grid-template-columns: repeat(3, 1fr); gap: 8px;
     }
     .app-dropdown.open { display: grid; }
@@ -57,7 +87,7 @@
     .app-dropdown a {
       display: flex; flex-direction: column; align-items: center; gap: 5px;
       padding: 10px 6px; border-radius: 10px; font-size: 0.75rem;
-      color: var(--muted); text-align: center; transition: background 0.15s;
+      color: var(--text-muted); text-align: center; transition: background 0.15s;
     }
     .app-dropdown a:hover { background: rgba(255,255,255,0.05); color: var(--text); text-decoration: none; }
     .app-dropdown .app-icon { font-size: 1.4rem; }
@@ -66,8 +96,8 @@
       padding: 40px 0 24px;
       display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; align-items: start;
     }
-    h1 { margin: 0 0 12px; font-size: clamp(2rem, 4vw, 3.1rem); line-height: 1.12; }
-    .lead { margin: 0; color: var(--muted); font-size: 1.05rem; max-width: 60ch; }
+    h1 { margin: 0 0 12px; font-size: clamp(2rem, 4vw, 3.1rem); line-height: 1.12; font-weight: 600; letter-spacing: -0.02em; }
+    .lead { margin: 0; color: var(--text-secondary); font-size: 1.05rem; max-width: 60ch; }
 
     .cta-row { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
 
@@ -76,43 +106,43 @@
       font-weight: 600; cursor: pointer; text-decoration: none;
       display: inline-flex; align-items: center; justify-content: center;
     }
-    .btn-primary { background: linear-gradient(135deg, var(--accent), #6b73ff); color: white; }
+    .btn-primary { background: linear-gradient(135deg, var(--brand), #8b9dff); color: white; }
+    .btn-primary:hover { background: linear-gradient(135deg, var(--brand-dark), var(--brand)); text-decoration: none; }
     .btn-secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-secondary:hover { border-color: var(--brand); text-decoration: none; }
 
     .card {
-      background: linear-gradient(170deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-      border: 1px solid var(--border); border-radius: 14px;
-      padding: 20px; box-shadow: 0 10px 35px rgba(2,7,20,0.35);
+      background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 20px; box-shadow: var(--shadow);
     }
-    .card h2 { margin-top: 0; margin-bottom: 10px; font-size: 1.1rem; }
-    .card p { margin-top: 0; margin-bottom: 16px; color: var(--muted); font-size: 0.95rem; }
+    .card h2 { margin-top: 0; margin-bottom: 10px; font-size: 1.1rem; font-weight: 600; letter-spacing: -0.02em; }
+    .card p { margin-top: 0; margin-bottom: 16px; color: var(--text-secondary); font-size: 0.95rem; }
 
     .field { display: grid; gap: 8px; margin-bottom: 12px; }
-    label { font-size: 0.92rem; color: var(--muted); }
+    label { font-size: 0.92rem; color: var(--text-secondary); }
     input[type="email"] {
       width: 100%; padding: 12px 14px; border-radius: 10px;
-      border: 1px solid var(--border); background: #0b1433;
+      border: 1px solid var(--border); background: var(--bg-alt);
       color: var(--text); outline: none; font-size: 1rem;
     }
-    input[type="email"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(91,140,255,0.25); }
-    .notice { margin-top: 10px; color: var(--muted); font-size: 0.85rem; }
+    input[type="email"]:focus { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-ring); }
+    .notice { margin-top: 10px; color: var(--text-muted); font-size: 0.85rem; }
 
-    /* Values */
     .section {
       margin-top: 42px;
       display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px;
     }
     .mini {
       border: 1px solid var(--border); border-radius: 12px;
-      padding: 16px; background: rgba(13,21,49,0.55);
+      padding: 16px; background: var(--bg-alt);
     }
-    .mini h3 { margin-top: 0; margin-bottom: 8px; font-size: 1rem; color: var(--accent-2); }
-    .mini p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+    .mini h3 { margin-top: 0; margin-bottom: 8px; font-size: 1rem; font-weight: 600; letter-spacing: -0.02em; color: var(--success); }
+    .mini p { margin: 0; color: var(--text-secondary); font-size: 0.92rem; }
 
-    /* Tools section */
     .tools-heading {
       margin-top: 48px; margin-bottom: 18px;
-      font-size: 1.2rem; color: var(--muted);
+      font-size: 1.2rem; color: var(--text-muted);
       display: flex; align-items: center; gap: 10px;
     }
     .tools-heading::after {
@@ -126,22 +156,22 @@
     .tool-item {
       display: flex; align-items: center; gap: 10px;
       padding: 12px 14px; border-radius: 10px;
-      border: 1px solid var(--border); background: rgba(13,21,49,0.4);
+      border: 1px solid var(--border); background: var(--bg-alt);
       font-size: 0.9rem; transition: border-color 0.15s;
     }
-    .tool-item:hover { border-color: var(--accent); text-decoration: none; }
+    .tool-item:hover { border-color: var(--brand); text-decoration: none; }
     .tool-item .ti { font-size: 1.2rem; }
-    .tool-item .tl { color: var(--muted); font-size: 0.75rem; }
+    .tool-item .tl { color: var(--text-muted); font-size: 0.75rem; }
 
     .badge {
       font-size: 0.65rem; font-weight: 700; padding: 1px 8px; border-radius: 999px;
       margin-left: auto;
     }
-    .badge-live { background: rgba(5,150,105,0.2); color: #34d399; }
-    .badge-wip { background: rgba(217,119,6,0.2); color: #fbbf24; }
+    .badge-live { background: var(--success-soft); color: var(--success); }
+    .badge-wip { background: var(--warning-soft); color: var(--warning); }
 
     footer {
-      margin: 48px 0 20px; color: var(--muted);
+      margin: 48px 0 20px; color: var(--text-muted);
       font-size: 0.9rem; text-align: center;
     }
 
@@ -168,8 +198,7 @@
             <a href="https://links.freesurf.tools"><span class="app-icon">🔗</span>Links</a>
             <a href="https://post.freesurf.tools"><span class="app-icon">📢</span>Post</a>
             <a href="https://auth.freesurf.tools"><span class="app-icon">🔐</span>Auth</a>
-            <a href="https://hire.freesurf.tools"><span class="app-icon">🤝</span>Hire</a>
-            <a href="https://github.com/ah8571"><span class="app-icon">💻</span>GitHub</a>
+            <a href="https://github.com/freesurf-ecosystem"><span class="app-icon">💻</span>GitHub</a>
           </div>
         </div>
       </div>
@@ -180,11 +209,12 @@
         <h1>Find contractors without middleman fees.</h1>
         <p class="lead">
           FreeSurf is a free, open-source platform connecting clients and contractors directly.
-          No platform percentage. No hidden upcharge. Plus free tools for invoices, link-in-bio pages, cross-posting, and more.
+          No platform percentage. No hidden upcharges. No gate-keeping important features. Optional subscriptions.
+          Plus free tools for invoices, link-in-bio pages, cross-posting, and more.
         </p>
         <div class="cta-row">
           <a class="btn btn-primary" href="https://auth.freesurf.tools">Get started — it's free</a>
-          <a class="btn btn-secondary" href="https://github.com/ah8571" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+          <a class="btn btn-secondary" href="https://github.com/freesurf-ecosystem" target="_blank" rel="noopener noreferrer">View on GitHub</a>
         </div>
       </section>
 
@@ -240,11 +270,6 @@
         <span>Auth <span class="tl">auth.freesurf.tools</span></span>
         <span class="badge badge-wip">Beta</span>
       </a>
-      <a href="https://hire.freesurf.tools" class="tool-item">
-        <span class="ti">🤝</span>
-        <span>Hire <span class="tl">hire.freesurf.tools</span></span>
-        <span class="badge badge-wip">Coming soon</span>
-      </a>
       <div class="tool-item" style="opacity:0.5;">
         <span class="ti">📄</span>
         <span>PDF <span class="tl">pdf.freesurf.tools</span></span>
@@ -253,13 +278,14 @@
     </div>
 
     <footer>
-      © <span id="year"></span> FreeSurf · Free tools, no bullshit.
+      &copy; <span id="year"></span> FreeSurf &middot;
+      <a href="https://freesurf.tools/privacy.html">Privacy</a> &middot;
+      <a href="https://freesurf.tools/terms.html">Terms</a>
     </footer>
   </div>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    // App launcher toggle
     const btn = document.getElementById('app-launcher-btn');
     const dropdown = document.getElementById('app-dropdown');
     btn.addEventListener('click', (e) => { e.stopPropagation(); dropdown.classList.toggle('open'); });
@@ -267,4 +293,3 @@
   </script>
 </body>
 </html>
-
