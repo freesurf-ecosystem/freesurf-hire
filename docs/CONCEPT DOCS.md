@@ -1,0 +1,2 @@
+- Tech companies could be thinking about the frontiers of possibility not settling for certain payment-based relationships with participants because its more profitable
+- 
