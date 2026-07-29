@@ -16,3 +16,6 @@ App name: FreeSurf Transcriber
 Subtitle: Open-source AI transcription	
 Description: "Powered by self-hosted open-source AI models. No subscription required."	
 Screenshot language: Show the app interface with a caption "Open source. Self-hosted. Private saving to your phone."
+
+
+
