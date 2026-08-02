@@ -84,63 +84,13 @@ Supabase is fine as the *premium sync layer*. The risk isn't Supabase pricing �
 
 ---
 
-## Hosting Cost Comparison: Cloudflare Workers vs DigitalOcean
+## Server Cost Comparison
 
-These two serve the same role — they are the **server/host** that runs your backend code (API endpoints, webhooks, server-side logic). The terms can be used interchangeably in the context of "where does my code run."
+Backend logic for these apps is lightweight — validate a JWT, proxy to RunPod, read/write a database row. The question is where that logic runs.
 
-### Terminology
+### Serverless: Cloudflare Workers vs Supabase Edge Functions
 
-| Term | What it means |
-|---|---|
-| **Server** | A computer (physical or virtual) that runs your backend code |
-| **Host / Hosting** | The service that provides the server |
-| **Cloudflare Workers** | Serverless hosting — you upload code, Cloudflare runs it on demand per-request |
-| **DigitalOcean** | Traditional hosting — you rent a VPS or container that runs 24/7 |
-| **Supabase** | Not a server/host — it's a managed database + auth service. It replaces the database layer, not the server. |
-
-> Cloudflare and DigitalOcean are interchangeable as *hosting providers*. Supabase is not — it's a different layer (database, not compute).
-
-### Scenario: 20K daily active users
-
-Assuming ~10 API calls per user per session = **6M requests/month**.
-
-| Line Item | Cloudflare Workers | DigitalOcean App Platform |
-|---|---|---|
-| **Base cost** | $0 (free tier: 100K req/day, then $0.30/million requests) | $5/mo (Basic — 512MB RAM, 1 container) |
-| **Request cost** (6M/mo) | $1.80 | Included in container cost |
-| **CPU / compute** | ~$0.60 (lightweight proxies, ~5ms avg) | Container provisioning covers this |
-| **Database** | N/A (use Supabase, priced separately) | $15/mo (managed Postgres) or self-managed |
-| **Bandwidth** | Free (Workers don't charge egress to Cloudflare services) | $5–10/mo |
-| **Realistic tier** (can handle 20K DAU) | **$3/mo** | **$24–50/mo** (Pro tier, 2 containers with auto-scale) |
-| **At 100K DAU** | **$15–25/mo** | **$80–150/mo** |
-| **At 500K DAU** | **$75–125/mo** | **$300–600/mo** |
-
-### Per-App Breakdown at 20K DAU
-
-| App | Monthly Worker Requests | Monthly Worker Cost |
-|---|---|---|
-| **Natural Reader** (3 TTS calls/user/day) | 60K req/day | ~$0.60 |
-| **Transcriber** (1 transcription/user/day) | 20K req/day | ~$0.20 |
-| **Links** (5 profile views/user/day) | 100K req/day | ~$1.00 |
-| **Invoices** (0 worker calls — uses Supabase directly) | 0 | $0 |
-| **Post** (2 posts/user/day + dashboard) | 40K req/day | ~$0.40 |
-| **Auth** (static page, Supabase direct) | 0 | $0 |
-
-### Why Cloudflare Wins at This Scale
-
-1. **Pay-per-use** — $0 at zero users, scales linearly. DigitalOcean charges for idle time.
-2. **Zero egress** — R2, Workers, Pages all share a free network backbone. DigitalOcean charges per GB of outbound data.
-3. **No server management** — no OS updates, no process monitoring, no restart scripts.
-4. **Global edge** — Workers run in 300+ data centers, closest to each user. DigitalOcean has ~15 regions.
-5. **Free tier generosity** — 100K Worker requests/day is enough for most of these apps individually until significant scale.
-
-### The One Scenario Where DigitalOcean Wins
-
-If you have a **single long-running process** (e.g., a WebSocket server managing thousands of concurrent live connections), a VPS is better. Workers have a 30-second CPU time limit per request. This is why the emmaline voice mode needs LiveKit rather than being ported to a raw Worker — and even then, LiveKit's server can run on a single $12/mo VPS or be self-hosted on RunPod.
-
-### Rule of Thumb
-
-Cloudflare Workers run your API logic. Supabase stores your data. Don't use Supabase Edge Functions — use Workers instead. The cost difference is decisive:
+Both are serverless — you upload code, they run it per-request. But the pricing model is very different:
 
 | | Supabase Edge Functions | Cloudflare Workers |
 |---|---|---|
@@ -149,15 +99,41 @@ Cloudflare Workers run your API logic. Supabase stores your data. Don't use Supa
 | Cold starts | Yes (containers) | No (V8 isolates) |
 | What it runs | JS/TS + embedded DB calls | JS/TS + fetch to anywhere |
 
-**Cloudflare is 30x cheaper for the API layer.** The pattern — Worker validates the JWT, then reads/writes Supabase — means Supabase only bills for database queries (free up to 2GB). Combined free tiers cover ~50k MAU before any costs.
+**Cloudflare is 30x cheaper for the API layer.** The Workers pattern — validate a JWT, fetch/write Supabase, return JSON — means Supabase only bills for database queries (free up to 2GB). Combined free tiers cover ~50k MAU before any costs.
 
-### When Self-Hosting Supabase Makes Sense
+### Traditional Hosting: Cloudflare Workers vs DigitalOcean
 
-Running `docker compose up` with Supabase's self-hosted image on a rented pod gives you auth + Postgres + APIs in one box. But you pay for the pod 24/7 (~$316/month) instead of per-request. The crossover: when Supabase's paid tier ($25-75/mo) exceeds a pod's monthly cost. For most apps in the FreeSurf ecosystem, that's far in the future.
+For comparison, here's what a traditional VPS or container platform costs versus Workers at 20K DAU (~6M requests/month):
+
+| Line Item | Cloudflare Workers | DigitalOcean App Platform |
+|---|---|---|
+| **Base cost** | $0 (free tier: 100K req/day) | $5/mo (Basic — 512MB RAM) |
+| **Request cost** (6M/mo) | $1.80 | Included |
+| **Database** | N/A (use Supabase, separate) | $15/mo (managed Postgres) |
+| **Bandwidth** | Free | $5–10/mo |
+| **Realistic at 20K DAU** | **$3/mo** | **$24–50/mo** |
+| **At 100K DAU** | **$15–25/mo** | **$80–150/mo** |
+| **At 500K DAU** | **$75–125/mo** | **$300–600/mo** |
+
+### Per-App Worker Breakdown at 20K DAU
+
+| App | Requests/day | Monthly Cost |
+|---|---|---|
+| Natural Reader (3 TTS calls/user) | 60K | ~$0.60 |
+| Transcriber (1 transcription/user) | 20K | ~$0.20 |
+| Links (5 profile views/user) | 100K | ~$1.00 |
+| Invoices (uses Supabase directly, no worker) | 0 | $0 |
+| Post (2 posts + dashboard) | 40K | ~$0.40 |
+
+### When Self-Hosting Makes Sense
+
+Running `docker compose up` with Supabase's self-hosted image on a rented pod gives auth + Postgres + APIs in one box — but costs ~$316/month 24/7. The crossover point is when Supabase's paid tier exceeds a pod's cost, which is far in the future for these apps.
+
+Same logic applies to a rented GPU pod: serverless RunPod is the right call for MVP. If transcription or TTS volume hits thousands of hours/month, a dedicated 3090 at $316/month beats per-request pricing.
 
 ### Bottom Line
 
-At any realistic scale for these micro-utility apps, **Cloudflare Workers are 5–15x cheaper than DigitalOcean** for the same workload. The crossover point where a VPS becomes cheaper is several million requests per *hour* — at which point ad revenue would dwarf hosting costs regardless.
+Cloudflare Workers are the right server layer now — free tier covers everything, the architecture is simple, and there's no server to manage. Revisit if costs ever exceed $100/month, which is hundreds of thousands of active users away.
 
 ---
 
