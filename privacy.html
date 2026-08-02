@@ -47,14 +47,13 @@
       <li>Support requests and correspondence</li>
     </ul>
 
-    <p><strong>AI Processing:</strong> Some FreeSurf tools send content to AI processing services to generate results:</p>
+    <p><strong>AI Processing:</strong> Some FreeSurf tools use AI models to generate results. These models run on our own GPU infrastructure (RunPod) — your content is never sent to third-party AI companies like OpenAI or Google. Text, audio, and images are processed in memory and immediately discarded after the result is returned:</p>
     <ul>
-      <li><strong>Natural Reader:</strong> Text you submit for reading is sent to our TTS servers (RunPod) to generate speech audio. Text is processed in memory and discarded after audio generation.</li>
-      <li><strong>Transcriber:</strong> Audio you submit is sent to transcription services to convert speech to text.</li>
+      <li><strong>Natural Reader:</strong> Text is sent to our self-hosted Kokoro TTS server to generate speech audio.</li>
+      <li><strong>Transcriber:</strong> Audio is sent to our self-hosted Whisper transcription server.</li>
+      <li><strong>Calorie Tracker:</strong> Food photos are sent to our self-hosted vision AI server.</li>
       <li><strong>Image Maker:</strong> Text prompts are sent to image generation services.</li>
-      <li><strong>Calorie Tracker:</strong> Food photos are sent to vision AI services for nutritional analysis.</li>
     </ul>
-    <p>In all cases, submitted content is transmitted over HTTPS, processed in memory, and is not retained on our AI processing servers after the result is returned.</p>
 
     <h2>2. How We Use Information</h2>
     <ul>
@@ -75,8 +74,7 @@
     <ul>
       <li><strong>Supabase</strong> — authentication and account data storage</li>
       <li><strong>Cloudflare</strong> — web hosting, Workers, R2 storage, and KV</li>
-      <li><strong>RunPod</strong> — GPU infrastructure for self-hosted AI models (Kokoro TTS, Whisper, etc.)</li>
-      <li><strong>OpenRouter / Google AI</strong> — vision and language model APIs for calorie tracking and transcription</li>
+      <li><strong>RunPod</strong> — GPU infrastructure for self-hosted AI models (Kokoro TTS, Whisper, vision models)</li>
       <li><strong>Replicate / Krea / Flux</strong> — image generation APIs</li>
       <li><strong>Google AdMob</strong> — in-app advertising</li>
     </ul>
