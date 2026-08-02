@@ -4,15 +4,24 @@ FreeSurf cost architecture — keeping infrastructure near-zero while preserving
 
 ---
 
-## Storage Cost Hierarchy
+## Where Data Lives
 
-| Layer | Cost | Best For |
-|---|---|---|
-| **Device local** (AsyncStorage / FileSystem) | **$0** | Invoice drafts, recordings, history, generated images |
-| **Cloudflare R2** | $0.015/GB/mo + **zero egress** | Link profiles, public pages, shared content |
-| **Cloudflare KV** | $0.50/million reads | User→username mappings, analytics counters |
-| **Cloudflare D1** (SQLite) | $0.75/million rows read | Could replace Supabase for simple relational data — worth watching |
-| **Supabase** | Free tier → $25/mo Pro | Auth + premium user sync only |
+FreeSurf apps are local-first by default. Users who never sign in generate zero server cost.
+
+| Layer | What it stores | Cost | Limits worth noting |
+|---|---|---|---|
+| **Device local** (AsyncStorage, FileSystem) | Drafts, history, recordings, meal logs — everything by default | $0 | User's own device capacity |
+| **Cloudflare R2** | Link profile JSON, public pages, shared images | $0.015/GB/mo + zero egress | No practical limit — S3-compatible object storage |
+| **Supabase Postgres** | Premium sync data (transcripts, meal logs, recordings) | Free → $25/mo Pro | 500MB free, 8GB Pro, scales beyond with Enterprise |
+| **Supabase Auth** | User accounts, JWTs | Free up to 50K MAU | 50K MAU free, then $0.00325/user |
+
+### What We Don't Use (and Why)
+
+| Service | Why not |
+|---|---|
+| **Cloudflare KV** | Eventually consistent — writes may not be visible for up to 60s. Good for counters, bad for user data. |
+| **Cloudflare D1** (SQLite) | 10GB hard cap per database. Free tier generous but the ceiling is real. Fine for small relational data, but Supabase Postgres has no per-DB cap and a clear upgrade path. |
+| **Supabase Edge Functions** | 30x more expensive than Cloudflare Workers for the same workload. Workers handle all API logic. |
 
 ---
 
