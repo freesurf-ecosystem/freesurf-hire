@@ -3,9 +3,8 @@
 Try only 25 letters, max 30
 
 Freesurf Invoice Maker [23]
-Freesurf: Link in bio [23]
-Freesurf Post: Schedule Social [30]; Schedule Posts [24] [keywords: buffer: social media scheduler, hootsuite: Schedule Posts; Hookle: Social Media Manager; people like 'makers' as well with pre-designed templates]
-Freesurf: Text To Speech [24]
+
+Freesurf Reader Text To Speech [or Text To Speech Reader FreeSurf] [30]
 Freesurf: Transcribe Speech [26]
 Freesurf: Create AI images [26] 
 Freesurf: calorie tracker [25] 
