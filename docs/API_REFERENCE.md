@@ -34,6 +34,9 @@ Identify each food item. Return JSON."
 | **Qwen2-VL 7B** | 14GB+ | Decent | Lighter, faster cold starts |
 | **Pixtral 12B** | 18GB+ | Very good | Strong on detail recognition |
 
+Self-hosted transcription
+To add: qwen/qwen3-asr-flash-2026-02-10 or mistralai/voxtral-mini-transcribe for self-hosted transcription
+
 ## Recommended Path
 
 1. **MVP**: Gemini Flash via OpenRouter ($0.00003/photo) — practically free
