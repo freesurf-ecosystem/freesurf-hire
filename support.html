@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support — FreeSurf</title>
+  <meta name="description" content="Get help with FreeSurf — free, open-source tools and a direct contractor network with no middleman fees." />
+  <style>
+    :root {
+      --bg: #0a0a0c;
+      --bg-alt: #111115;
+      --surface: #16161a;
+      --panel: rgba(22, 22, 26, 0.85);
+      --border: #252530;
+      --border-light: #1e1e28;
+      --text: #e4e4ed;
+      --text-secondary: #9898a8;
+      --text-muted: #686878;
+      --brand: #6b8cff;
+      --brand-dark: #5a78e8;
+      --brand-light: #8aa4ff;
+      --brand-soft: rgba(107, 140, 255, 0.12);
+      --brand-ring: rgba(107, 140, 255, 0.15);
+      --success: #34d399;
+      --success-soft: rgba(52, 211, 153, 0.12);
+      --radius: 14px;
+      --radius-lg: 20px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.4);
+      --shadow-lg: 0 12px 48px rgba(0,0,0,0.5);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 44px 44px;
+      z-index: 0;
+    }
+
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .wrap { max-width: 960px; margin: 0 auto; padding: 24px; position: relative; z-index: 1; }
+
+    .nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 44px; gap: 12px;
+    }
+    .brand { font-size: 1.05rem; font-weight: 700; }
+
+    .btn {
+      appearance: none; border: 0; padding: 12px 16px; border-radius: 10px;
+      font-weight: 600; cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .btn-secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-secondary:hover { border-color: var(--brand); text-decoration: none; }
+
+    .app-launcher { position: relative; }
+    .app-launcher-btn {
+      background: none; border: 1px solid var(--border); color: var(--text-muted);
+      width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; transition: border-color 0.15s;
+    }
+    .app-launcher-btn:hover { border-color: var(--brand); color: var(--text); }
+
+    .app-dropdown {
+      display: none; position: absolute; right: 0; top: 44px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 12px; width: 280px;
+      box-shadow: var(--shadow-lg); z-index: 50;
+      grid-template-columns: repeat(3, 1fr); gap: 8px;
+    }
+    .app-dropdown.open { display: grid; }
+
+    .app-dropdown a {
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+      padding: 10px 6px; border-radius: 10px; font-size: 0.75rem;
+      color: var(--text-muted); text-align: center; transition: background 0.15s;
+    }
+    .app-dropdown a:hover { background: rgba(255,255,255,0.05); color: var(--text); text-decoration: none; }
+    .app-dropdown .app-icon { font-size: 1.4rem; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 36px 32px; box-shadow: var(--shadow-lg); max-width: 640px; margin: 0 auto;
+    }
+    h1 { font-size: 1.6rem; margin: 0 0 6px; font-weight: 600; letter-spacing: -0.02em; }
+    .sub { color: var(--text-muted); font-size: 0.92rem; margin: 0 0 28px; }
+    h2 { font-size: 1.05rem; margin: 28px 0 10px; color: var(--brand); font-weight: 600; }
+    p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.65; margin: 0 0 14px; }
+
+    .email {
+      display: inline-block; background: var(--brand-soft); border: 1px solid var(--brand-ring);
+      border-radius: 10px; padding: 12px 18px; font-size: 0.95rem; font-weight: 600;
+      color: var(--brand-light);
+    }
+    .email:hover { text-decoration: none; background: rgba(107, 140, 255, 0.18); }
+
+    footer {
+      margin: 48px 0 20px; color: var(--text-muted);
+      font-size: 0.9rem; text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav">
+      <a class="brand" href="./index.html" style="color:inherit;text-decoration:none;">FreeSurf</a>
+      <div class="app-launcher">
+        <button class="app-launcher-btn" id="app-launcher-btn" aria-label="FreeSurf tools" title="FreeSurf tools">⋮⋮⋮</button>
+        <div class="app-dropdown" id="app-dropdown">
+          <a href="https://invoices.freesurf.tools"><span class="app-icon">🧾</span>Invoices</a>
+          <a href="https://links.freesurf.tools"><span class="app-icon">🔗</span>Links</a>
+          <a href="https://post.freesurf.tools"><span class="app-icon">📢</span>Post</a>
+          <a href="https://auth.freesurf.tools"><span class="app-icon">🔐</span>Auth</a>
+          <a href="https://github.com/freesurf-ecosystem"><span class="app-icon">💻</span>GitHub</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="card">
+      <h1>Support</h1>
+      <p class="sub">Free, open-source tools and a direct contractor network — no middleman fees, no subscriptions.</p>
+
+      <h2>Contact</h2>
+      <p>Email us anytime. We respond within 24 hours.</p>
+      <a href="mailto:support@freesurf.tools" class="email">support@freesurf.tools</a>
+
+      <h2>Common questions</h2>
+      <p><strong>Are FreeSurf tools really free?</strong> Yes. All our tools — invoices, link-in-bio pages, cross-posting, text-to-speech, transcription, calorie tracking, and more — are free with no mandatory fees or subscriptions. Sign in is optional for cloud sync.</p>
+      <p><strong>Where is my data stored?</strong> Data is saved locally on your device by default. If you sign in, it syncs to your account so you can access it across devices.</p>
+      <p><strong>How does the contractor network work?</strong> Clients and contractors connect directly with transparent, upfront rates. FreeSurf takes zero platform percentage — you keep everything you earn.</p>
+      <p><strong>Can I delete my account?</strong> Yes — email us at the address above with "Account deletion request" and we'll remove all your data within 48 hours.</p>
+    </div>
+
+    <footer>
+      &copy; <span id="year"></span> FreeSurf &middot;
+      <a href="./index.html">Home</a> &middot;
+      <a href="./privacy.html">Privacy</a> &middot;
+      <a href="./terms.html">Terms</a>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const btn = document.getElementById('app-launcher-btn');
+    const dropdown = document.getElementById('app-dropdown');
+    btn.addEventListener('click', (e) => { e.stopPropagation(); dropdown.classList.toggle('open'); });
+    document.addEventListener('click', () => dropdown.classList.remove('open'));
+  </script>
+</body>
+</html>
