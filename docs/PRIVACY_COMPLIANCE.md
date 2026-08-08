@@ -1,3 +1,15 @@
+
+
+## US User options to opt-out of tracking
+
+Need a "Do not sell/ share my data" option
+
+On Android: Skip the Consent Popup CompletelyFor a US-only Android release on the Google Play Store, you do not need any upfront privacy popups.The Rules: Under US state laws (like California's CCPA/CPRA), you do not need an opt-in banner.Your Requirement: Instead of a popup, you are only required to have a clear link in your main app settings menu labeled "Do Not Sell My Personal Information." Tapping this should pass the Non-Personalized Ads (npa=1) flag to AdMob. If you don't even have that menu set up yet for your prototype, you can skip it initially, as long as your static Privacy Policy discloses the ad tracking
+
+## GDPR and Android
+
+Need to get consent from users to track their information
+
 ## Necessary Disclosures
 
 What You Must Legally Disclose
