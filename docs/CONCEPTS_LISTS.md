@@ -3,30 +3,32 @@
 Try only 25 letters, max 30
 
 Freesurf Invoice Maker [23]
-
-Freesurf Reader Text To Speech [or Text To Speech Reader FreeSurf] [30]
-Freesurf: Transcribe Speech [26]
+Freesurf Reader Text To Speech [30]
+Freesurf Transcribe Speech [27]
+Freesurf Calorie Tracker [25]
+Freesurf links (at least the web app)
 Freesurf: Create AI images [26] 
-Freesurf: calorie tracker [25] 
-Freesurf: Scanner, PDF OCR [26]
-Freesurf: QR & Barcode Scanner [30]
+Freesurf: Voice Translator [26] [Interpreter not as common]
+Freesurf Tutor: Learn English [29] [potentially problematic]
+Freesurf Post: Social Scheduler
+Freesurf Scanner: PDF OCR QR [28]
 Freesurf: For Hire Service [26]; Hire contractors [26] [keywords: thumbtack "Hire service pros"; angi "Hire home service pros"; handy "Book home services"; taskrabbit "Handyman, Errands"; Fiverr: Freelance Services]
 Cashmarket: Compare options [27]
-Freesurf: Voice Translator [26] [keywords: Voice Translate/ translator; Live Translate/Translator; Interpreter not as common]
-Voice Notes [some cross over with note taker]
 Freesurf: AI note taker [23] (ex. coconote / turbo ai) 
 Freesurf: AI Voice Assistant [28] virtual assistant (open claw connections)
-Freesurf: English Tutor [23] [potentially problematic]
 Freesurf: 2nd phone number [26] 
 Freesurf: AI receptionist [25] 
 
 
 # Later
 
+Freesurf: QR & Barcode Scanner [30] [duplicative]
 Website Maker
 PDF viewer
 document viewer
+"My stuff" app, a kind of pass through app for providing / sellings [avoid ads / fees but builds community]
 free video maker
+Voice Notes [some cross over with note taker]
 Find my phone
 Phone cleaner for storage
 Homescreen organizer / wallpaper
@@ -38,7 +40,7 @@ Meditation app (calm example) [crass to run ads?]
 Mileage tracking for contractors
 heart rate monitor, blood pressure (though not sure how it does it..)
 dating app
-"My stuff" app, a kind of pass through app for providing / sellings [avoid ads / fees but builds community]
+
 
 
 # More complicated
