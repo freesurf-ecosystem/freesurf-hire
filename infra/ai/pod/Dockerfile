@@ -22,7 +22,7 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1
 RUN pip install faster-whisper transformers accelerate bitsandbytes \
     kokoro>=0.8.4 misaki[en] soundfile numpy==1.26.4 \
     langdetect pillow json-repair \
-    fastapi uvicorn pyannote.audio chatterbox-tts
+    fastapi uvicorn pyannote.audio chatterbox-tts==0.1.7
 
 # PyTorch with CUDA 12.4 — installed AFTER deps and force-reinstalled so
 # torch/torchvision/torchaudio end up as a matching cu124 set. (pyannote.audio

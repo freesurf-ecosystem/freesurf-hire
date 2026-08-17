@@ -134,14 +134,14 @@ def get_chatterbox():
     if _chatterbox is None:
         from chatterbox.mtl_tts import ChatterboxMultilingualTTS
         print("Loading Chatterbox Multilingual V3...", flush=True)
-        _chatterbox = ChatterboxMultilingualTTS.from_pretrained(device="cuda", t3_model="v3")
+        _chatterbox = ChatterboxMultilingualTTS.from_pretrained(device="cuda")
         print("Chatterbox ready", flush=True)
     return _chatterbox
 
 
 def speak_chatterbox(text: str, lang_iso: str = "en"):
     model = get_chatterbox()
-    wav = model.generate(text, language_id=lang_iso)
+    wav = model.generate(text, language_id=lang_iso, cfg_weight=0.3)
     if hasattr(wav, "cpu"):
         wav = wav.cpu().numpy()
     audio_array = np.squeeze(wav)
@@ -249,7 +249,7 @@ def transcribe_audio(audio_base64: str):
             os.unlink(input_path)
 
 
-def tutor_response(text: str, lang: str, native_lang: str = ""):
+def tutor_response(text: str, lang: str, native_lang: str = "", history: list = None):
     """Returns (correction, tutor_reply)"""
     model, tokenizer = get_llm()
     lang_names = {"en": "English", "es": "Spanish", "fr": "French", "de": "German",
@@ -257,16 +257,23 @@ def tutor_response(text: str, lang: str, native_lang: str = ""):
     lang_name = lang_names.get(lang, lang)
 
     native_name = lang_names.get(native_lang, native_lang)
-    # Language routing is now done via langdetect in speak_mixed — no [lang] markers.
     marking = ""
+    if native_lang and native_lang != lang:
+        marking = (
+            f"When you use a word or phrase in {native_name}, "
+            f"wrap it exactly like this: [lang:{native_lang}]word[/lang]. "
+        )
 
     prompt = TUTOR_PROMPT.replace("{native_lang}", native_name if native_lang else "their language").replace(
         "{marking_instruction}", marking
     )
-    messages = [
-        {"role": "system", "content": prompt},
-        {"role": "user", "content": text},
-    ]
+    messages = [{"role": "system", "content": prompt}]
+    for turn in (history or [])[-10:]:
+        role = "assistant" if turn.get("role") == "tutor" else "user"
+        content = (turn.get("text") or "").strip()
+        if content:
+            messages.append({"role": role, "content": content})
+    messages.append({"role": "user", "content": text})
     formatted = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
     inputs = tokenizer(formatted, return_tensors="pt").to(model.device)
     output = model.generate(**inputs, max_new_tokens=256, temperature=0.7, do_sample=True)
@@ -392,6 +399,7 @@ def handle_tutor(job_input: dict):
         return {"error": "No audio_base64 provided"}
 
     native_language = job_input.get("native_language", "")
+    history = job_input.get("history", [])
 
     text, detected_lang = transcribe_audio(audio_b64)
     if not text.strip():
@@ -405,7 +413,7 @@ def handle_tutor(job_input: dict):
             "language": "en",
         }
 
-    correction, reply = tutor_response(text, detected_lang, native_language)
+    correction, reply = tutor_response(text, detected_lang, native_language, history)
     default_iso = "en"
     audio = speak_mixed(reply, default_iso) if reply else None
     display_reply = strip_lang_tags(reply) if reply else reply
