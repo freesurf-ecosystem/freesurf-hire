@@ -8,9 +8,11 @@ Routes by `input.task_type`:
   - "transcribe"  : Whisper (STT) — audio → segments + text
 
 Model IDs are env-configurable so they can be swapped without editing code:
-  - TUTOR_MODEL_ID    (default: meta-llama/Llama-3.1-8B-Instruct)
-  - VISION_MODEL_ID   (default: meta-llama/Llama-3.2-11B-Vision-Instruct)
+  - TUTOR_MODEL_ID      (default: meta-llama/Llama-3.1-8B-Instruct)
+  - VISION_MODEL_ID     (default: meta-llama/Llama-3.2-11B-Vision-Instruct)
+  - QWEN_VISION_MODEL_ID(default: Qwen/Qwen2.5-VL-7B-Instruct)
 
+Vision backend is selectable via env: VISION_BACKEND=llama (default) | qwen
 TTS backend is selectable via env: TTS_BACKEND=kokoro (default) | chatterbox
 
 Models load lazily per task_type to keep cold starts as small as possible.
@@ -60,17 +62,34 @@ except Exception:
     raise
 
 TUTOR_MODEL_ID = os.environ.get("TUTOR_MODEL_ID", "meta-llama/Llama-3.1-8B-Instruct")
-VISION_MODEL_ID = os.environ.get("VISION_MODEL_ID", "meta-llama/Llama-3.2-11B-Vision-Instruct")
+VISION_BACKEND = os.environ.get("VISION_BACKEND", "llama")  # "llama" | "qwen"
+if VISION_BACKEND == "qwen":
+    VISION_MODEL_ID = os.environ.get("QWEN_VISION_MODEL_ID", "Qwen/Qwen2.5-VL-7B-Instruct")
+else:
+    VISION_MODEL_ID = os.environ.get("VISION_MODEL_ID", "meta-llama/Llama-3.2-11B-Vision-Instruct")
 TTS_BACKEND = os.environ.get("TTS_BACKEND", "kokoro")
 
 # ---------------------------------------------------------------------------
-# Tutor: language mapping + Kokoro voices
+# Tutor: language mapping + voices
 # ---------------------------------------------------------------------------
-LANG_MAP = {
-    "en": "a", "es": "e", "fr": "f", "it": "i",
-    "pt": "p", "de": "d", "hi": "h", "ja": "j",
+# All native languages the tutor supports (matches Chatterbox Multilingual V3).
+# ISO 639-1 code -> English name (used in the LLM prompt and TTS language tags).
+LANG_NAMES = {
+    "ar": "Arabic", "da": "Danish", "de": "German", "el": "Greek",
+    "en": "English", "es": "Spanish", "fi": "Finnish", "fr": "French",
+    "he": "Hebrew", "hi": "Hindi", "it": "Italian", "ja": "Japanese",
+    "ko": "Korean", "ms": "Malay", "nl": "Dutch", "no": "Norwegian",
+    "pl": "Polish", "pt": "Portuguese", "ru": "Russian", "sv": "Swedish",
+    "sw": "Swahili", "tr": "Turkish", "zh": "Chinese",
 }
-REVERSE_LANG_MAP = {v: k for k, v in LANG_MAP.items()}
+
+# Kokoro only covers a subset of these — ISO -> Kokoro voice code, used only
+# when TTS_BACKEND=kokoro. Unsupported languages fall back to English ("a").
+KOKORO_CODES = {
+    "en": "a", "es": "e", "fr": "f", "it": "i",
+    "pt": "p", "de": "d", "hi": "h", "ja": "j", "zh": "z",
+}
+REVERSE_KOKORO_CODES = {v: k for k, v in KOKORO_CODES.items()}
 
 VOICE_MAP = {
     "a": "af_heart",   # American English
@@ -113,12 +132,21 @@ def get_llm():
         quant = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
         _llm = AutoModelForCausalLM.from_pretrained(
             TUTOR_MODEL_ID,
-            dtype=torch.bfloat16,
-            device_map="auto",
             quantization_config=quant,
+            device_map="auto",
+            attn_implementation="sdpa",
+            low_cpu_mem_usage=True,
             token=os.environ.get("HF_TOKEN"),
         )
         _tokenizer = AutoTokenizer.from_pretrained(TUTOR_MODEL_ID, token=os.environ.get("HF_TOKEN"))
+        if torch.cuda.is_available():
+            print(f"LLM VRAM after load: allocated={torch.cuda.memory_allocated() / 1024**3:.1f}GB", flush=True)
+        try:
+            import bitsandbytes as bnb
+            n_4bit = sum(1 for m in _llm.modules() if isinstance(m, bnb.nn.Linear4bit))
+            print(f"LLM 4-bit layers applied: {n_4bit} (0 means quantization silently failed)", flush=True)
+        except Exception:
+            print("bitsandbytes not importable — LLM quantization NOT verified", flush=True)
         print("LLM ready", flush=True)
     return _llm, _tokenizer
 
@@ -141,7 +169,20 @@ def get_chatterbox():
 
 def speak_chatterbox(text: str, lang_iso: str = "en"):
     model = get_chatterbox()
-    wav = model.generate(text, language_id=lang_iso, cfg_weight=0.3)
+    # Slower, more deliberate pacing for language learners.
+    # Resemble defaults are cfg=0.5, exaggeration=0.5. Lowering exaggeration is
+    # the strongest lever (higher exaggeration speeds speech up), and lowering
+    # cfg yields slower pacing too.
+    try:
+        wav = model.generate(
+            text,
+            language_id=lang_iso,
+            cfg_weight=0.2,
+            exaggeration=0.3,
+        )
+    except Exception as e:
+        print(f"[Chatterbox] TTS failed for lang={lang_iso} text={text[:60]!r}: {e}", flush=True)
+        return None
     if hasattr(wav, "cpu"):
         wav = wav.cpu().numpy()
     audio_array = np.squeeze(wav)
@@ -252,11 +293,8 @@ def transcribe_audio(audio_base64: str):
 def tutor_response(text: str, lang: str, native_lang: str = "", history: list = None):
     """Returns (correction, tutor_reply)"""
     model, tokenizer = get_llm()
-    lang_names = {"en": "English", "es": "Spanish", "fr": "French", "de": "German",
-                  "it": "Italian", "pt": "Portuguese", "ja": "Japanese"}
-    lang_name = lang_names.get(lang, lang)
-
-    native_name = lang_names.get(native_lang, native_lang)
+    lang_name = LANG_NAMES.get(lang, lang)
+    native_name = LANG_NAMES.get(native_lang, native_lang)
     marking = ""
     if native_lang and native_lang != lang:
         marking = (
@@ -267,8 +305,10 @@ def tutor_response(text: str, lang: str, native_lang: str = "", history: list = 
     prompt = TUTOR_PROMPT.replace("{native_lang}", native_name if native_lang else "their language").replace(
         "{marking_instruction}", marking
     )
+    hist = list(history or [])[-10:]
+    print(f"[Tutor] history turns={len(hist)} roles={[t.get('role') for t in hist]}", flush=True)
     messages = [{"role": "system", "content": prompt}]
-    for turn in (history or [])[-10:]:
+    for turn in hist:
         role = "assistant" if turn.get("role") == "tutor" else "user"
         content = (turn.get("text") or "").strip()
         if content:
@@ -292,7 +332,7 @@ def strip_lang_tags(text: str):
 
 
 def split_by_language(text: str, default_lang_iso: str = "en"):
-    """Split mixed-language text into [(segment, kokoro_lang_code), ...]."""
+    """Split mixed-language text into [(segment, iso_lang_code), ...]."""
     marker_re = re.compile(r'\[lang:(\w+)\](.*?)\[/lang\]', re.DOTALL)
     if marker_re.search(text):
         return _split_by_markers(text, marker_re, default_lang_iso)
@@ -306,29 +346,27 @@ def _split_by_markers(text, marker_re, default_iso):
     for m in marker_re.finditer(text):
         before = text[last_end:m.start()].strip()
         if before:
-            kcode = LANG_MAP.get(default_iso, "a")
-            if segments and segments[-1][1] == kcode:
-                segments[-1] = (segments[-1][0] + " " + before, kcode)
+            if segments and segments[-1][1] == default_iso:
+                segments[-1] = (segments[-1][0] + " " + before, default_iso)
             else:
-                segments.append((before, kcode))
+                segments.append((before, default_iso))
         iso = m.group(1)
+        iso = iso if iso in LANG_NAMES else default_iso
         word = m.group(2).strip()
         if word:
-            kcode = LANG_MAP.get(iso, LANG_MAP.get(default_iso, "a"))
-            if segments and segments[-1][1] == kcode:
-                segments[-1] = (segments[-1][0] + " " + word, kcode)
+            if segments and segments[-1][1] == iso:
+                segments[-1] = (segments[-1][0] + " " + word, iso)
             else:
-                segments.append((word, kcode))
+                segments.append((word, iso))
         last_end = m.end()
     after = text[last_end:].strip()
     if after:
-        kcode = LANG_MAP.get(default_iso, "a")
-        if segments and segments[-1][1] == kcode:
-            segments[-1] = (segments[-1][0] + " " + after, kcode)
+        if segments and segments[-1][1] == default_iso:
+            segments[-1] = (segments[-1][0] + " " + after, default_iso)
         else:
-            segments.append((after, kcode))
+            segments.append((after, default_iso))
     if not segments:
-        segments.append((text, LANG_MAP.get(default_iso, "a")))
+        segments.append((text, default_iso))
     return segments
 
 
@@ -342,22 +380,23 @@ def _split_by_sentences(text, default_iso):
             iso = detect(sent)
         except Exception:
             iso = default_iso
-        kcode = LANG_MAP.get(iso, "a")
-        if segments and segments[-1][1] == kcode:
-            segments[-1] = (segments[-1][0] + " " + sent, kcode)
+        if iso not in LANG_NAMES:
+            iso = default_iso
+        if segments and segments[-1][1] == iso:
+            segments[-1] = (segments[-1][0] + " " + sent, iso)
         else:
-            segments.append((sent, kcode))
+            segments.append((sent, iso))
     if not segments:
-        segments.append((text, LANG_MAP.get(default_iso, "a")))
+        segments.append((text, default_iso))
     return segments
 
 
 def speak_mixed(text: str, default_lang_iso: str = "en"):
-    """Returns base64 WAV audio, auto-switching Kokoro voices by detected language."""
+    """Returns base64 WAV audio, auto-switching voices by detected language."""
     segments = split_by_language(text, default_lang_iso)
     chunks = []
-    for seg_text, kcode in segments:
-        audio_b64 = speak(seg_text, kcode)
+    for seg_text, iso in segments:
+        audio_b64 = speak(seg_text, iso)
         if audio_b64:
             audio_bytes = base64.b64decode(audio_b64)
             audio_np, sr = sf.read(io.BytesIO(audio_bytes))
@@ -371,14 +410,14 @@ def speak_mixed(text: str, default_lang_iso: str = "en"):
     return base64.b64encode(buf.read()).decode("utf-8")
 
 
-def speak(text: str, lang_code: str = "a"):
+def speak(text: str, lang_iso: str = "en"):
     """Returns base64 WAV audio for a single-language segment."""
     if TTS_BACKEND == "chatterbox":
-        iso = REVERSE_LANG_MAP.get(lang_code, "en")
-        return speak_chatterbox(text, iso)
+        return speak_chatterbox(text, lang_iso if lang_iso in LANG_NAMES else "en")
 
-    pipeline = get_kokoro(lang_code)
-    voice = VOICE_MAP.get(lang_code, "af_heart")
+    kcode = KOKORO_CODES.get(lang_iso, "a")
+    pipeline = get_kokoro(kcode)
+    voice = VOICE_MAP.get(kcode, "af_heart")
     generator = pipeline(text, voice=voice, speed=1.0)
     all_samples = []
     for _, _, audio in generator:
@@ -404,7 +443,7 @@ def handle_tutor(job_input: dict):
     text, detected_lang = transcribe_audio(audio_b64)
     if not text.strip():
         reply = "I didn't hear you. Can you say that again?"
-        audio_b64_out = speak(reply, "a")
+        audio_b64_out = speak(reply, "en")
         return {
             "audio_base64": audio_b64_out,
             "original": "",
@@ -463,28 +502,48 @@ def get_vision_model():
         hf_cache = os.environ.get("HF_HOME", os.path.expanduser("~/.cache/huggingface"))
         repo_dir = os.path.join(hf_cache, "hub", f"models--{VISION_MODEL_ID.replace('/', '--')}")
         was_cached = os.path.isdir(repo_dir)
-        print(f"Loading {VISION_MODEL_ID}... cached={was_cached}", flush=True)
+        print(f"Loading {VISION_MODEL_ID}... backend={VISION_BACKEND} cached={was_cached}", flush=True)
+
+        if VISION_BACKEND == "qwen":
+            from transformers import Qwen2_5_VLForConditionalGeneration
+            model_cls = Qwen2_5_VLForConditionalGeneration
+        else:
+            model_cls = MllamaForConditionalGeneration
 
         vram_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3
         if vram_gb >= 40:
             print(f"VRAM {vram_gb:.0f}GB — loading in bfloat16 (no quantization needed)", flush=True)
-            _vision_model = MllamaForConditionalGeneration.from_pretrained(
+            _vision_model = model_cls.from_pretrained(
                 VISION_MODEL_ID,
                 torch_dtype=torch.bfloat16,
                 device_map="auto",
                 attn_implementation="sdpa",
+                low_cpu_mem_usage=True,
                 token=os.environ.get("HF_TOKEN"),
             )
         else:
             print(f"VRAM {vram_gb:.0f}GB — using 4-bit quantization", flush=True)
             quant = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
-            _vision_model = MllamaForConditionalGeneration.from_pretrained(
+            _vision_model = model_cls.from_pretrained(
                 VISION_MODEL_ID,
                 quantization_config=quant,
                 device_map="auto",
                 attn_implementation="sdpa",
+                low_cpu_mem_usage=True,
                 token=os.environ.get("HF_TOKEN"),
             )
+
+        # Verify quantization actually took effect (the "using 4-bit" print above
+        # is only intent, not proof — the 11B OOM happened despite it).
+        if torch.cuda.is_available():
+            print(f"VRAM after load: allocated={torch.cuda.memory_allocated() / 1024**3:.1f}GB", flush=True)
+        try:
+            import bitsandbytes as bnb
+            n_4bit = sum(1 for m in _vision_model.modules() if isinstance(m, bnb.nn.Linear4bit))
+            print(f"4-bit layers applied: {n_4bit} (0 means quantization silently failed)", flush=True)
+        except Exception:
+            print("bitsandbytes not importable — quantization NOT verified", flush=True)
+
         _vision_processor = AutoProcessor.from_pretrained(
             VISION_MODEL_ID,
             token=os.environ.get("HF_TOKEN"),
@@ -704,45 +763,59 @@ def handle_analyze(job_input: dict):
     if image_base64:
         image_bytes = base64.b64decode(image_base64)
         image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
-        messages = [
-            {"role": "system", "content": VISION_SYSTEM_PROMPT},
-            {"role": "user", "content": [
-                {"type": "image"},
-                {"type": "text", "text": "What are the nutrition facts for each food in this photo?"},
-            ]},
-        ]
-        text = processor.apply_chat_template(messages, add_generation_prompt=True)
-        inputs = processor(image, text, return_tensors="pt").to(model.device)
+        if VISION_BACKEND == "qwen":
+            messages = [
+                {"role": "system", "content": VISION_SYSTEM_PROMPT},
+                {"role": "user", "content": [
+                    {"type": "image"},
+                    {"type": "text", "text": "What are the nutrition facts for each food in this photo?"},
+                ]},
+            ]
+            text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+            inputs = processor(text=[text], images=[image], return_tensors="pt").to(model.device)
+        else:
+            messages = [
+                {"role": "system", "content": VISION_SYSTEM_PROMPT},
+                {"role": "user", "content": [
+                    {"type": "image"},
+                    {"type": "text", "text": "What are the nutrition facts for each food in this photo?"},
+                ]},
+            ]
+            text = processor.apply_chat_template(messages, add_generation_prompt=True)
+            inputs = processor(image, text, return_tensors="pt").to(model.device)
     else:
-        messages = [
-            {"role": "system", "content": TEXT_SYSTEM_PROMPT},
-            {"role": "user", "content": [
-                {"type": "text", "text": food_description},
-            ]},
-        ]
-        text = processor.apply_chat_template(messages, add_generation_prompt=True)
-        inputs = processor(text=text, return_tensors="pt").to(model.device)
+        if VISION_BACKEND == "qwen":
+            messages = [
+                {"role": "system", "content": TEXT_SYSTEM_PROMPT},
+                {"role": "user", "content": [
+                    {"type": "text", "text": food_description},
+                ]},
+            ]
+            text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+            inputs = processor(text=[text], return_tensors="pt").to(model.device)
+        else:
+            messages = [
+                {"role": "system", "content": TEXT_SYSTEM_PROMPT},
+                {"role": "user", "content": [
+                    {"type": "text", "text": food_description},
+                ]},
+            ]
+            text = processor.apply_chat_template(messages, add_generation_prompt=True)
+            inputs = processor(text=text, return_tensors="pt").to(model.device)
 
     output = model.generate(**inputs, max_new_tokens=400, temperature=0.2, do_sample=True)
-    response = processor.decode(output[0], skip_special_tokens=True)
+    input_len = inputs["input_ids"].shape[1]
+    generated_ids = output[0][input_len:]
+    assistant_part = processor.decode(generated_ids, skip_special_tokens=True).strip()
 
-    assistant_part = response
-    for delimiter in ["<|start_header_id|>assistant<|end_header_id|>", "assistant\n", "assistant"]:
-        if delimiter in response:
-            parts = response.split(delimiter)
-            assistant_part = parts[-1].strip()
-            if assistant_part.startswith("\n"):
-                assistant_part = assistant_part[1:]
-            break
-
-    print(f"[Vision] Raw: {response[:500]}", flush=True)
+    print(f"[Vision] Generated {generated_ids.shape[0]} tokens: {assistant_part[:500]}", flush=True)
 
     items = parse_response(assistant_part)
     if items:
         return {"items": items}
 
     print(f"[Vision] Failed to parse. Cleaned text: {strip_markdown(assistant_part)[:500]}", flush=True)
-    return {"error": "Model did not return valid JSON", "raw": response[:500]}
+    return {"error": "Model did not return valid JSON", "raw": assistant_part[:500]}
 
 
 # ---------------------------------------------------------------------------
@@ -753,11 +826,12 @@ def handle_tts(job_input: dict):
     if not text:
         return {"error": "No text provided"}
     voice = job_input.get("voice", "af_heart")
+    lang_iso = job_input.get("language", "")
     speed = float(job_input.get("speed", 1.0) or 1.0)
     lang_code = voice[0] if voice else "a"
     try:
         if TTS_BACKEND == "chatterbox":
-            iso = REVERSE_LANG_MAP.get(lang_code, "en")
+            iso = lang_iso if lang_iso in LANG_NAMES else REVERSE_KOKORO_CODES.get(lang_code, "en")
             return {"audio_base64": speak_chatterbox(text, iso)}
 
         pipeline = get_kokoro(lang_code)

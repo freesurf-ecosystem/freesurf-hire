@@ -1,16 +1,16 @@
 # Metro Start
 
+## Free 
+USB: Metro logs + hot reload
+npx expo run:android
+
+npx expo start -c [for clearing bundles]
+
 ## Start the dev server
 ```powershell
 cd C:\[your mobile folder]
-npm start
-or
-npx expo start
-```
 
-Include:
---dev-client (for new dev builds to clear old ones)
---clear (helps to clear old caches)
+npx expo start --dev-client --clear 
 
 On phone: 
 ## Metro keyboard shortcuts (press these in the Metro terminal)
@@ -39,11 +39,25 @@ npm run dev:mobile
 # Wait for QR code, then press a
 ```
 
-# Builds
+# Expo Builds
+
+## Free Builds
+## Android development
+Android dev + release	
+
+npx expo run:android / eas build --local on your Windows machine (needs Android Studio/SDK)
+
+Or drive route from github to download to phone  — no cable needed
+
+## Android production
+Production (Android) via gradlew assembleRelease locally, or GitHub Actions
+## iOS Dev / productions
+iOS dev + TestFlight with GitHub Actions (public repo = free macOS runners)
+
 
 ## Build a new dev APK (if code changes need a rebuild)
 ```powershell
-cd C:\Code\emmaline\mobile
+cd [mobile folder]
 npx eas build --profile development --platform android
 ```
 
@@ -55,20 +69,58 @@ npx eas build --platform android --profile production
 
 apple:
 ```powershell
-cd C:\Code\emmaline\mobile
+cd [mobile folder]
 npx eas build --platform ios --profile production
 ```
 
-Testflight:
-npx eas submit --platform ios  
+# To submit to TestFlight
+
+eas submit --platform ios
 
 
-# Docker Builds
+# AI Pod Rebuild & Redeploy
 
-Ex.
-cd "C:\Code\freesurf workspace\freesurf-reader\serverless"
-docker build -t plantingmoon/freesurf-reader-kokoro:v2 .
-docker push plantingmoon/freesurf-reader-kokoro:v2
+## 1. Rebuild + run the volume (model downloader)
+
+```powershell
+cd "C:\Code\freesurf workspace\freesurf-hire\infra\ai\volume"
+docker build -t plantingmoon/freesurf-ai-volume:v5 .
+docker push plantingmoon/freesurf-ai-volume:v5
+```
+
+## 2. Rebuild the pod (runtime)
+
+```powershell
+cd "C:\Code\freesurf workspace\freesurf-hire\infra\ai\pod"
+docker build -t plantingmoon/freesurf-ai-pod:v10 .
+docker push plantingmoon/freesurf-ai-pod:v10
+```
+
+## Clearing the vhdx
+
+### Kill all Docker processes
+Get-Process | Where-Object {$_.Name -like "*docker*"} | Stop-Process -Force
+Start-Sleep -Seconds 5
+
+### Delete the vhdx
+Remove-Item "C:\Users\$env:USERNAME\AppData\Local\Docker\wsl\disk\docker_data.vhdx" -Force
+
+### Restart Docker Desktop
+Start-Process "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+
+
+
+# Cloudflare wrangler
+
+cd "C:\Code\freesurf workspace\freesurf-calorie-tracker\worker"
+npx wrangler secret put POD_URL
+https://9ney4znzh3zvbq-8000.proxy.runpod.net
+
+cd "C:\Code\freesurf workspace\freesurf-reader\worker"
+npx wrangler secret put POD_URL
+
+cd "C:\Code\freesurf workspace\freesurf-transcriber\worker"
+npx wrangler secret put POD_URL
 
 # Git commands
 
@@ -135,4 +187,3 @@ git reset --soft HEAD~1             # Undo last commit (keep changes staged)
   }
 
 
-]

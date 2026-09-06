@@ -7,6 +7,7 @@ cache_dir = os.environ.get("CACHE_DIR", "/models/hub")
 MODELS = [
     os.environ.get("TUTOR_MODEL_ID", "meta-llama/Llama-3.1-8B-Instruct"),
     os.environ.get("VISION_MODEL_ID", "meta-llama/Llama-3.2-11B-Vision-Instruct"),
+    os.environ.get("QWEN_VISION_MODEL_ID", "Qwen/Qwen2.5-VL-7B-Instruct"),
     os.environ.get("CHATTERBOX_MODEL_ID", "ResembleAI/chatterbox"),
 ]
 

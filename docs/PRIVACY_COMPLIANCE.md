@@ -1,4 +1,10 @@
 
+## Privacy Architecture
+
+- Consider server side events with non personal conversion info ie no click Id returned, just communicating with the ad platform that a conversion event occured
+
+- use tools like plausible or posthog or your own analytics that doesn't track personal info but can give you feedback on the effectiveness of an ad campaign
+
 
 ## US User options to opt-out of tracking
 
@@ -138,3 +144,17 @@ To maintain your privacy-first brand identity while passing Apple's strict revie
 When the user clicks next, you trigger the official Apple ATT popup. The user will confidently tap "Ask App Not to Track." [10] 
 Your code will catch that response, pass the npa=1 flag to your ad framework, and serve a completely anonymous contextual ad. Your arbitrage model remains functional, your serverless RunPod costs stay covered, and your user's personal identity is entirely protected. [11, 12, 13] 
 If you are ready to begin implementation, let me know if you would like to write the complete SDK initialization script with these privacy flags active, or if you want to draft the App Store data disclosure questionnaire answers!
+
+
+## Under 18 regulations re ads
+
+"Depending on the countries where your app is available, some or all of the users in your target audience may be considered children. You must comply with the Families policy whenever your app is being used by a child.
+
+This includes:
+
+    Making sure that any content in your app that could be seen by children is appropriate for them
+    Only displaying ads that are appropriate for children, whenever your app is being used by a child
+    Only displaying ads that are from Google Play certified ad networks , or ads served by you, whenever your app is being used by a child. This includes ads for your own apps, or from partnerships with other brands
+    Making sure your app (including all APIs, SDKs, and ads) complies with all applicable laws and regulations relating to children, such as the US Children's Online Privacy Protection Act COPPA, and the EU General Data Protection Regulation GDPR
+
+You can either make your entire app compliant, or implement a neutral age screen and comply with the policy when the user is a child." [google play console]

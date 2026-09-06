@@ -1,61 +1,94 @@
 
-[ ] Email setup: You'll need to set up support@freesurf.tools as a real inbox at some point, but it doesn't block publishing — Apple just needs a support URL to exist.
-# Review / submit apps
-[ ] Go through the questionnaires / set up all three apps in each app store
-[ ] Work on screenshots / icons
-[ ] Icons
-[ ] Submit to App Store:
-1. Apple Developer → Certificates, Identifiers & Profiles → New identifier → tools.freesurf.reader
-2. App Store Connect → New App → bundle: tools.freesurf.[tooltype], SKU: freesurf-[tool-type]-001
-3. cd mobile && npx eas init (fills EAS project ID)
-4. npx eas credentials → iOS → build credentials
-5. npx eas build --platform ios --profile production
-6. npx eas submit --platform ios
-# Set up admob mediation
-[ ] Set up account with applovin
+[ ] create X vs. Y comparisons, X Alternatives; to start to bring traffic related to these concepts ie waking up AI; list of alternatives: https://trypost.it/en/alternatives
+[ ] start submitting to relevant directories; https://seomade.app/; https://seomade.app/extension
+[ ] submit posting software to play store
+[ ] put together a group of videos to develop tiktok/ instagram presence
+[ ] apply for api keys with: 
+Facebook 14 - 21 days
+TikTok	1 – 4 Weeks	
+LinkedIn, 1 – 2 Weeks (Profile) / Months (Company)
+Google Business, 7 – 14 Days
+Pinterest, 3 – 7 Days
+Snapchat, 1 – 2 Weeks
 
 
------
-Tomorrow
-
-## Get Links functionality working
-- [ ] Can you sign in and set up basic links? How are we saving this?
-- [ ] Deploy Worker at `freesurf.tools` with R2 bucket `freesurf-profiles` + KV namespace
-- [ ] Deploy dashboard to Cloudflare Pages at `links.freesurf.tools`
-- [ ] Update `API_BASE` in `dashboard/js/app.js`
-- [ ] Get basic mobile app running
-- [ ] Create app icons  — `mobile/assets/icon.png`
-- [ ] Create screenshots for App Store / Play Store
-## Post functionality working
-- [ ] Test sending from different accounts
-- [ ] Deploy Worker with OAuth secrets
-- [ ] Deploy dashboard to Cloudflare Pages at `post.freesurf.tools`
-- [ ] Create app icons  — `mobile/assets/icon.png`
-- [ ] Create screenshots for App Store / Play Store
+# Marketing
 ## Social Media Work
-[ ] When / if apps start to get published, need to go ahead and reach out to influencers or put together a regular video posting schedule
-## Start working on open source english tutor set up
-- [ ] Rebranding the oov app to the english tutor app for now
-# Migrations
-## Emmaline / Voice Assistant
-- [ ] Migrate oov servers to Cloudflare Workers
-- [ ] Disconnect oov from DigitalOcean
-- [ ] Delete unnecessary Planting Moon team
-- [ ] Rebrand as FreeSurf Voice Assistant
-- [ ] Resubmit update to App Store
-- [ ] Migrate database files to the shared supabase database
-## Feedfree 
-[ ] Migrate to the freesurf database / unsubscribe from the supabase sub
-## Pages components
-[ ] Migrate from pages components to workers where it makes sense
+Not just taking all my time to build the app, need to take as much if not more to market. Unless the issue is urgent, working on spending half my work days on marketing; start weaving in dedicated days to social media / marketing work. Should probably dedicate a percentage each week 
+## Social benchmarks
+[ ] regular articles for medium / x / bluesky distribution
+[ ] adding general worthwhile contributions to the platform -> good segway into the tool and our ecosystem; 
+[ ] product demos - get better at this
+[ ] weave in at least 30 mentions of posting software
+[ ] could put together at least 30 - 100 tweets of the newsletter
+[ ] 10 to 15 syndicated articles 
+[ ] at least 300 new videos per month on different concepts
+[ ] metrics for this month:
+## Landing pages
+[ ] what do the landing pages look like for each subdomain? perhaps incorporate the basic screenshots for mobile apps
+[ ] submit to bing webmaster for AI
+## Post SEO
+[ ] Backlinks / mentions around: relevant directories @submitsaas; reddit; linkedin / x / bluesky (re relevant commentary, research); comparison articles; then later with research press releases; outreach (where are competitors being listed?) / neutral comparison page outreach
+[ ] syndiate to DEV relevant medium articles
+## Post X ad
+[ ] try to weave in basic analytics like post hog for privacy oriented conversion tracking / analytics or consider a basic provider like Plausible
+[ ] not clear how to 'communicate' with an ad platform about conversion if we don't permit personal info to be resent
 
----
+# Development
+## Usage limits 
+[ ] put together usage limits for transcriber, reader, calorie tracker
+[ ] set up subscriptions for each of these
+[ ] wire in supabase for auth
+[ ] set up google play store ads
+[ ] localize / roll out to different countries
+## Put new version of English tutor
+[ ] one version in swift, one in kotlin
+[ ] wait on publishing with apple until app more designed
+[ ] work on smoother functionality [go ahead then and publish with google play], 
+[ ]  note creating / editing ability, flash card creating, quizes on topics, remembering context better
+[ ] try to get the language tutor integrated w/ livekit
+## Post functionality
+[ ] Work with agent on more of the functionality: replies, analytics, adding the rest of the basic channels
+## Localizations
+## Privacy
+[ ] (Apple's ATT prompt / Android consent for personalized ads) 
+[ ] plan a minimal consent/opt-in screen (one-time, stored locally, "tracking off by default") that we can add across the apps
+## CashMarket 
+[ ] cashmarket best ppl lead generators and investor landing pages need clarification about how it works: they have a dedicated profile on our platform and sellers reach out to them directly
+[ ] hypothesis why cashmarket programmatic pages aren't being indexed? perhaps a technical issue (perhaps a redirect issue and google thinks they are separate pages?)
+[ ] message to providers they need to have a website in order to continue being shown on the site
+[ ] emphasize we are converting into an advertising network
+[ ] start uploading different providers directly / identify email addresses for outreach
+[ ] finish the wiring for this new model
+[ ] push changes into app stores
+[ ] email: davidcarlosa1991@gmail.com that he needs to add a company name or his own name for company to show in results (company names are at the top of cards)
+[ ] email users that we are transitioning to a free network right now while we continue to build out providers and that they need a website; a phone number can work short term as an alternative, but we are trying to showcase people's businesses directly to customers and a website will most likely be necessary in the future
+## New app concepts
+[ ] MVP of the contractor app
+[ ] go ahead and put together mvp's of the translator, note taker and scanner
+[ ] put together screenshots / icons
+[ ] go through app store questionnaires 
+[ ] submit to stores
+# Set up admob mediation
+[ ] Get admob verified for each app
+[ ] Get ad units wired in 
+## AppsFlyer connection
+The flow is literally: SDK + dev key → device IDs → OneLink per influencer → installs get attributed.
+[ ] In the new account, add a new app for the tutor (Android package com.emmaline.app + iOS App Store ID 6783906612).
+[ ] Copy its new dev key.
+[ ] Set APPSFLYER_DEV_KEY to that value in your build.
+[ ] The SDK (already in the tutor).
+[ ] A dev key — an app-level key that identifies your app to AppsFlyer. (This is the APPSFLYER_DEV_KEY env.)
+## Lengthen the Description section
+[ ] Needs longer description on appstoreconnect: Invoices, Transcriber, Reader, potentially tutor as well?
+## Upgrades
+[ ] weave in macros from the api's available
+## Migrations
+[ ] cloudflare remove oov site; settle the stripe balance
+[ ] Move out crypto
+[ ] Move cashmarket to cloudflare
+[ ] switch out emmaline.app from any important login [listed in appsflyer, expo, tiktok's]
+[ ] set up protonmail for different emails
+[ ] migrate 'awesome' repositories from plantingmoon to freesurf
 
-# DNS Migration Steps
-
-1. Connect a new domain / update the name servers
-2. Add all the cnames for each subdomain and link to the underlying cloudflare page (ex. cname, invoices links to freesurf-invoices.pages.dev)
-3. Switch out the custom domains associated with each cloudflare page/ worker
-4. Update Resend sender domain
-5. Remove old sites / add new sitemaps to google search console
 
