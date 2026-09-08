@@ -39,6 +39,8 @@ npm run dev:mobile
 # Wait for QR code, then press a
 ```
 
+
+
 # Expo Builds
 
 ## Free Builds

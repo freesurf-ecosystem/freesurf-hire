@@ -1,85 +1,101 @@
-Phase 1: Build The Shell
-Do this before any store submission.
+# FreeSurf Subscriptions — Setup Reference (per-app)
 
-In RevenueCat, create the app entries for iOS and Android.
-Copy the RevenueCat public SDK keys into your app env.
-In RevenueCat, create:
-entitlement: pro
-offering: default
-In Apple and Google, create the subscription products with the exact product IDs you want.
-In RevenueCat, add those store products and attach them to the default offering and pro entitlement.
-In the app, make sure these flows exist:
-fetch offerings
-show package/product
-purchase
-restore purchases
-check entitlement state
-Treat the paywall as “shell architecture” until the store products are usable. That means the app code is real, but the product catalog and store verification are still being proven.
-At that point, RevenueCat is structurally set up even if nothing has been reviewed by Apple yet.
+> Monetization model: **per-app subscriptions**, not a cross-app subscription. Each FreeSurf app has its
+> own RevenueCat app entry, its own store products, and its own entitlement. A user pays to unlock more
+> of *that* tool (e.g., more transcriber minutes), not a shared plan across all tools.
+>
+> Free tiers use **anonymous, server-side usage metering** (see each app's `*-metering.sql` / worker).
+> Subscriptions let a user go past the free cap on a given device/app.
 
-Phase 2: Unblock Android First
-This is the fastest practical verification path.
+---
 
-Build a Play-compatible Android AAB, not the preview APK.
-Upload that AAB to a closed testing track in Google Play.
-Add test users in Play Console license testing / closed test.
-Activate the subscription product in Google Play.
-Wait for Play product propagation.
-Install the closed-test build from Play, not by sideloading.
-Test:
-offerings load from RevenueCat
-purchase sheet appears
-test purchase succeeds
-pro entitlement becomes active
-restore works
-Important point: the closed test does not generate a new “entitlement key.” What it gives you is a real Play Billing environment where RevenueCat can finally verify the subscription end to end.
+## Guiding principles
 
-Phase 3: Stabilize Before Apple Review
-Do not submit to Apple review yet if login is still questionable.
+- **Per-app, not cross-app.** One RevenueCat app per FreeSurf tool. No cross-app entitlement sharing for now.
+- **Anonymous-first.** Users don't need an account. Tie the subscription to the app's **stable anonymous
+  device id** (RevenueCat supports anonymous customers). Later, if accounts are added, link entitlement to
+  the account then.
+- **Free + generous.** Keep the free tier meaningful; a subscription removes/raises the cap (see usage
+  metering docs).
+- **Unlock feature:** the paywall offers more usage/tier of that app; the worker enforces the cap server-side.
 
-Finish auth/login fixes in TestFlight or local device testing.
-Keep RevenueCat wired to the real iOS product IDs.
-Make sure the paywall and restore flow work at the app level.
-Confirm the app is stable enough that a reviewer can create/sign in and reach subscription screens without getting stuck.
-Phase 4: Apple First Subscription Submission
-Apple is the annoying one.
+---
 
-Create the iOS subscription in App Store Connect.
-Attach that subscription to the app version you plan to submit.
-Submit the app build and first subscription together.
-After approval, test again through TestFlight / sandbox as needed.
+## Phase 1 — Build the shell (before any store submission)
 
-## Entitlements
+1. In **RevenueCat**, create an app entry for iOS and Android (per FreeSurf tool).
+2. Copy the **RevenueCat public SDK keys** into the app's env/config.
+3. In RevenueCat create:
+   - entitlement: `pro`
+   - offering: `default`
+4. In Apple/Google, create the **subscription products** with the exact product IDs you want
+   (e.g. `freesurf_tools_transcriber_monthly` — namespace per app).
+5. In RevenueCat, add those store products and attach them to the `default` offering and `pro` entitlement.
+6. Implement these flows in the app:
+   - fetch offerings
+   - show package/product
+   - purchase
+   - restore purchases
+   - check entitlement state
+7. Treat the paywall as **"shell architecture"** until store products are usable — real code, but catalog
+   and store verification still being proven.
 
-The product has no Associated Entitlements attached.
-I do not see evidence that the product is attached to an offering/package.
+> Result: RevenueCat is structurally set up even before Apple has reviewed anything.
 
-The likely missing setup is:
+---
 
-Attach the product emmaline_pro_monthly to the pro entitlement.
-Go to Offerings and create or edit the current offering.
-Add a monthly package to that offering and point it at emmaline_pro_monthly.
-Make that offering the current offering.
-Keep in mind that the App Store product itself is still only Ready to Submit, so even after wiring RevenueCat correctly, real purchase behavior may remain limited until Apple-side subscription setup is fully active.
-The strongest signal from your screenshots is the empty Associated Entitlements section. That is definitely incomplete. If your Upgrade screen expects the pro entitlement and a current monthly offering, then this exact gap would explain the bad SDK message.
+## Phase 2 — Unblock Android first (fastest verification)
 
-So the minimum fix in RevenueCat is:
+1. Build a **Play-compatible AAB** (not the preview APK).
+2. Upload it to a **closed testing** track in Google Play.
+3. Add test users in Play Console (license/closed testing).
+4. Activate the subscription product in Google Play; wait for product propagation.
+5. Install the **closed-test build from Play** (not sideloaded).
+6. Test: offerings load → purchase sheet appears → test purchase succeeds → `pro` entitlement active →
+   restore works.
 
-Entitlements:
-create or confirm pro
-Products:
-attach emmaline_pro_monthly to pro
-Offerings:
-current offering
-Package:
-monthly package using emmaline_pro_monthly
-After that, the raw configuration error should stop for the right reason.
+> Note: a closed test doesn't mint a new "entitlement key." It gives you a **real Play Billing environment**
+> where RevenueCat can verify the subscription end to end.
 
-One nuance: because the product is still marked Ready to Submit, I would not expect App Store purchase flow to be fully trustworthy yet even after the RevenueCat dashboard wiring is fixed. But the offerings-empty/config error should improve once entitlement and offering linkage is complete.
+---
 
-Natural next steps:
+## Phase 3 — Stabilize (auth/account only if/when added)
 
-Open Entitlements in RevenueCat and attach emmaline_pro_monthly to pro.
-Open Offerings and confirm there is a current offering with a monthly package using that product.
-Reopen the Upgrade screen in the app and see whether the configuration error disappears.
-If you want, send me a screenshot of the Offerings page and the Entitlements page next, and I can verify the exact missing link.
+- Finish any auth/login fixes in TestFlight or local-device testing *before* Apple review.
+- Keep RevenueCat wired to the real iOS product IDs.
+- Confirm paywall + restore work at the app level.
+- Ensure a reviewer can create/sign in (if accounts exist) and reach the subscription screen without getting stuck.
+
+---
+
+## Phase 4 — iOS submission
+
+1. Create the iOS subscription in App Store Connect.
+2. Attach it to the app version you plan to submit.
+3. Submit the app build **and first subscription together**.
+4. After approval, re-test via TestFlight / sandbox as needed.
+
+---
+
+## Per-app checklist (RevenueCat)
+
+- **Entitlement:** create/confirm `pro`.
+- **Products:** attach each app's product ID to `pro`.
+- **Offering:** confirm a current `default` offering with a monthly package pointing at that product.
+- **Package:** monthly package using that product ID.
+- **App code:** fetch offerings → show → purchase → restore → check entitlement.
+
+Common failure: the "associated entitlements" section is empty, or the offering has no current
+package → the SDK shows a config/empty-offerings error. Fixing the entitlement ↔ offering ↔ product
+linkage clears it.
+
+> App Store products start as "Ready to Submit" — real purchase behavior stays limited until Apple-side
+> subscription setup is fully active. Don't trust the purchase flow fully until then.
+
+---
+
+## Notes / open
+
+- Namespace product IDs per app so multiple FreeSurf apps never collide in RevenueCat/store consoles.
+- When accounts arrive, migrate anon → account entitlement instead of assuming cross-app.
+- Revisit cross-app subscriptions only if per-app data later justifies a family/shared plan.

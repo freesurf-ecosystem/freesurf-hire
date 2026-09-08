@@ -34,17 +34,18 @@ Not just taking all my time to build the app, need to take as much if not more t
 [ ] try to weave in basic analytics like post hog for privacy oriented conversion tracking / analytics or consider a basic provider like Plausible
 [ ] not clear how to 'communicate' with an ad platform about conversion if we don't permit personal info to be resent
 
+
+
 # Development
 ## Usage limits 
-[ ] put together usage limits for transcriber, reader, calorie tracker
-[ ] set up subscriptions for each of these
-[ ] wire in supabase for auth
-[ ] set up google play store ads
-[ ] localize / roll out to different countries
+[ ] Link Google Ads ↔ Google Play Console (install conversion tracking, no SDK). Create the ad account + campaign — start US (test cost-per-install), plus a low-cost tier (India/LatAm/SEA) to build install volume/ranking. [ ] Set a small daily budget to learn.
+[ ] Transcriber interior map (for localization + ad placement) — I do this first so we know the screens.
+[ ] Localization — Google Play auto-translates metadata for now; hold deeper in-app localization until we map screens.
+[ ] Usage limits for transcriber/reader/calorie (server-side, anonymous id).
+[ ] RevenueCat subscription products + wire the "unlock" hooks.
 ## Put new version of English tutor
-[ ] one version in swift, one in kotlin
 [ ] wait on publishing with apple until app more designed
-[ ] work on smoother functionality [go ahead then and publish with google play], 
+[ ] work on smoother functionality 
 [ ]  note creating / editing ability, flash card creating, quizes on topics, remembering context better
 [ ] try to get the language tutor integrated w/ livekit
 ## Post functionality
