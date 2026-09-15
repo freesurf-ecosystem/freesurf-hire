@@ -192,3 +192,62 @@ The transcriber's multilingual model is `openai/whisper-large-v3` (Together AI).
 - **Reader is the narrowest** (8) — it only localizes for languages the Kokoro TTS voices support.
 - **Transcriber is the broadest** (36) and also supports the most ASR languages.
 - Track which locales have: (a) in-app strings, (b) store listing metadata, (c) localized screenshots.
+
+---
+
+## 4. Per-locale checklist
+
+Legend:
+- **Apps** = which apps have in-app strings for that locale: `T` Transcriber, `R` Reader, `C` Calorie.
+- **★ Shared** = locale is in **all three apps** (cheapest first phase — one round of metadata/screenshots covers every app).
+- **Metadata** = store listing (title/description) localized.
+- **Shots** = localized screenshots captured + uploaded.
+
+Shared-across-all-3 (★): **en, es, fr, hi, it, pt, ja, zh**
+
+| Language | Code | Apps | Metadata | Shots |
+|---|---|---|---|---|
+| English | en | T · R · C ★ | ☐ | ☐ |
+| Spanish | es | T · R · C ★ | ☐ | ☐ |
+| French | fr | T · R · C ★ | ☐ | ☐ |
+| Hindi | hi | T · R · C ★ | ☐ | ☐ |
+| Italian | it | T · R · C ★ | ☐ | ☐ |
+| Portuguese | pt | T · R · C ★ | ☐ | ☐ |
+| Japanese | ja | T · R · C ★ | ☐ | ☐ |
+| Chinese | zh | T · R · C ★ | ☐ | ☐ |
+| German | de | T · C | ☐ | ☐ |
+| Indonesian | id | T · C | ☐ | ☐ |
+| Vietnamese | vi | T · C | ☐ | ☐ |
+| Thai | th | T · C | ☐ | ☐ |
+| Korean | ko | T · C | ☐ | ☐ |
+| Russian | ru | T · C | ☐ | ☐ |
+| Turkish | tr | T · C | ☐ | ☐ |
+| Malay | ms | T | ☐ | ☐ |
+| Tagalog | tl | T | ☐ | ☐ |
+| Dutch | nl | T | ☐ | ☐ |
+| Polish | pl | T | ☐ | ☐ |
+| Swedish | sv | T | ☐ | ☐ |
+| Norwegian | no | T | ☐ | ☐ |
+| Danish | da | T | ☐ | ☐ |
+| Finnish | fi | T | ☐ | ☐ |
+| Czech | cs | T | ☐ | ☐ |
+| Greek | el | T | ☐ | ☐ |
+| Romanian | ro | T | ☐ | ☐ |
+| Hungarian | hu | T | ☐ | ☐ |
+| Ukrainian | uk | T | ☐ | ☐ |
+| Arabic | ar | T | ☐ | ☐ |
+| Bengali | bn | T | ☐ | ☐ |
+| Urdu | ur | T | ☐ | ☐ |
+| Marathi | mr | T | ☐ | ☐ |
+| Telugu | te | T | ☐ | ☐ |
+| Tamil | ta | T | ☐ | ☐ |
+| Persian | fa | T | ☐ | ☐ |
+| Hausa | ha | T | ☐ | ☐ |
+
+### Suggested phase order
+1. **Phase 1 — the ★ shared 8** (en, es, fr, hi, it, pt, ja, zh): metadata + screenshots for all three apps at once.
+2. **Phase 2 — Calorie's remaining 7** (de, id, vi, th, ko, ru, tr): Transcriber already covers these too.
+3. **Phase 3 — Transcriber-only locales** (the rest): expand based on which markets show ad/install lift.
+
+> The transcriber can *transcribe* ~99 Whisper languages, but the **app UI** is localized for the 36 above. To transcribe a language outside that set, a separate spoken-language picker would be needed.
+
