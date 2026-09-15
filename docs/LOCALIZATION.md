@@ -258,208 +258,354 @@ Shared-across-all-3 (★): **en, es, fr, hi, it, pt, ja, zh**
 Source: Ethnologue most-spoken languages. **Localized** = which apps already ship in-app strings for that language:
 - `T` Transcriber · `R` Reader · `C` Calorie · `—` not yet localized
 
-| # | Language | ISO | Speakers | Native name | Family | Localized |
-|---|---|---|---|---|---|---|
-| 1 | English | eng | 1.5B | English | Indo-European (Germanic) | T · R · C |
-| 2 | Mandarin Chinese | cmn | 1.2B | 普通话 | Sino-Tibetan (Sinitic) | T · R · C |
-| 3 | Hindi | hin | 611.2M | मानक हिन्दी | Indo-European (Indo-Aryan) | T · R · C |
-| 4 | Spanish | spa | 561.3M | español | Indo-European (Romance) | T · R · C |
-| 5 | Standard Arabic | arb | 334.9M | العربية | Afroasiatic (Semitic) | T |
-| 6 | French | fra | 333.5M | français | Indo-European (Romance) | T · R · C |
-| 7 | Bengali | ben | 274.4M | বাংলা | Indo-European (Indo-Aryan) | T |
-| 8 | Portuguese | por | 269.4M | Português | Indo-European (Romance) | T · R · C |
-| 9 | Indonesian | ind | 254.8M | Bahasa Indonesia | Austronesian (Malayo-Chamic) | T · C |
-| 10 | Urdu | urd | 246.0M | اُردُو | Indo-European (Indo-Aryan) | T |
-| 11 | Russian | rus | 210.3M | русский язык | Indo-European (Slavic) | T · C |
-| 12 | Standard German | deu | 133.4M | Deutsch | Indo-European (Germanic) | T · C |
-| 13 | Japanese | jpn | 125.7M | 日本語 | Japonic | T · R · C |
-| 14 | Nigerian Pidgin | pcm | 120.7M | Naijá | Indo-European (Germanic Creole) | — |
-| 15 | Egyptian Arabic | arz | 118.4M | مصري | Afroasiatic (Semitic) | — |
-| 16 | Marathi | mar | 99.2M | मराठी | Indo-European (Indo-Aryan) | T |
-| 17 | Vietnamese | vie | 97.1M | Tiếng Việt | Austroasiatic | T · C |
-| 18 | Telugu | tel | 95.9M | తెలుగు | Dravidian | T |
-| 19 | Swahili | swh | 95.2M | Kiswahili | Atlantic-Congo (Bantoid) | — |
-| 20 | Hausa | hau | 94.5M | Hausa | Afroasiatic (Chadic) | T |
-| 21 | Turkish | tur | 93.7M | Türkçe | Turkic | T · C |
-| 22 | Western Punjabi | pnb | 90.4M | پنجابی | Indo-European (Indo-Aryan) | — |
-| 23 | Tagalog | tgl | 87.1M | Tagalog | Austronesian (Greater Central Philippine) | T |
-| 24 | Tamil | tam | 86.4M | தமிழ் | Dravidian | T |
-| 25 | Yue Chinese | yue | 85.8M | 粵語 | Sino-Tibetan (Sinitic) | — |
-| 26 | Wu Chinese | wuu | 83.3M | 江南话 | Sino-Tibetan (Sinitic) | — |
-| 27 | Iranian Persian | pes | 82.5M | فارسی | Indo-European (Iranic) | T |
-| 28 | Korean | kor | 82.2M | 한국말 | Koreanic | T · C |
-| 29 | Amharic | amh | 78.0M | ኣማርኛ | Afroasiatic (Semitic) | — |
-| 30 | Thai | tha | 71.4M | ภาษาไทย | Tai-Kadai | T · C |
-| 31 | Javanese | jav | 69.2M | ꦧꦱꦗꦮ | Austronesian (Javanesic) | — |
-| 32 | Italian | ita | 65.6M | Italiano | Indo-European (Romance) | T · R · C |
-| 33 | Gujarati | guj | 62.5M | ગુજરાત | Indo-European (Indo-Aryan) | — |
-| 34 | Kannada | kan | 58.7M | ಕನ್ನಡ | Dravidian | — |
-| 35 | Levantine Arabic | apc | 57.8M | شامي | Afroasiatic (Semitic) | — |
-| 36 | Sudanese Arabic | apd | 54.3M | سوداني | Afroasiatic (Semitic) | — |
-| 37 | Yoruba | yor | 52.9M | Èdè Yorùbá | Atlantic-Congo (Yoruboid) | — |
-| 38 | Bhojpuri | bho | 52.7M | भोजपुरी | Indo-European (Indo-Aryan) | — |
-| 39 | Jinyu Chinese | cjy | 48.0M | 晋语 | Sino-Tibetan (Sinitic) | — |
-| 40 | Min Nan Chinese | nan | 45.8M | 闽南语 | Sino-Tibetan (Sinitic) | — |
-| 41 | Polish | pol | 45.5M | język polski | Indo-European (Slavic) | T |
-| 42 | Burmese | mya | 44.5M | မြန်မာစကား | Sino-Tibetan (Burmo-Qiangic) | — |
-| 43 | Algerian Arabic | arq | 43.4M | العامية | Afroasiatic (Semitic) | — |
-| 44 | Hakka Chinese | hak | 40.7M | 客家話 | Sino-Tibetan (Sinitic) | — |
-| 45 | Lingala | lin | 40.6M | Lingala | Atlantic-Congo (Bantoid) | — |
-| 46 | Moroccan Arabic | ary | 40.4M | الدارجة | Afroasiatic (Semitic) | — |
-| 47 | Odia | ory | 39.5M | ଓଡ଼ିଆ | Indo-European (Indo-Aryan) | — |
-| 48 | Malayalam | mal | 38.7M | മലയാളം | Dravidian | — |
-| 49 | Xiang Chinese | hsn | 38.2M | 湘语 | Sino-Tibetan (Sinitic) | — |
-| 50 | Sindhi | snd | 36.9M | سنڌي | Indo-European (Indo-Aryan) | — |
-| 51 | Eastern Punjabi | pan | 36.6M | ਪੰਜਾਬੀ ਭਾਸ਼ਾ | Indo-European (Indo-Aryan) | — |
-| 52 | Sundanese | sun | 35.5M | ᮘᮞ ᮞᮥᮔ᮪ᮓ | Austronesian (Sundanese) | — |
-| 53 | Igbo | ibo | 34.4M | Asụsụ Igbo | Atlantic-Congo (Igboid) | — |
-| 54 | Dari | prs | 33.4M | دری | Indo-European (Iranic) | — |
-| 55 | Nepali | npi | 33.2M | नेपाली | Indo-European (Indo-Aryan) | — |
-| 56 | Congo Swahili | swc | 32.1M | Kiswahili ya Kongo | Atlantic-Congo (Bantoid) | — |
-| 57 | Northern Uzbek | uzn | 31.4M | ўзбек тили | Turkic | — |
-| 58 | Ukrainian | ukr | 30.8M | українська мова | Indo-European (Slavic) | T |
-| 59 | Central Malay | zlm | 29.5M | Bahasa Melayu | Austronesian (Malayo-Chamic) | T |
-| 60 | Saraiki | skr | 29.1M | سرائیکی | Indo-European (Indo-Aryan) | — |
-| 61 | Zulu | zul | 27.8M | isiZulu | Atlantic-Congo (Bantoid) | — |
-| 62 | Sa'idi Arabic | aec | 27.4M | صعيدى | Afroasiatic (Semitic) | — |
-| 63 | Northern Pashto | pbu | 27.3M | پښتو | Indo-European (Iranic) | — |
-| 64 | West Central Oromo | gaz | 26.4M | Afaan Oromoo | Afroasiatic (Cushitic) | — |
-| 65 | Dutch | nld | 25.4M | Nederlands | Indo-European (Germanic) | T |
-| 66 | Somali | som | 25.2M | Af-Soomaali | Afroasiatic (Cushitic) | — |
-| 67 | Assamese | asm | 23.6M | অসমীয়া | Indo-European (Indo-Aryan) | — |
-| 68 | Romanian | ron | 23.2M | Limba română | Indo-European (Romance) | T |
-| 69 | Gan Chinese | gan | 22.6M | 江西話 | Sino-Tibetan (Sinitic) | — |
-| 70 | Southern Pashto | pbt | 21.7M | پښتو | Indo-European (Iranic) | — |
-| 71 | Cebuano | ceb | 21.4M | Binisaya | Austronesian (Greater Central Philippine) | — |
-| 72 | Najdi Arabic | ars | 21.0M | نجدي | Afroasiatic (Semitic) | — |
-| 73 | Magahi | mag | 21.0M | मगही | Indo-European (Indo-Aryan) | — |
-| 74 | Sinhala | sin | 20.4M | සිංහල | Indo-European (Indo-Aryan) | — |
-| 75 | Khmer | khm | 20.3M | ខ្មែរ | Austroasiatic | — |
-| 76 | Kazakh | kaz | 20.2M | қазақ тілі | Turkic | — |
-| 77 | Mesopotamian Arabic | acm | 20.2M | اللهجة العراقية | Afroasiatic (Semitic) | — |
-| 78 | Xhosa | xho | 19.2M | isiXhosa | Atlantic-Congo (Bantoid) | — |
-| 79 | Afrikaans | afr | 18.1M | Afrikaans | Indo-European (Germanic) | — |
-| 80 | Nigerian Fulfulde | fuv | 18.0M | 𞤊𞤵𞤤𞤬𞤵𞤤𞤣𞤫 | Atlantic-Congo (North-Central-Atlantic) | — |
-| 81 | Maithili | mai | 17.6M | मैथिली | Indo-European (Indo-Aryan) | — |
-| 82 | Kurmanji Kurdish | kmr | 17.2M | Kurmancî | Indo-European (Iranic) | — |
-| 83 | Wolof | wol | 17.4M | Wolof làkk | Atlantic-Congo (North-Central Atlantic) | — |
-| 84 | Chhattisgarhi | hne | 16.3M | छत्तीसगढ़ी | Indo-European (Indo-Aryan) | — |
-| 85 | Kinyarwanda | kin | 15.3M | Ikinyarwanda | Atlantic-Congo (Bantoid) | — |
-| 86 | Sanaani Arabic | ayn | 15.2M | يمني | Afroasiatic (Semitic) | — |
-| 87 | Chichewa | nya | 14.5M | Chicheŵa | Atlantic-Congo (Bantoid) | — |
-| 88 | Bambara | bam | 14.4M | ߓߡߊߣߊ߲ߞߊ߲ | Mande | — |
-| 89 | Isan | tts | 15.1M | อีสาน | Tai-Kadai | — |
-| 90 | Shona | sna | 14.1M | ChiShona | Atlantic-Congo (Bantoid) | — |
-| 91 | Ta'izzi-Adeni Arabic | acq | 14.1M | لهجة تعزية عدنية | Afroasiatic (Semitic) | — |
-| 92 | Haitian Creole | hat | 13.8M | Kreyòl Ayisyen | Indo-European (Romance Creole) | — |
-| 93 | Sepedi | nso | 13.7M | Sesotho sa Leboa | Atlantic-Congo (Bantoid) | — |
-| 94 | Bavarian | bar | 13.7M | Boarisch | Indo-European (Germanic) | — |
-| 95 | Setswana | tsn | 13.7M | Setswana | Atlantic-Congo (Bantoid) | — |
-| 96 | Uyghur | uig | 13.6M | ئۇيغۇر تىلى | Turkic | — |
-| 97 | Sesotho | sot | 13.5M | Sesotho | Atlantic-Congo (Bantoid) | — |
-| 98 | South Azerbaijani | azb | 13.3M | آذربایجانجا | Turkic | — |
-| 99 | Greek | ell | 13.2M | Νέα Ελληνικά | Indo-European (Hellenic) | T |
-| 100 | Chittagonian | ctg | 13.0M | চাঁটগাঁইয়া বুলি | Indo-European (Indo-Aryan) | — |
-| 101 | Kirundi | run | 12.9M | Ikirundi | Atlantic-Congo (Bantoid) | — |
-| 102 | Dyula | dyu | 12.8M | ߖߎ߬ߟߊ߬ߞߊ߲ | Mande | — |
-| 103 | Hungarian | hun | 12.8M | Magyar | Uralic | T |
-| 104 | Deccan | dcc | 12.8M | دکھنی | Indo-European (Indo-Aryan) | — |
-| 105 | Bajjika | vjk | 12.7M | बज्जिका | Indo-European (Indo-Aryan) | — |
-| 106 | Luganda | lug | 12.6M | Luganda | Atlantic-Congo (Bantoid) | — |
-| 107 | Tunisian Arabic | aeb | 12.6M | تونسي | Afroasiatic (Semitic) | — |
-| 108 | Kituba | ktu | 12.4M | Kikongo ya Leta | Atlantic-Congo (Bantoid Creole) | — |
-| 109 | Hijazi Arabic | acw | 12.4M | حجازي | Afroasiatic (Semitic) | — |
-| 110 | Czech | ces | 12.2M | Čeština | Indo-European (Slavic) | T |
-| 111 | Sadri | sck | 12.1M | सादरी | Indo-European (Indo-Aryan) | — |
-| 112 | Mooré | mos | 12.1M | Moore | Atlantic-Congo (North Volta-Congo) | — |
-| 113 | Cameroon Pidgin | wes | 12.0M | Wes Cos | Indo-European (Germanic Creole) | — |
-| 114 | Sylheti | syl | 11.9M | ꠍꠤꠟꠐꠤ | Indo-European (Indo-Aryan) | — |
-| 115 | Eastern Oromo | hae | 11.8M | Afaan Oromoo | Afroasiatic (Cushitic) | — |
-| 116 | Min Bei Chinese | mnp | 11.7M | 閩北語 | Sino-Tibetan (Sinitic) | — |
-| 117 | Swedish | swe | 11.5M | Svenska | Indo-European (Germanic) | T |
-| 118 | North Mesopotamian Arabic | ayp | 11.5M | مصلاوي | Afroasiatic (Semitic) | — |
-| 119 | Ibibio | ibb | 11.4M | Ibibio | Atlantic-Congo (Delta-Cross) | — |
-| 120 | Tigrinya | tir | 11.2M | ትግርኛ | Afroasiatic (Semitic) | — |
-| 121 | Min Dong Chinese | cdo | 10.8M | 闽东话 | Sino-Tibetan (Sinitic) | — |
-| 122 | Rangpuri | rkt | 10.8M | রংপুরী | Indo-European (Indo-Aryan) | — |
-| 123 | Tajik | tgk | 10.7M | тоҷикӣ | Indo-European (Iranic) | — |
-| 124 | Hebrew | heb | 10.5M | עברית | Afroasiatic (Semitic) | — |
-| 125 | Noakhali | oak | 10.5M | নোয়াখাইল্লা | Indo-European (Indo-Aryan) | — |
-| 126 | North Azerbaijani | azj | 10.3M | Azərbaycan dili | Turkic | — |
-| 127 | Haryanvi | bgc | 10.3M | हरियाणवी | Indo-European (Indo-Aryan) | — |
-| 128 | Borana-Arsi-Guji Oromo | gax | 10.2M | Afaan Oromoo | Afroasiatic (Cushitic) | — |
-| 129 | Akan | aka | 10.1M | Akan | Atlantic-Congo (Kwa Volta-Congo) | — |
-| 130 | Tsonga | tso | 10.0M | Xitsonga | Atlantic-Congo (Bantoid) | — |
-| 131 | Yerwa Kanuri | knc | 9.8M | Yerwa Kanuri | Saharan | — |
-| 132 | Catalan | cat | 9.3M | Català | Indo-European (Romance) | — |
-| 133 | Turkmen | tuk | 9.2M | Türkmençe | Turkic | — |
-| 134 | Serbian | srp | 8.7M | српски | Indo-European (Slavic) | — |
-| 135 | Chadian Arabic | shu | 8.5M | العربية التشادية | Afroasiatic (Semitic) | — |
-| 136 | Ilocano | ilo | 8.5M | Ilokano | Austronesian (Northern Luzon) | — |
-| 137 | Umbundu | umb | 8.5M | Umbundu | Atlantic-Congo (Bantoid) | — |
-| 138 | Kikuyu | kik | 8.3M | Gĩgĩkũyũ | Atlantic-Congo (Bantoid) | — |
-| 139 | Gulf Arabic | afb | 8.3M | خليجي | Afroasiatic (Semitic) | — |
-| 140 | Sukuma | suk | 8.1M | Kisukuma | Atlantic-Congo (Bantoid) | — |
-| 141 | Kabyle | kab | 8.1M | ⵜⴰⵇⴱⴰⵢⵍⵉⵜ | Afroasiatic (Berber) | — |
-| 142 | Kikongo | kng | 8.0M | Kikongo | Atlantic-Congo (Bantoid) | — |
-| 143 | Santali | sat | 7.9M | Har Rar | Austroasiatic | — |
-| 144 | Marwari | rwr | 7.9M | मारवाड़ी | Indo-European (Indo-Aryan) | — |
-| 145 | Northern Thai | nod | 7.8M | ᨣᩴᩤᨾᩮᩬᩥᨦ | Tai-Kadai | — |
-| 146 | Madurese | mad | 7.8M | Basa Mathura | Austronesian (Maduresic) | — |
-| 147 | Krio of Sierra Leone | kri | 7.8M | Krio | Indo-European (Germanic Creole) | — |
-| 148 | Merina Malagasy | plt | 7.5M | Malagasy ôfisialy | Austronesian (Basap–Greater Barito) | — |
-| 149 | Bulgarian | bul | 7.5M | български език | Indo-European (Slavic) | — |
-| 150 | Adamawa Fulfulde | fub | 7.5M | 𞤊𞤵𞤤𞤬𞤵𞤤𞤣𞤫 | Atlantic-Congo (North-Central Atlantic) | — |
-| 151 | Central Pashto | pst | 7.3M | پښتو | Indo-European (Iranic) | — |
-| 152 | Kashmiri | kas | 7.2M | کٲشُر | Indo-European (Indo-Aryan) | — |
-| 153 | Luba-Kasai | lua | 7.1M | Ciluba | Atlantic-Congo (Bantoid) | — |
-| 154 | Pulaar | fuc | 7.0M | 𞤆𞤵𞤤𞤢𞥄𞤪 | Atlantic-Congo (North-Central Atlantic) | — |
-| 155 | Varhadi-Nagpuri | vah | 7.0M | वरहदी नागपुरी | Indo-European (Indo-Aryan) | — |
-| 156 | Indian Sign Language | ins | 6.8M | ISL | Indo-Pakistani-Nepalese Sign | — |
-| 157 | Slovak | slk | 6.7M | Slovenčina | Indo-European (Slavic) | — |
-| 158 | Swiss German | gsw | 6.5M | Schwiizerdütsch | Indo-European (Germanic) | — |
-| 159 | Hainanese | hnm | 6.4M | 海南话 | Sino-Tibetan (Sinitic) | — |
-| 160 | Paraguayan Guaraní | gug | 6.3M | Avañe'ẽ | Tupian | — |
-| 161 | Hiligaynon | hil | 6.3M | Ilonggo | Austronesian (Greater Central Philippine) | — |
-| 162 | Kyrgyz | kir | 6.1M | кыргыз тили | Turkic | — |
-| 163 | Libyan Arabic | ayl | 6.1M | ليبي | Afroasiatic (Semitic) | — |
-| 164 | Baoulé | bci | 6.1M | Wawle | Atlantic-Congo (Kwa Volta-Congo) | — |
-| 165 | Sorani Kurdish | ckb | 6.1M | زمانی سۆرانی | Indo-European (Iranic) | — |
-| 166 | Hadrami Arabic | ayh | 6.0M | حضرمي | Afroasiatic (Semitic) | — |
-| 167 | Kanauji | bjj | 6.0M | देहाती | Indo-European (Indo-Aryan) | — |
-| 168 | Southern Kurdish | sdh | 6.0M | کوردیی باشووری | Indo-European (Iranic) | — |
-| 169 | Croatian | hrv | 6.0M | Hrvatski | Indo-European (Slavic) | — |
-| 170 | Tachelhit | shi | 5.8M | ⵜⴰⵛⵍⵃⵉⵢⵜ | Afroasiatic (Berber) | — |
-| 171 | Danish | dan | 5.8M | Dansk | Indo-European (Germanic) | T |
-| 172 | Ewe | ewe | 5.8M | Èʋegbe | Atlantic-Congo (Kwa Volta-Congo) | — |
-| 173 | Napoletano | nap | 5.7M | Napulitano | Indo-European (Romance) | — |
-| 174 | Hassaniyya | mey | 5.6M | حسانية | Afroasiatic (Semitic) | — |
-| 175 | Bundeli | bns | 5.6M | बुन्देली | Indo-European (Indo-Aryan) | — |
-| 176 | Finnish | fin | 5.6M | Suomi | Uralic | T |
-| 177 | Minangkabau | min | 5.6M | Minangkabau | Austronesian (Malayo-Chamic) | — |
-| 178 | Norwegian | nor | 5.5M | Norsk | Indo-European (Germanic) | T |
-| 179 | Malvi | mup | 5.4M | मालवी | Indo-European (Indo-Aryan) | — |
-| 180 | Huizhou Chinese | czh | 5.3M | 徽州話 | Sino-Tibetan (Sinitic) | — |
-| 181 | Zarma | dje | 5.3M | Zarma sanni | Songhay | — |
-| 182 | Sango | sag | 5.3M | Sängö | Atlantic-Congo (Ubangian Creole) | — |
-| 183 | Kamba | kam | 5.3M | Kĩkamba | Atlantic-Congo (Bantoid) | — |
-| 184 | Dholuo | luo | 5.3M | Dholuo | Nilotic | — |
-| 185 | Sidaama | sid | 5.3M | Sidaamu Afoo | Afroasiatic (Cushitic) | — |
-| 186 | Belarusian | bel | 5.2M | беларуская мова | Indo-European (Slavic) | — |
-| 187 | Lambadi | lmn | 5.1M | బంజార | Indo-European (Indo-Aryan) | — |
-| 188 | Hazaragi | haz | 5.1M | آزرگی | Indo-European (Iranic) | — |
-| 189 | Ghanaian Pidgin | gpe | 5.0M | Kroo Inglish | Indo-European (Germanic Creole) | — |
-| 190 | Liberian English | lir | 5.0M | Koloqua | Indo-European (Germanic Creole) | — |
-| 191 | Central Atlas Tamazight | tzm | 5.0M | ⵜⴰⵎⴰⵣⵉⵖⵜ | Afroasiatic (Berber) | — |
-| 192 | Tiv | tiv | 5.0M | Tiv | Atlantic-Congo (Bantoid) | — |
-| 193 | Shan | shn | 4.9M | လိၵ်ႈတႆး | Tai-Kadai | — |
-| 194 | Pular | fuf | 4.9M | 𞤆𞤵𞤤𞤢𞤪 | Atlantic-Congo (North-Central Atlantic) | — |
-| 195 | Tatar | tat | 4.8M | татар теле | Turkic | — |
-| 196 | Awadhi | awa | 4.8M | अवधी | Indo-European (Indo-Aryan) | — |
-| 197 | Seswati | ssw | 4.7M | siSwati | Atlantic-Congo (Bantoid) | — |
-| 198 | Gheg Albanian | aln | 4.7M | Gegnisht | Indo-European (Albanic) | — |
-| 199 | Sicilian | scn | 4.7M | Sicilianu | Indo-European (Romance) | — |
-| 200 | Luba-Katanga | lub | 4.7M | Kiluba | Atlantic-Congo (Bantoid) | — |
+| # | Language | ISO | Native name | Localized |
+|---|---|---|---|---|
+| 1 | English | eng | English | T · R · C |
+| 2 | Mandarin Chinese | cmn | 普通话 | T · R · C |
+| 3 | Hindi | hin | मानक हिन्दी | T · R · C |
+| 4 | Spanish | spa | español | T · R · C |
+| 5 | Standard Arabic | arb | العربية | T |
+| 6 | French | fra | français | T · R · C |
+| 7 | Bengali | ben | বাংলা | T |
+| 8 | Portuguese | por | Português | T · R · C |
+| 9 | Indonesian | ind | Bahasa Indonesia | T · C |
+| 10 | Urdu | urd | اُردُو | T |
+| 11 | Russian | rus | русский язык | T · C |
+| 12 | Standard German | deu | Deutsch | T · C |
+| 13 | Japanese | jpn | 日本語 | T · R · C |
+| 14 | Nigerian Pidgin | pcm | Naijá | — |
+| 15 | Egyptian Arabic | arz | مصري | — |
+| 16 | Marathi | mar | मराठी | T |
+| 17 | Vietnamese | vie | Tiếng Việt | T · C |
+| 18 | Telugu | tel | తెలుగు | T |
+| 19 | Swahili | swh | Kiswahili | — |
+| 20 | Hausa | hau | Hausa | T |
+| 21 | Turkish | tur | Türkçe | T · C |
+| 22 | Western Punjabi | pnb | پنجابی | — |
+| 23 | Tagalog | tgl | Tagalog | T |
+| 24 | Tamil | tam | தமிழ் | T |
+| 25 | Yue Chinese | yue | 粵語 | — |
+| 26 | Wu Chinese | wuu | 江南话 | — |
+| 27 | Iranian Persian | pes | فارسی | T |
+| 28 | Korean | kor | 한국말 | T · C |
+| 29 | Amharic | amh | ኣማርኛ | — |
+| 30 | Thai | tha | ภาษาไทย | T · C |
+| 31 | Javanese | jav | ꦧꦱꦗꦮ | — |
+| 32 | Italian | ita | Italiano | T · R · C |
+| 33 | Gujarati | guj | ગુજરાત | — |
+| 34 | Kannada | kan | ಕನ್ನಡ | — |
+| 35 | Levantine Arabic | apc | شامي | — |
+| 36 | Sudanese Arabic | apd | سوداني | — |
+| 37 | Yoruba | yor | Èdè Yorùbá | — |
+| 38 | Bhojpuri | bho | भोजपुरी | — |
+| 39 | Jinyu Chinese | cjy | 晋语 | — |
+| 40 | Min Nan Chinese | nan | 闽南语 | — |
+| 41 | Polish | pol | język polski | T |
+| 42 | Burmese | mya | မြန်မာစကား | — |
+| 43 | Algerian Arabic | arq | العامية | — |
+| 44 | Hakka Chinese | hak | 客家話 | — |
+| 45 | Lingala | lin | Lingala | — |
+| 46 | Moroccan Arabic | ary | الدارجة | — |
+| 47 | Odia | ory | ଓଡ଼ିଆ | — |
+| 48 | Malayalam | mal | മലയാളം | — |
+| 49 | Xiang Chinese | hsn | 湘语 | — |
+| 50 | Sindhi | snd | سنڌي | — |
+| 51 | Eastern Punjabi | pan | ਪੰਜਾਬੀ ਭਾਸ਼ਾ | — |
+| 52 | Sundanese | sun | ᮘᮞ ᮞᮥᮔ᮪ᮓ | — |
+| 53 | Igbo | ibo | Asụsụ Igbo | — |
+| 54 | Dari | prs | دری | — |
+| 55 | Nepali | npi | नेपाली | — |
+| 56 | Congo Swahili | swc | Kiswahili ya Kongo | — |
+| 57 | Northern Uzbek | uzn | ўзбек тили | — |
+| 58 | Ukrainian | ukr | українська мова | T |
+| 59 | Central Malay | zlm | Bahasa Melayu | T |
+| 60 | Saraiki | skr | سرائیکی | — |
+| 61 | Zulu | zul | isiZulu | — |
+| 62 | Sa'idi Arabic | aec | صعيدى | — |
+| 63 | Northern Pashto | pbu | پښتو | — |
+| 64 | West Central Oromo | gaz | Afaan Oromoo | — |
+| 65 | Dutch | nld | Nederlands | T |
+| 66 | Somali | som | Af-Soomaali | — |
+| 67 | Assamese | asm | অসমীয়া | — |
+| 68 | Romanian | ron | Limba română | T |
+| 69 | Gan Chinese | gan | 江西話 | — |
+| 70 | Southern Pashto | pbt | پښتو | — |
+| 71 | Cebuano | ceb | Binisaya | — |
+| 72 | Najdi Arabic | ars | نجدي | — |
+| 73 | Magahi | mag | मगही | — |
+| 74 | Sinhala | sin | සිංහල | — |
+| 75 | Khmer | khm | ខ្មែរ | — |
+| 76 | Kazakh | kaz | қазақ тілі | — |
+| 77 | Mesopotamian Arabic | acm | اللهجة العراقية | — |
+| 78 | Xhosa | xho | isiXhosa | — |
+| 79 | Afrikaans | afr | Afrikaans | — |
+| 80 | Nigerian Fulfulde | fuv | 𞤊𞤵𞤤𞤬𞤵𞤤𞤣𞤫 | — |
+| 81 | Maithili | mai | मैथिली | — |
+| 82 | Kurmanji Kurdish | kmr | Kurmancî | — |
+| 83 | Wolof | wol | Wolof làkk | — |
+| 84 | Chhattisgarhi | hne | छत्तीसगढ़ी | — |
+| 85 | Kinyarwanda | kin | Ikinyarwanda | — |
+| 86 | Sanaani Arabic | ayn | يمني | — |
+| 87 | Chichewa | nya | Chicheŵa | — |
+| 88 | Bambara | bam | ߓߡߊߣߊ߲ߞߊ߲ | — |
+| 89 | Isan | tts | อีสาน | — |
+| 90 | Shona | sna | ChiShona | — |
+| 91 | Ta'izzi-Adeni Arabic | acq | لهجة تعزية عدنية | — |
+| 92 | Haitian Creole | hat | Kreyòl Ayisyen | — |
+| 93 | Sepedi | nso | Sesotho sa Leboa | — |
+| 94 | Bavarian | bar | Boarisch | — |
+| 95 | Setswana | tsn | Setswana | — |
+| 96 | Uyghur | uig | ئۇيغۇر تىلى | — |
+| 97 | Sesotho | sot | Sesotho | — |
+| 98 | South Azerbaijani | azb | آذربایجانجا | — |
+| 99 | Greek | ell | Νέα Ελληνικά | T |
+| 100 | Chittagonian | ctg | চাঁটগাঁইয়া বুলি | — |
+| 101 | Kirundi | run | Ikirundi | — |
+| 102 | Dyula | dyu | ߖߎ߬ߟߊ߬ߞߊ߲ | — |
+| 103 | Hungarian | hun | Magyar | T |
+| 104 | Deccan | dcc | دکھنی | — |
+| 105 | Bajjika | vjk | बज्जिका | — |
+| 106 | Luganda | lug | Luganda | — |
+| 107 | Tunisian Arabic | aeb | تونسي | — |
+| 108 | Kituba | ktu | Kikongo ya Leta | — |
+| 109 | Hijazi Arabic | acw | حجازي | — |
+| 110 | Czech | ces | Čeština | T |
+| 111 | Sadri | sck | सादरी | — |
+| 112 | Mooré | mos | Moore | — |
+| 113 | Cameroon Pidgin | wes | Wes Cos | — |
+| 114 | Sylheti | syl | ꠍꠤꠟꠐꠤ | — |
+| 115 | Eastern Oromo | hae | Afaan Oromoo | — |
+| 116 | Min Bei Chinese | mnp | 閩北語 | — |
+| 117 | Swedish | swe | Svenska | T |
+| 118 | North Mesopotamian Arabic | ayp | مصلاوي | — |
+| 119 | Ibibio | ibb | Ibibio | — |
+| 120 | Tigrinya | tir | ትግርኛ | — |
+| 121 | Min Dong Chinese | cdo | 闽东话 | — |
+| 122 | Rangpuri | rkt | রংপুরী | — |
+| 123 | Tajik | tgk | тоҷикӣ | — |
+| 124 | Hebrew | heb | עברית | — |
+| 125 | Noakhali | oak | নোয়াখাইল্লা | — |
+| 126 | North Azerbaijani | azj | Azərbaycan dili | — |
+| 127 | Haryanvi | bgc | हरियाणवी | — |
+| 128 | Borana-Arsi-Guji Oromo | gax | Afaan Oromoo | — |
+| 129 | Akan | aka | Akan | — |
+| 130 | Tsonga | tso | Xitsonga | — |
+| 131 | Yerwa Kanuri | knc | Yerwa Kanuri | — |
+| 132 | Catalan | cat | Català | — |
+| 133 | Turkmen | tuk | Türkmençe | — |
+| 134 | Serbian | srp | српски | — |
+| 135 | Chadian Arabic | shu | العربية التشادية | — |
+| 136 | Ilocano | ilo | Ilokano | — |
+| 137 | Umbundu | umb | Umbundu | — |
+| 138 | Kikuyu | kik | Gĩgĩkũyũ | — |
+| 139 | Gulf Arabic | afb | خليجي | — |
+| 140 | Sukuma | suk | Kisukuma | — |
+| 141 | Kabyle | kab | ⵜⴰⵇⴱⴰⵢⵍⵉⵜ | — |
+| 142 | Kikongo | kng | Kikongo | — |
+| 143 | Santali | sat | Har Rar | — |
+| 144 | Marwari | rwr | मारवाड़ी | — |
+| 145 | Northern Thai | nod | ᨣᩴᩤᨾᩮᩬᩥᨦ | — |
+| 146 | Madurese | mad | Basa Mathura | — |
+| 147 | Krio of Sierra Leone | kri | Krio | — |
+| 148 | Merina Malagasy | plt | Malagasy ôfisialy | — |
+| 149 | Bulgarian | bul | български език | — |
+| 150 | Adamawa Fulfulde | fub | 𞤊𞤵𞤤𞤬𞤵𞤤𞤣𞤫 | — |
+| 151 | Central Pashto | pst | پښتو | — |
+| 152 | Kashmiri | kas | کٲشُر | — |
+| 153 | Luba-Kasai | lua | Ciluba | — |
+| 154 | Pulaar | fuc | 𞤆𞤵𞤤𞤢𞥄𞤪 | — |
+| 155 | Varhadi-Nagpuri | vah | वरहदी नागपुरी | — |
+| 156 | Indian Sign Language | ins | ISL | — |
+| 157 | Slovak | slk | Slovenčina | — |
+| 158 | Swiss German | gsw | Schwiizerdütsch | — |
+| 159 | Hainanese | hnm | 海南话 | — |
+| 160 | Paraguayan Guaraní | gug | Avañe'ẽ | — |
+| 161 | Hiligaynon | hil | Ilonggo | — |
+| 162 | Kyrgyz | kir | кыргыз тили | — |
+| 163 | Libyan Arabic | ayl | ليبي | — |
+| 164 | Baoulé | bci | Wawle | — |
+| 165 | Sorani Kurdish | ckb | زمانی سۆرانی | — |
+| 166 | Hadrami Arabic | ayh | حضرمي | — |
+| 167 | Kanauji | bjj | देहाती | — |
+| 168 | Southern Kurdish | sdh | کوردیی باشووری | — |
+| 169 | Croatian | hrv | Hrvatski | — |
+| 170 | Tachelhit | shi | ⵜⴰⵛⵍⵃⵉⵢⵜ | — |
+| 171 | Danish | dan | Dansk | T |
+| 172 | Ewe | ewe | Èʋegbe | — |
+| 173 | Napoletano | nap | Napulitano | — |
+| 174 | Hassaniyya | mey | حسانية | — |
+| 175 | Bundeli | bns | बुन्देली | — |
+| 176 | Finnish | fin | Suomi | T |
+| 177 | Minangkabau | min | Minangkabau | — |
+| 178 | Norwegian | nor | Norsk | T |
+| 179 | Malvi | mup | मालवी | — |
+| 180 | Huizhou Chinese | czh | 徽州話 | — |
+| 181 | Zarma | dje | Zarma sanni | — |
+| 182 | Sango | sag | Sängö | — |
+| 183 | Kamba | kam | Kĩkamba | — |
+| 184 | Dholuo | luo | Dholuo | — |
+| 185 | Sidaama | sid | Sidaamu Afoo | — |
+| 186 | Belarusian | bel | беларуская мова | — |
+| 187 | Lambadi | lmn | బంజార | — |
+| 188 | Hazaragi | haz | آزرگی | — |
+| 189 | Ghanaian Pidgin | gpe | Kroo Inglish | — |
+| 190 | Liberian English | lir | Koloqua | — |
+| 191 | Central Atlas Tamazight | tzm | ⵜⴰⵎⴰⵣⵉⵖⵜ | — |
+| 192 | Tiv | tiv | Tiv | — |
+| 193 | Shan | shn | လိၵ်ႈတႆး | — |
+| 194 | Pular | fuf | 𞤆𞤵𞤤𞤢𞤪 | — |
+| 195 | Tatar | tat | татар теле | — |
+| 196 | Awadhi | awa | अवधी | — |
+| 197 | Seswati | ssw | siSwati | — |
+| 198 | Gheg Albanian | aln | Gegnisht | — |
+| 199 | Sicilian | scn | Sicilianu | — |
+| 200 | Luba-Katanga | lub | Kiluba | — |
 
 > **Coverage note:** of the top 200, we currently localize ~32 (all of which are in the top ~180). The biggest *unlocalized* high-value opportunities (by speakers, and where competitors often skip localization) include: **Yue/Wu/Min Chinese varieties, Gujarati, Kannada, Malayalam, Burmese, Nepali, Sinhala, Khmer, Kazakh, Uzbek, Amharic, Yoruba, Igbo, Zulu, and the Arabic varieties (Egyptian, Levantine, Moroccan, etc.)** — good candidates for later phases. Note several are *dialects of languages we already support* (Arabic/Chinese), which may need their own variants or careful handling.
+
+---
+
+## 6. Country roll-out potential (Whisper-compatible)
+
+Countries where the **primary language is supported by Whisper** (so the transcriber can actually process it). **Whisper ASR** = can transcribe; **Localized** = app UI already ships strings (T Transcriber, R Reader, C Calorie).
+
+- **Ready now** = localized + Whisper-compatible.
+- **Localize-then-launch** = Whisper-compatible but UI not yet localized (good expansion targets).
+- **Not yet** = primary language isn't in Whisper's set (transcriber can't process it).
+
+| Country / Region | Main language(s) | Whisper ASR | Localized |
+|---|---|---|---|
+| **North America** | | | |
+| United States | English, Spanish | Y | T · R · C |
+| Canada | English, French | Y | T · R · C |
+| Mexico | Spanish | Y | T · R · C |
+| **Latin America & Caribbean** | | | |
+| Brazil | Portuguese | Y | T · R · C |
+| Argentina | Spanish | Y | T · R · C |
+| Colombia | Spanish | Y | T · R · C |
+| Peru | Spanish | Y | T · R · C |
+| Chile | Spanish | Y | T · R · C |
+| Venezuela | Spanish | Y | T · R · C |
+| Ecuador | Spanish | Y | T · R · C |
+| Guatemala | Spanish | Y | T · R · C |
+| Bolivia | Spanish | Y | T · R · C |
+| Cuba | Spanish | Y | T · R · C |
+| Dominican Republic | Spanish | Y | T · R · C |
+| Honduras | Spanish | Y | T · R · C |
+| Paraguay | Spanish | Y | T · R · C |
+| El Salvador | Spanish | Y | T · R · C |
+| Nicaragua | Spanish | Y | T · R · C |
+| Costa Rica | Spanish | Y | T · R · C |
+| Panama | Spanish | Y | T · R · C |
+| Uruguay | Spanish | Y | T · R · C |
+| Puerto Rico | Spanish | Y | T · R · C |
+| Haiti | French, Haitian Creole | Y | T · R · C |
+| **Europe** | | | |
+| Spain | Spanish | Y | T · R · C |
+| Portugal | Portuguese | Y | T · R · C |
+| France | French | Y | T · R · C |
+| Italy | Italian | Y | T · R · C |
+| Germany | German | Y | T · C |
+| Austria | German | Y | T · C |
+| Switzerland | German, French, Italian | Y | T · R · C |
+| Netherlands | Dutch | Y | T |
+| Belgium | Dutch, French | Y | T · R · C |
+| Ireland | English | Y | T · R · C |
+| United Kingdom | English | Y | T · R · C |
+| Poland | Polish | Y | T |
+| Sweden | Swedish | Y | T |
+| Norway | Norwegian | Y | T |
+| Denmark | Danish | Y | T |
+| Finland | Finnish, Swedish | Y | T |
+| Czechia | Czech | Y | T |
+| Greece | Greek | Y | T |
+| Romania | Romanian | Y | T |
+| Hungary | Hungarian | Y | T |
+| Ukraine | Ukrainian | Y | T |
+| Russia | Russian | Y | T · C |
+| Belarus | Belarusian, Russian | Y | T · C |
+| Moldova | Romanian | Y | T |
+| Croatia | Croatian | Y | — |
+| Serbia | Serbian | Y | — |
+| Bulgaria | Bulgarian | Y | — |
+| Slovakia | Slovak | Y | — |
+| Slovenia | Slovenian | Y | — |
+| Estonia | Estonian | Y | — |
+| Latvia | Latvian | Y | — |
+| Lithuania | Lithuanian | Y | — |
+| Iceland | Icelandic | Y | — |
+| Malta | Maltese, English | Y | T · R · C |
+| Albania | Albanian | Y | — |
+| North Macedonia | Macedonian | Y | — |
+| **Middle East & Central Asia** | | | |
+| Turkey | Turkish | Y | T · C |
+| Cyprus | Greek, Turkish | Y | T · C |
+| Israel | Hebrew, Arabic | Y | T |
+| Saudi Arabia | Arabic | Y | T |
+| United Arab Emirates | Arabic | Y | T |
+| Egypt | Arabic | Y | T |
+| Algeria | Arabic, French | Y | T · R · C |
+| Morocco | Arabic, French | Y | T · R · C |
+| Tunisia | Arabic, French | Y | T · R · C |
+| Iraq | Arabic | Y | T |
+| Jordan | Arabic | Y | T |
+| Lebanon | Arabic, French | Y | T · R · C |
+| Kuwait | Arabic | Y | T |
+| Qatar | Arabic | Y | T |
+| Oman | Arabic | Y | T |
+| Bahrain | Arabic | Y | T |
+| Yemen | Arabic | Y | T |
+| Syria | Arabic | Y | T |
+| Iran | Persian | Y | T |
+| Afghanistan | Persian (Dari), Pashto | Y | T |
+| Azerbaijan | Azerbaijani | Y | — |
+| Armenia | Armenian | Y | — |
+| Georgia | Georgian | Y | — |
+| Kazakhstan | Kazakh, Russian | Y | T · C |
+| Uzbekistan | Uzbek, Russian | Y | T · C |
+| Kyrgyzstan | Kyrgyz, Russian | Y | T · C |
+| Tajikistan | Tajik | Y | — |
+| **Africa** | | | |
+| Nigeria | English, Hausa, Yoruba, Igbo | Y | T (Hausa) · English T · R · C |
+| Kenya | Swahili, English | Y | T · R · C |
+| Tanzania | Swahili | Y | — |
+| Uganda | English, Swahili | Y | T · R · C |
+| Ethiopia | Amharic | Y | — |
+| South Africa | English, Zulu, Afrikaans, Xhosa | Y | T · R · C |
+| Ghana | English | Y | T · R · C |
+| Senegal | French, Wolof | Y | T · R · C |
+| Ivory Coast | French | Y | T · R · C |
+| Cameroon | French, English | Y | T · R · C |
+| DR Congo | French, Lingala, Swahili | Y | T · R · C |
+| Angola | Portuguese | Y | T · R · C |
+| Mozambique | Portuguese | Y | T · R · C |
+| Madagascar | French, Malagasy | Y | T · R · C |
+| **South Asia** | | | |
+| India | Hindi, Bengali, Tamil, Telugu, Marathi, Urdu, Gujarati, Kannada, Malayalam, Punjabi | Y | T (many) · Hindi R · C |
+| Pakistan | Urdu, Punjabi, Sindhi, Pashto | Y | T |
+| Bangladesh | Bengali | Y | T |
+| Sri Lanka | Sinhala, Tamil | Y | T (Tamil) |
+| Nepal | Nepali | Y | — |
+| **East & Southeast Asia** | | | |
+| China | Mandarin | Y | T · R · C |
+| Taiwan | Mandarin | Y | T · R · C |
+| Hong Kong | Cantonese (Yue) | N | — |
+| Japan | Japanese | Y | T · R · C |
+| South Korea | Korean | Y | T · C |
+| Vietnam | Vietnamese | Y | T · C |
+| Thailand | Thai | Y | T · C |
+| Indonesia | Indonesian | Y | T · C |
+| Malaysia | Malay | Y | T |
+| Philippines | Tagalog, English | Y | T |
+| Singapore | English, Mandarin, Malay, Tamil | Y | T · R · C |
+| Myanmar | Burmese | Y | — |
+| Cambodia | Khmer | Y | — |
+| Laos | Lao | Y | — |
+| Mongolia | Mongolian | Y | — |
+| **Oceania** | | | |
+| Australia | English | Y | T · R · C |
+| New Zealand | English, Maori | Y | T · R · C |
+
+> **How to read this:** anything marked **Y** in Whisper ASR is a market the transcriber can already serve today; where Localized is `—`, the app would need UI localization before a full launch. Rows with **N** (e.g. Hong Kong/Cantonese) can't be transcribed by the current model.
+
 
