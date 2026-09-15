@@ -461,151 +461,101 @@ Source: Ethnologue most-spoken languages. **Localized** = which apps already shi
 | 199 | Sicilian | scn | Sicilianu | — |
 | 200 | Luba-Katanga | lub | Kiluba | — |
 
+*Source: ethnologue 200, 2026 table from medium Kwet Yung Shim
+
 > **Coverage note:** of the top 200, we currently localize ~32 (all of which are in the top ~180). The biggest *unlocalized* high-value opportunities (by speakers, and where competitors often skip localization) include: **Yue/Wu/Min Chinese varieties, Gujarati, Kannada, Malayalam, Burmese, Nepali, Sinhala, Khmer, Kazakh, Uzbek, Amharic, Yoruba, Igbo, Zulu, and the Arabic varieties (Egyptian, Levantine, Moroccan, etc.)** — good candidates for later phases. Note several are *dialects of languages we already support* (Arabic/Chinese), which may need their own variants or careful handling.
 
 ---
 
-## 6. Country roll-out potential (Whisper-compatible)
 
-Countries where the **primary language is supported by Whisper** (so the transcriber can actually process it). **Whisper ASR** = can transcribe; **Localized** = app UI already ships strings (T Transcriber, R Reader, C Calorie).
+## 6. Country roll-out potential by app
 
-- **Ready now** = localized + Whisper-compatible.
-- **Localize-then-launch** = Whisper-compatible but UI not yet localized (good expansion targets).
-- **Not yet** = primary language isn't in Whisper's set (transcriber can't process it).
+Each app's reach is limited by its own language stack:
 
-| Country / Region | Main language(s) | Whisper ASR | Localized |
+- **Reader** — **8 UI languages**, constrained by available **Kokoro TTS voices**. Radius expands only when we add a TTS model with broader language coverage.
+- **Transcriber** — **36 UI languages**; ASR (**Whisper-large-v3**) covers ~99, so many more markets are *transcribable* once the UI is localized.
+- **Calorie** — **15 UI languages**; vision model is **GLM-5.3-Flash** (`zai-org/glm-5.3-flash`, Together), which is broadly multilingual, but the app must be updated to **return food names in the user's language**.
+
+Status legend: **Ready** = localized + model supports it · **Pending** = model supports it, UI not localized yet · **Blocked** = model doesn't support it yet.
+
+### 6.1 Reader (8 languages — Kokoro TTS)
+
+| Language | Countries / regions (ready now) |
+|---|---|
+| English | United States, United Kingdom, Canada, Australia, New Zealand, Ireland, Singapore, India, Nigeria, South Africa, Kenya, Ghana |
+| Spanish | Spain, Mexico, Argentina, Colombia, Peru, Chile, Venezuela, Ecuador, Guatemala, Bolivia, Cuba, Dominican Republic, Honduras, Paraguay, El Salvador, Nicaragua, Costa Rica, Panama, Uruguay, Puerto Rico |
+| French | France, Belgium, Switzerland, Senegal, Ivory Coast, Cameroon, DR Congo, Madagascar |
+| Portuguese | Brazil, Portugal, Angola, Mozambique |
+| Hindi | India |
+| Italian | Italy, Switzerland |
+| Japanese | Japan |
+| Chinese (Mandarin) | China, Taiwan, Singapore |
+
+> **Pending:** every other market — blocked on **TTS voice coverage**. Reader's radius grows directly when we add a multilingual TTS provider.
+
+### 6.2 Transcriber (36 UI languages; Whisper ~99 ASR)
+
+| Language | UI | Whisper | Countries / regions |
 |---|---|---|---|
-| **North America** | | | |
-| United States | English, Spanish | Y | T · R · C |
-| Canada | English, French | Y | T · R · C |
-| Mexico | Spanish | Y | T · R · C |
-| **Latin America & Caribbean** | | | |
-| Brazil | Portuguese | Y | T · R · C |
-| Argentina | Spanish | Y | T · R · C |
-| Colombia | Spanish | Y | T · R · C |
-| Peru | Spanish | Y | T · R · C |
-| Chile | Spanish | Y | T · R · C |
-| Venezuela | Spanish | Y | T · R · C |
-| Ecuador | Spanish | Y | T · R · C |
-| Guatemala | Spanish | Y | T · R · C |
-| Bolivia | Spanish | Y | T · R · C |
-| Cuba | Spanish | Y | T · R · C |
-| Dominican Republic | Spanish | Y | T · R · C |
-| Honduras | Spanish | Y | T · R · C |
-| Paraguay | Spanish | Y | T · R · C |
-| El Salvador | Spanish | Y | T · R · C |
-| Nicaragua | Spanish | Y | T · R · C |
-| Costa Rica | Spanish | Y | T · R · C |
-| Panama | Spanish | Y | T · R · C |
-| Uruguay | Spanish | Y | T · R · C |
-| Puerto Rico | Spanish | Y | T · R · C |
-| Haiti | French, Haitian Creole | Y | T · R · C |
-| **Europe** | | | |
-| Spain | Spanish | Y | T · R · C |
-| Portugal | Portuguese | Y | T · R · C |
-| France | French | Y | T · R · C |
-| Italy | Italian | Y | T · R · C |
-| Germany | German | Y | T · C |
-| Austria | German | Y | T · C |
-| Switzerland | German, French, Italian | Y | T · R · C |
-| Netherlands | Dutch | Y | T |
-| Belgium | Dutch, French | Y | T · R · C |
-| Ireland | English | Y | T · R · C |
-| United Kingdom | English | Y | T · R · C |
-| Poland | Polish | Y | T |
-| Sweden | Swedish | Y | T |
-| Norway | Norwegian | Y | T |
-| Denmark | Danish | Y | T |
-| Finland | Finnish, Swedish | Y | T |
-| Czechia | Czech | Y | T |
-| Greece | Greek | Y | T |
-| Romania | Romanian | Y | T |
-| Hungary | Hungarian | Y | T |
-| Ukraine | Ukrainian | Y | T |
-| Russia | Russian | Y | T · C |
-| Belarus | Belarusian, Russian | Y | T · C |
-| Moldova | Romanian | Y | T |
-| Croatia | Croatian | Y | — |
-| Serbia | Serbian | Y | — |
-| Bulgaria | Bulgarian | Y | — |
-| Slovakia | Slovak | Y | — |
-| Slovenia | Slovenian | Y | — |
-| Estonia | Estonian | Y | — |
-| Latvia | Latvian | Y | — |
-| Lithuania | Lithuanian | Y | — |
-| Iceland | Icelandic | Y | — |
-| Malta | Maltese, English | Y | T · R · C |
-| Albania | Albanian | Y | — |
-| North Macedonia | Macedonian | Y | — |
-| **Middle East & Central Asia** | | | |
-| Turkey | Turkish | Y | T · C |
-| Cyprus | Greek, Turkish | Y | T · C |
-| Israel | Hebrew, Arabic | Y | T |
-| Saudi Arabia | Arabic | Y | T |
-| United Arab Emirates | Arabic | Y | T |
-| Egypt | Arabic | Y | T |
-| Algeria | Arabic, French | Y | T · R · C |
-| Morocco | Arabic, French | Y | T · R · C |
-| Tunisia | Arabic, French | Y | T · R · C |
-| Iraq | Arabic | Y | T |
-| Jordan | Arabic | Y | T |
-| Lebanon | Arabic, French | Y | T · R · C |
-| Kuwait | Arabic | Y | T |
-| Qatar | Arabic | Y | T |
-| Oman | Arabic | Y | T |
-| Bahrain | Arabic | Y | T |
-| Yemen | Arabic | Y | T |
-| Syria | Arabic | Y | T |
-| Iran | Persian | Y | T |
-| Afghanistan | Persian (Dari), Pashto | Y | T |
-| Azerbaijan | Azerbaijani | Y | — |
-| Armenia | Armenian | Y | — |
-| Georgia | Georgian | Y | — |
-| Kazakhstan | Kazakh, Russian | Y | T · C |
-| Uzbekistan | Uzbek, Russian | Y | T · C |
-| Kyrgyzstan | Kyrgyz, Russian | Y | T · C |
-| Tajikistan | Tajik | Y | — |
-| **Africa** | | | |
-| Nigeria | English, Hausa, Yoruba, Igbo | Y | T (Hausa) · English T · R · C |
-| Kenya | Swahili, English | Y | T · R · C |
-| Tanzania | Swahili | Y | — |
-| Uganda | English, Swahili | Y | T · R · C |
-| Ethiopia | Amharic | Y | — |
-| South Africa | English, Zulu, Afrikaans, Xhosa | Y | T · R · C |
-| Ghana | English | Y | T · R · C |
-| Senegal | French, Wolof | Y | T · R · C |
-| Ivory Coast | French | Y | T · R · C |
-| Cameroon | French, English | Y | T · R · C |
-| DR Congo | French, Lingala, Swahili | Y | T · R · C |
-| Angola | Portuguese | Y | T · R · C |
-| Mozambique | Portuguese | Y | T · R · C |
-| Madagascar | French, Malagasy | Y | T · R · C |
-| **South Asia** | | | |
-| India | Hindi, Bengali, Tamil, Telugu, Marathi, Urdu, Gujarati, Kannada, Malayalam, Punjabi | Y | T (many) · Hindi R · C |
-| Pakistan | Urdu, Punjabi, Sindhi, Pashto | Y | T |
-| Bangladesh | Bengali | Y | T |
-| Sri Lanka | Sinhala, Tamil | Y | T (Tamil) |
-| Nepal | Nepali | Y | — |
-| **East & Southeast Asia** | | | |
-| China | Mandarin | Y | T · R · C |
-| Taiwan | Mandarin | Y | T · R · C |
-| Hong Kong | Cantonese (Yue) | N | — |
-| Japan | Japanese | Y | T · R · C |
-| South Korea | Korean | Y | T · C |
-| Vietnam | Vietnamese | Y | T · C |
-| Thailand | Thai | Y | T · C |
-| Indonesia | Indonesian | Y | T · C |
-| Malaysia | Malay | Y | T |
-| Philippines | Tagalog, English | Y | T |
-| Singapore | English, Mandarin, Malay, Tamil | Y | T · R · C |
-| Myanmar | Burmese | Y | — |
-| Cambodia | Khmer | Y | — |
-| Laos | Lao | Y | — |
-| Mongolia | Mongolian | Y | — |
-| **Oceania** | | | |
-| Australia | English | Y | T · R · C |
-| New Zealand | English, Maori | Y | T · R · C |
+| English | ✓ | ✓ | US, UK, Canada, Australia, NZ, Ireland, India, Nigeria, South Africa, Singapore, Kenya, Ghana |
+| Spanish | ✓ | ✓ | Spain + Latin America (see Reader list) |
+| Portuguese | ✓ | ✓ | Brazil, Portugal, Angola, Mozambique |
+| French | ✓ | ✓ | France, Belgium, Switzerland, Canada, + francophone Africa |
+| German | ✓ | ✓ | Germany, Austria, Switzerland |
+| Italian | ✓ | ✓ | Italy, Switzerland |
+| Hindi | ✓ | ✓ | India |
+| Bengali | ✓ | ✓ | Bangladesh, India |
+| Urdu | ✓ | ✓ | Pakistan, India |
+| Arabic | ✓ | ✓ | Egypt, Saudi Arabia, UAE, Algeria, Morocco, Tunisia, Iraq, Jordan, Lebanon, Kuwait, Qatar, Oman, Bahrain, Yemen, Syria, Sudan, Libya |
+| Persian | ✓ | ✓ | Iran, Afghanistan (Dari), Tajikistan |
+| Russian | ✓ | ✓ | Russia, Belarus, Kazakhstan, Kyrgyzstan, Uzbekistan |
+| Ukrainian | ✓ | ✓ | Ukraine |
+| Turkish | ✓ | ✓ | Turkey, Cyprus |
+| Indonesian | ✓ | ✓ | Indonesia |
+| Malay | ✓ | ✓ | Malaysia, Brunei, Singapore |
+| Vietnamese | ✓ | ✓ | Vietnam |
+| Thai | ✓ | ✓ | Thailand |
+| Tagalog | ✓ | ✓ | Philippines |
+| Tamil | ✓ | ✓ | India (Tamil Nadu), Sri Lanka, Singapore, Malaysia |
+| Telugu | ✓ | ✓ | India (Andhra Pradesh, Telangana) |
+| Marathi | ✓ | ✓ | India (Maharashtra) |
+| Korean | ✓ | ✓ | South Korea |
+| Japanese | ✓ | ✓ | Japan |
+| Chinese (Mandarin) | ✓ | ✓ | China, Taiwan, Singapore |
+| Dutch | ✓ | ✓ | Netherlands, Belgium, Suriname |
+| Polish | ✓ | ✓ | Poland |
+| Romanian | ✓ | ✓ | Romania, Moldova |
+| Hungarian | ✓ | ✓ | Hungary |
+| Czech | ✓ | ✓ | Czechia |
+| Greek | ✓ | ✓ | Greece, Cyprus |
+| Swedish | ✓ | ✓ | Sweden, Finland |
+| Norwegian | ✓ | ✓ | Norway |
+| Danish | ✓ | ✓ | Denmark |
+| Finnish | ✓ | ✓ | Finland |
+| Hausa | ✓ | ✓ | Nigeria, Niger |
+| — | — | ✓ | **Pending UI:** Gujarati (India), Kannada (India), Malayalam (India), Punjabi (India/Pakistan), Nepali (Nepal), Sinhala (Sri Lanka), Burmese (Myanmar), Khmer (Cambodia), Lao (Laos), Mongolian (Mongolia), Kazakh (Kazakhstan), Uzbek (Uzbekistan), Amharic (Ethiopia), Yoruba/Igbo (Nigeria), Zulu/Afrikaans/Xhosa (South Africa), Swahili (Kenya/Tanzania/Uganda), Hebrew (Israel), Catalan (Spain), Croatian/Serbian/Bulgarian/Slovak/Slovenian, Azerbaijani/Armenian/Georgian, Malayalam, etc. |
 
-> **How to read this:** anything marked **Y** in Whisper ASR is a market the transcriber can already serve today; where Localized is `—`, the app would need UI localization before a full launch. Rows with **N** (e.g. Hong Kong/Cantonese) can't be transcribed by the current model.
+> Transcriber is the broadest of the three: **36 ready**, and ~60 more Whisper languages transcribable once UI-localized.
 
+### 6.3 Calorie Tracker (15 languages; GLM-5.3-Flash vision)
+
+| Language | Countries / regions (ready now) |
+|---|---|
+| English | US, UK, Canada, Australia, NZ, Ireland, Singapore, India, Nigeria, South Africa, Kenya, Ghana |
+| Spanish | Spain + Latin America (see Reader list) |
+| Portuguese | Brazil, Portugal, Angola, Mozambique |
+| French | France, Belgium, Switzerland, Canada, + francophone Africa |
+| German | Germany, Austria, Switzerland |
+| Italian | Italy, Switzerland |
+| Russian | Russia, Belarus, Kazakhstan, Kyrgyzstan, Uzbekistan |
+| Turkish | Turkey, Cyprus |
+| Hindi | India |
+| Indonesian | Indonesia |
+| Vietnamese | Vietnam |
+| Thai | Thailand |
+| Japanese | Japan |
+| Korean | South Korea |
+| Chinese (Mandarin) | China, Taiwan, Singapore |
+
+> **Pending (needs work, not just localization):** the vision model (GLM-5.3-Flash) is multilingual, so it can identify foods in more languages than the UI offers — but the app currently needs to be updated to **return food names / units in the user's language**. Until then, treat Calorie's reach as the 15 UI languages above.
 
