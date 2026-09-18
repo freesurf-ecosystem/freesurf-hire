@@ -105,7 +105,7 @@ export default function ContractorLeadsLanding() {
   return (
     <LeadPageFrame navigate={navigate}>
       <LeadHeroSection
-        title="FreeSurf is a free, open-source network where contractors, tradespeople, and freelancers can find clients"
+        title="A free, open-source network for contractors"
         description={
           <>
             <p>Clients can either:</p>
