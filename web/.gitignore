@@ -1,0 +1,67 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.env
+
+# Local Netlify folder
+.netlify
+
+# Next.js build output
+.next/
+out/
+
+# Next.js cache
+.next/cache/
+.next/
+
+# Expo / React Native mobile workspace
+mobile/.expo/
+
+# EAS / Google Play deploy credentials (NEVER commit)
+mobile/play-service-account.json
+mobile/google-play-service-account*.json
+mobile/*-service-account.json
+mobile/credentials.json
+
+# OpenNext / Cloudflare
+.open-next
+.dev.vars
+
+# Internal research + planning docs. Deliberately NOT part of the open-source
+# release:
+#   * the taxonomy (skills.json, locations.json) is derived from competitor
+#     marketplaces and encodes the SEO strategy - it is maintained outside this
+#     repo and will move to a private one.
+#   * place-research holds ~82 MB of Census downloads.
+# src/data/services.ts and the sitemap generator are GENERATED from the taxonomy,
+# so regenerating them needs the private source. See README.
+/docs/
+/archive/
+.wrangler
+
+# Supabase CLI scratch (project ref, versions, pooler URL)
+/supabase/.temp/
+
+# Generated programmatic SEO sitemaps (built at deploy, not committed)
+/public/sitemaps/

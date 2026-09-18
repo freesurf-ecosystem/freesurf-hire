@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+input,
+textarea,
+select,
+button {
+  color-scheme: light;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+  -webkit-text-fill-color: #111827;
+  transition: background-color 9999s ease-out 0s;
+}
+
+/* Ensure select dropdowns open downward */
+select {
+  /* Force dropdown to open below the select element */
+  position: relative;
+}
+
+/* Additional styling for better dropdown behavior */
+.search-select {
+  /* Ensure proper z-index and positioning context */
+  position: relative;
+  z-index: 10;
+}
+
+/* Override any browser default that might cause upward opening */
+select option {
+  direction: ltr;
+}
+
+/* Typing caret for the landing page reveal */
+.freesurf-caret {
+  display: inline-block;
+  margin-left: 1px;
+  font-weight: 400;
+  color: #2563eb;
+  animation: freesurf-caret-blink 1.1s step-end infinite;
+}
+
+@keyframes freesurf-caret-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .freesurf-caret {
+    animation: none;
+  }
+}

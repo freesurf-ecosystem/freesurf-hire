@@ -3,3 +3,10 @@
 Thumbs.db
 .env
 .env.*
+
+# Imported template canvas — local reference only, never commit
+cash-market-code/
+
+# Internal team docs — planning, ad operations, costs, store submissions, TODOs.
+# Useful to us, not part of the open-source release.
+/docs/

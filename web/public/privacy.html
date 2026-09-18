@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — FreeSurf</title>
+  <meta name="description" content="Privacy policy for FreeSurf — free tools for freelancers and small businesses." />
+  <style>
+    :root { --bg: #0b1020; --card: #111937; --text: #e8ecff; --muted: #b3bddf; --accent: #5b8cff; --border: #2a3568; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, Segoe UI, Roboto, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    a { color: var(--accent); }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 40px 24px 80px; }
+    h1 { font-size: 2rem; margin-bottom: 8px; }
+    h2 { font-size: 1.25rem; margin-top: 32px; color: var(--accent); }
+    h3 { font-size: 1rem; margin-top: 20px; margin-bottom: 4px; color: var(--text); }
+    p, li { color: var(--muted); font-size: 0.95rem; margin: 8px 0; }
+    ul { padding-left: 20px; }
+    .updated { font-size: 0.85rem; color: #5f6b7a; margin-bottom: 32px; }
+    .entity { font-size: 0.9rem; color: #5f6b7a; margin-bottom: 24px; padding: 16px; background: var(--card); border-radius: 8px; border: 1px solid var(--border); }
+    hr { border: 0; border-top: 1px solid var(--border); margin: 32px 0; }
+    footer { margin-top: 48px; font-size: 0.8rem; color: #5f6b7a; }
+    footer a { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: September 17, 2026</p>
+
+    <div class="entity">
+      FreeSurf is a product of <strong>Planting Moon LLC</strong>, located at 5830 E 2nd St, Ste 7000 #35119, Casper, Wyoming 82609.<br />
+      Contact: <a href="mailto:support@freesurf.tools">support@freesurf.tools</a>
+    </div>
+
+    <p>This Privacy Policy explains how FreeSurf collects, uses, stores, and shares information when you use our apps, websites, and services. FreeSurf provides free utility tools including invoice generation, link-in-bio pages, social media cross-posting, text-to-speech reading, a contractor network, and related services.</p>
+
+    <h2>1. Information We Collect</h2>
+
+    <p><strong>Without an account:</strong> Most FreeSurf tools work without creating an account. When you use tools without signing in, your data (invoice drafts, generated audio, saved recordings, transcriptions) is stored locally on your device. We do not collect or have access to this locally stored data.</p>
+
+    <p><strong>With an account (optional):</strong> If you choose to create an account, we collect:</p>
+    <ul>
+      <li><strong>Email address</strong> and authentication credentials (via Supabase) — collected when you create an account or sign in</li>
+      <li>Invoice drafts, business profiles, client information, and saved invoices you choose to sync to your account</li>
+      <li>Link-in-bio profile content including display name, bio, links, and avatar images</li>
+      <li>Social media account connections and OAuth tokens for cross-posting (Post tool)</li>
+      <li>Support requests and correspondence</li>
+    </ul>
+    <p>If you sign in with Google or Apple, we receive the email address associated with that account and use it to
+    recognize you and, if you opt in, to send the Feedfree Digest or product updates. We do not need your full name to
+    operate the service, so we avoid storing additional profile details (such as your name or photo) from these sign-in
+    providers where possible.</p>
+
+    <p><strong>Contractor network.</strong> If you use the FreeSurf contractor network, we collect what you provide. For <strong>contractors</strong>: display name, company, email, phone, website, bio, services offered, service area, and years of experience — this information is published publicly on your profile and is visible to anyone, including search engines. For <strong>clients</strong>: the name, email, phone, postcode, and request details you submit when contacting a contractor; we pass these to the contractor you selected so they can respond.</p>
+
+    <p><strong>Consent records.</strong> When you accept our <a href="/terms">Terms of Use</a>, we record which version you accepted, the date and time, your IP address, and your browser's user agent. We keep this so we can evidence that an agreement was formed and defend legal claims.</p>
+    <p>An IP address is personal data. For consent records we rely on our <strong>legitimate interests</strong> (and, where applicable, legal obligation) as the lawful basis — <em>not</em> consent itself, because a record that proves consent cannot rest on consent. We retain consent records for up to 3 years from the date of acceptance and then delete them. You can ask for a copy of, or the deletion of, your consent record at any time (see section 7).</p>
+
+    <span id="ai-processing"></span>
+    <p><strong>AI Processing:</strong> Some FreeSurf tools use AI to generate results. Before any of your content is sent to an AI provider, the app asks for your permission and explains what is being sent. FreeSurf is currently subscription-first and does not run third-party advertising. AI content is sent only to the provider required to produce the result you requested and is transmitted through our own servers. This section explains where AI models run, what we send to them, and what happens to the results.</p>
+    <p><strong>Where AI models run.</strong> We choose the AI infrastructure that best fits each tool and may switch providers over time. AI processing runs on one or more of the following:</p>
+    <ul>
+      <li><strong>Together AI</strong> — a hosted, serverless GPU inference provider (used for most of our models today; Together Computer, Inc., <a href="https://together.ai">together.ai</a>).</li>
+      <li><strong>OpenRouter</strong> — a hosted inference aggregator (used for some tools and fallbacks).</li>
+      <li><strong>Self-hosted RunPod</strong> — our own rented GPU infrastructure (for specific models we run ourselves).</li>
+    </ul>
+    <p>We generally prefer open-source models (for example, open-weight text, vision, speech, and text-to-speech models). We use a closed-source model only when necessary to achieve an acceptable result for a particular feature.</p>
+    <p><strong>What we send to an AI provider.</strong> Depending on the tool, the inputs you provide are sent to the active provider's infrastructure solely to generate the result you requested:</p>
+    <ul>
+      <li><strong>Natural Reader:</strong> text you ask to be read aloud.</li>
+      <li><strong>Transcriber:</strong> audio you ask to be transcribed.</li>
+      <li><strong>Calorie Tracker:</strong> food photos and/or food descriptions.</li>
+    </ul>
+    <p>Your inputs are shared only with the provider(s) running the model for that request, strictly to produce the output. We do not use them to sell to or profile you, and we instruct providers not to use submitted content to train their models.</p>
+    <p><strong>What happens to the results.</strong> The result returned by the AI provider is delivered back to you in the app. Depending on how you use the tool, results may be stored locally on your device (for example, generated audio or saved recordings) and, if you are signed in, associated with your account and stored in our database so your history can sync across devices. Where a result is associated with a user, it is subject to the same access, retention, and deletion rights described in this Privacy Policy.</p>
+    <p><strong>No training.</strong> Content you submit is never used to train or fine-tune our models, and we do not permit the providers we use to train on it for their own benefit.</p>
+    <p><strong>Data minimization.</strong> We send only the information required for the specific request, we do not combine your AI inputs with unrelated personal data, and we rely on providers that delete or do not retain submitted content beyond what is required to fulfill the request. Together AI and our other providers process this content only to complete the request and provide data protection that meets or exceeds our own standards.</p>
+
+    <h2>2. How We Use Information</h2>
+    <ul>
+      <li>Provide, maintain, and improve our tools and services</li>
+      <li>Authenticate users who choose to create accounts</li>
+      <li>Sync your data across devices when signed in</li>
+      <li>Respond to support requests</li>
+      <li>Send optional product updates or newsletters (only if you opt in)</li>
+      <li>Operate the contractor network — publish contractor profiles and deliver client requests to the contractor you selected</li>
+      <li>Record your acceptance of our Terms of Use (see section 1)</li>
+      <li>Maintain security and prevent abuse</li>
+    </ul>
+    <p>We do not sell personal information. We do not use your invoice data, link profiles, posts, or AI-generated content for advertising purposes.</p>
+
+    <h2>3. Advertising, Tracking &amp; Attribution</h2>
+    <p>FreeSurf is currently a subscription-first product. The AI utility apps do not run third-party advertising, and we do not currently perform cross-app tracking.</p>
+    <p>We may run ads in the future, and advertising could involve third-party tracking (for example, through advertising identifiers such as Apple's identifier for advertisers (IDFA) or the Android Advertising ID (AAID)). If and when we start running ads inside the app, we will initiate a prompt to verify your consent for tracking before any tracking occurs — including Apple's App Tracking Transparency (ATT) prompt on iOS and the equivalent consent mechanism on Android. Until you consent, we will not track you for advertising.</p>
+    <p>For marketing measurement today we rely on privacy-preserving, aggregate attribution (such as Apple's SKAdNetwork) that does not require personal data or tracking consent.</p>
+
+    <h2>4. Usage Analytics</h2>
+    <p>To understand how our tools are used and to improve them, we may collect <strong>product analytics</strong> about
+    how you interact with an app — for example, which screens and features you use, approximate session length, device
+    type and operating system, and crash/performance diagnostics. This analytics data is tied to an <strong>anonymous
+    or pseudonymous identifier</strong> and is not linked to your name or email.</p>
+    <p>We run our analytics on <strong>self-hosted, open-source software (PostHog)</strong> on our own infrastructure.
+    As a result, usage/interaction data is not shared with a third-party analytics vendor. We do not send your content
+    (text, audio, photos, invoices, transcripts, or posts) to analytics, and we do not record your screen or capture
+    sensitive content for analytics purposes.</p>
+    <p>You can opt out of analytics where the app provides that setting; otherwise, analytics uses the same
+    ad-tracking/privacy settings described above where applicable.</p>
+
+    <h2>5. Third-Party Services</h2>
+    <p>FreeSurf uses the following infrastructure and service providers:</p>
+    <ul>
+      <li><strong>Supabase</strong> — authentication and account data storage</li>
+      <li><strong>Cloudflare</strong> — web hosting, Workers, R2 storage, and KV</li>
+      <li><strong>Together AI / OpenRouter</strong> — hosted AI inference providers</li>
+      <li><strong>RunPod</strong> — our own GPU infrastructure for self-hosted AI models</li>
+    </ul>
+    <p>These providers process data on our behalf to deliver specific parts of the service.</p>
+
+    <h2>6. Data Retention &amp; Your Choices</h2>
+    <ul>
+      <li><strong>Local data:</strong> Data stored on your device remains until you delete it or uninstall the app.</li>
+      <li><strong>Account data:</strong> Retained while your account is active. You can delete your account by contacting us.</li>
+      <li><strong>AI processing:</strong> Submitted text, audio, and photos are sent to the active AI inference
+      provider to produce a result and are not retained there beyond the request. Generated results are saved locally
+      on your device; if you are signed in, they may also be stored in our database and associated with your account
+      for cross-device access. See the AI Processing section above.</li>
+      <li><strong>No model training:</strong> User content processed by our AI models is never used to train, fine-tune, or improve the models. Transcripts, audio, and images are used strictly for immediate real-time output.</li>
+      <li><strong>Support requests:</strong> May be retained to resolve issues and document outcomes.</li>
+      <li><strong>Contractor profiles:</strong> Retained while your profile is published and until you ask us to remove it. Profile content is public, so third-party copies (including search engine caches) may persist independently.</li>
+      <li><strong>Client requests:</strong> Retained so the contractor you contacted can follow up and keep a record of the job, then deleted.</li>
+      <li><strong>Consent records:</strong> Retained for up to 3 years from acceptance to evidence the agreement and defend claims, then deleted. See section 1.</li>
+    </ul>
+
+    <h2>7. GDPR &amp; CCPA Rights</h2>
+    <p>If you are located in the European Economic Area (EEA) or California, you have the following rights regarding your personal data:</p>
+    <ul>
+      <li><strong>Right to access:</strong> Request a copy of personal data we hold about you.</li>
+      <li><strong>Right to deletion:</strong> Request deletion of your account and associated data.</li>
+      <li><strong>Right to opt out:</strong> Opt out of personalized advertising via your device's privacy settings or by limiting ad tracking.</li>
+      <li><strong>Right to data portability:</strong> Request your data in a structured, machine-readable format.</li>
+    </ul>
+    <p>These rights apply to your consent records as well, including the IP address and user agent stored with them. If you have a public contractor profile, note that we can remove it from FreeSurf, but we cannot remove copies that search engines or other third parties have already made.</p>
+    <p>To exercise these rights, contact us at <a href="mailto:support@freesurf.tools">support@freesurf.tools</a>. We will respond within 30 days. For EEA users, you also have the right to lodge a complaint with your local data protection authority.</p>
+
+    <h2>8. Children's Privacy</h2>
+    <p>FreeSurf is not directed to children under 13, and we do not knowingly collect personal information from children under 13.</p>
+
+    <h2>9. Changes</h2>
+    <p>We may update this Privacy Policy. Material changes will be noted with an updated effective date.</p>
+
+    <hr />
+
+    <h2>Contact</h2>
+    <p>For privacy questions, data requests, or account deletion:<br />
+    <a href="mailto:support@freesurf.tools">support@freesurf.tools</a></p>
+    <p>Planting Moon LLC<br />5830 E 2nd St, Ste 7000 #35119, Casper, WY 82609</p>
+
+    <footer>
+      <a href="/">FreeSurf</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/eula">EULA</a>
+    </footer>
+  </div>
+</body>
+</html>
