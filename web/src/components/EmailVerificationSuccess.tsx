@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { useNavigate } from '../lib/navigation-compat';
 import { CheckCircle, Home, RefreshCw } from 'lucide-react';
 import { supabase } from '../lib/supabase';
@@ -14,7 +14,7 @@ export default function EmailVerificationSuccess() {
 
   const handleEmailVerification = async () => {
     try {
-      console.log('🔍 Processing email verification...');
+      console.log('ðŸ” Processing email verification...');
       
       // Wait for Supabase to process the auth tokens
       await new Promise(resolve => setTimeout(resolve, 2000));
@@ -27,7 +27,7 @@ export default function EmailVerificationSuccess() {
       }
       
       if (session?.user) {
-        console.log('✅ Email verified successfully for:', session.user.email);
+        console.log('âœ… Email verified successfully for:', session.user.email);
         
         // Check if they have a contractor profile
         const { data: contractorData, error: contractorError } = await supabase
@@ -42,10 +42,10 @@ export default function EmailVerificationSuccess() {
         
         if (contractorData) {
           // Has profile, go to dashboard
-          navigate('/investor-dashboard');
+          navigate('/dashboard');
         } else {
           // No profile, continue with signup
-          navigate('/investor-signup');
+          navigate('/signup');
         }
       } else {
         throw new Error('No session found after email verification');
@@ -69,7 +69,7 @@ export default function EmailVerificationSuccess() {
           <p className="text-gray-600 mb-6">{error}</p>
           <div className="space-y-3">
             <button
-              onClick={() => navigate('/investor-signup')}
+              onClick={() => navigate('/signup')}
               className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Try Again

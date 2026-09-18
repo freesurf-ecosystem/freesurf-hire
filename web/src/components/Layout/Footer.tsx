@@ -69,8 +69,8 @@ export default function Footer({ navigate }: FooterProps) {
               </li>
               <li>
                 <a
-                  href="/investor-login"
-                  onClick={(event) => handleInternalNav(event, '/investor-login')}
+                  href="/login"
+                  onClick={(event) => handleInternalNav(event, '/login')}
                   className="hover:text-white transition-colors"
                 >
                   Contractor Login

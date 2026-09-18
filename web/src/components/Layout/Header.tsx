@@ -6,7 +6,7 @@ import { Contractor } from '../../types';
 import { ECOSYSTEM_TOOLS, ECOSYSTEM_GITHUB } from '../../config/ecosystem';
 
 interface HeaderProps {
-  currentView: 'landing' | 'browse' | 'investor-signup' | 'investor-dashboard' | 'investor-login';
+  currentView: 'landing' | 'browse' | 'signup' | 'dashboard' | 'login';
   isOverlay?: boolean;
 }
 
@@ -181,7 +181,7 @@ export default function Header({ currentView, isOverlay = false }: HeaderProps) 
                   </div>
                   <button
                     onClick={() => {
-                      navigate('/investor-dashboard');
+                      navigate('/dashboard');
                       setShowDropdown(false);
                     }}
                     className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center"
@@ -214,7 +214,7 @@ export default function Header({ currentView, isOverlay = false }: HeaderProps) 
                   </button>
                   <button
                     onClick={() => {
-                      navigate('/investor-login');
+                      navigate('/login');
                       setShowDropdown(false);
                     }}
                     className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center"
@@ -338,7 +338,7 @@ export default function Header({ currentView, isOverlay = false }: HeaderProps) 
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50 hidden md:block">
                     <button
                       onClick={() => {
-                        navigate('/investor-dashboard');
+                        navigate('/dashboard');
                         setShowDropdown(false);
                       }}
                       className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
@@ -361,10 +361,10 @@ export default function Header({ currentView, isOverlay = false }: HeaderProps) 
             ) : (
               <>
                 <button
-                  onClick={() => navigate('/investor-login')}
+                  onClick={() => navigate('/login')}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     isOverlay ? 'text-white hover:text-gray-200' :
-                    currentView === 'investor-login'
+                    currentView === 'login'
                       ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                   }`}
@@ -377,7 +377,7 @@ export default function Header({ currentView, isOverlay = false }: HeaderProps) 
                  onClick={() => navigate('/join-as-contractor')}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     isOverlay ? 'text-white hover:text-gray-200' :
-                    currentView === 'investor-signup'
+                    currentView === 'signup'
                       ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                   }`}

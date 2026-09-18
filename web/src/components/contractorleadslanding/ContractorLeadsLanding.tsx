@@ -99,7 +99,7 @@ export default function ContractorLeadsLanding() {
   });
 
   const handleGetStarted = () => {
-    navigate('/investor-signup');
+    navigate('/signup');
   };
 
   return (
@@ -122,7 +122,7 @@ export default function ContractorLeadsLanding() {
         primaryActionLabel="Create Your Free Profile"
         onPrimaryAction={handleGetStarted}
         secondaryActionLabel="Sign in"
-        onSecondaryAction={() => navigate('/investor-login')}
+        onSecondaryAction={() => navigate('/login')}
       />
 
       <LeadFeatureStripSection
@@ -243,7 +243,7 @@ export default function ContractorLeadsLanding() {
         primaryActionLabel="Create Your Free Profile"
         onPrimaryAction={handleGetStarted}
         secondaryActionLabel="Already have an account?"
-        onSecondaryAction={() => navigate('/investor-login')}
+        onSecondaryAction={() => navigate('/login')}
       />
     </LeadPageFrame>
   );

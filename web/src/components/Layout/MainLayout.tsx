@@ -1,10 +1,10 @@
-import React from 'react';
+﻿import React from 'react';
 import Header from './Header';
 
 interface MainLayoutProps {
   children: React.ReactNode;
-  currentView?: 'landing' | 'browse' | 'investor-signup' | 'investor-dashboard';
-  onViewChange?: (view: 'landing' | 'browse' | 'investor-signup' | 'investor-dashboard') => void;
+  currentView?: 'landing' | 'browse' | 'signup' | 'dashboard';
+  onViewChange?: (view: 'landing' | 'browse' | 'signup' | 'dashboard') => void;
   isOverlay?: boolean;
 }
 

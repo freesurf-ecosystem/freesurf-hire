@@ -142,6 +142,13 @@ const legacyPathRedirects = [
   // audience. Kept as a redirect so any existing links keep working.
   ['/leads-for-property-buyers', '/join-as-contractor'],
   ['/leads-for-property-buyers/:path*', '/join-as-contractor/:path*'],
+  // Auth routes were named after the legacy "investor" model.
+  ['/investor-signup', '/signup'],
+  ['/investor-signup/:path*', '/signup/:path*'],
+  ['/investor-login', '/login'],
+  ['/investor-login/:path*', '/login/:path*'],
+  ['/investor-dashboard', '/dashboard'],
+  ['/investor-dashboard/:path*', '/dashboard/:path*'],
   // The canonical legal pages are now /privacy and /terms (ported static HTML).
   // The legacy template pages were duplicates with different wording.
   ['/privacy-policy', '/privacy'],

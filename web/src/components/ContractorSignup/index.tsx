@@ -393,7 +393,7 @@ export default function ContractorSignup() {
 
           {currentStep === 3 && (
             <ContractorSignupSuccess
-              onGoToDashboard={() => navigate('/investor-dashboard')}
+              onGoToDashboard={() => navigate('/dashboard')}
               onGoToHomepage={() => navigate('/')}
             />
           )}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useNavigate } from '../lib/navigation-compat';
 import { Mail, Lock, Eye, EyeOff, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
 import { supabase } from '../lib/supabase';
@@ -28,7 +28,7 @@ export default function ContractorLogin() {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'facebook',
         options: {
-          redirectTo: `${window.location.origin}/investor-dashboard`,
+          redirectTo: `${window.location.origin}/dashboard`,
         }
       });
 
@@ -51,7 +51,7 @@ export default function ContractorLogin() {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'apple',
         options: {
-          redirectTo: `${window.location.origin}/investor-dashboard`,
+          redirectTo: `${window.location.origin}/dashboard`,
         }
       });
 
@@ -74,7 +74,7 @@ export default function ContractorLogin() {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/investor-dashboard`,
+          redirectTo: `${window.location.origin}/dashboard`,
         }
       });
 
@@ -157,12 +157,12 @@ export default function ContractorLogin() {
 
         if (contractorError || !contractorData) {
           // No contractor profile, redirect to complete signup
-          navigate('/investor-signup');
+          navigate('/signup');
           return;
         }
 
         // Has profile, go to dashboard
-        navigate('/investor-dashboard');
+        navigate('/dashboard');
       }
     } catch (error: any) {
       setError('An unexpected error occurred. Please try again.');
@@ -185,7 +185,7 @@ export default function ContractorLogin() {
         type: 'signup',
         email: email,
         options: {
-          emailRedirectTo: `${window.location.origin}/investor-signup`,
+          emailRedirectTo: `${window.location.origin}/signup`,
         }
       });
 
@@ -468,7 +468,7 @@ export default function ContractorLogin() {
             <p className="text-sm text-gray-600">
               Don't have an account?{' '}
               <button
-                onClick={() => navigate('/investor-signup')}
+                onClick={() => navigate('/signup')}
                 className="text-blue-600 hover:text-blue-800 font-medium"
               >
                 Sign up here

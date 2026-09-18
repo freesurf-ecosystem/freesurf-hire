@@ -44,7 +44,7 @@ export default function DynamicPage({ pageType, state, location, locationType, s
       case 'service-zip':
         return `${base}/${serviceSlug}/${zip}/`;
       case 'contractor-login':
-        return `${base}/investor-login/`;
+        return `${base}/login/`;
       case 'join-as-contractor':
         return `${base}/join-as-contractor/`;
       default:
@@ -124,14 +124,14 @@ export default function DynamicPage({ pageType, state, location, locationType, s
       case 'contractor-login':
         return (
           <div>
-            <Header currentView="investor-login" />
+            <Header currentView="login" />
             <ContractorLogin />
           </div>
         );
       case 'join-as-contractor':
         return (
           <div>
-            <Header currentView="investor-signup" />
+            <Header currentView="signup" />
             <ContractorLeadsLanding />
           </div>
         );
@@ -171,7 +171,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return { notFound: true };
   }
 
-  if (slug[0] === 'investor-login') {
+  if (slug[0] === 'login') {
     return { props: { params: slug, pageType: 'contractor-login' } };
   }
 

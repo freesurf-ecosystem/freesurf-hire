@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useNavigate } from '../lib/navigation-compat';
 import { Lock, Eye, EyeOff, CheckCircle, AlertCircle, ArrowLeft, Home } from 'lucide-react';
 import { supabase } from '../lib/supabase';
@@ -119,7 +119,7 @@ export default function PasswordResetPage() {
 
       // Auto-redirect to login after 3 seconds
       setTimeout(() => {
-        navigate('/investor-login?reset=success');
+        navigate('/login?reset=success');
       }, 3000);
 
     } catch (error: any) {
@@ -153,7 +153,7 @@ export default function PasswordResetPage() {
           <p className="text-gray-600 mb-6">{error}</p>
           <div className="space-y-3">
             <button
-              onClick={() => navigate('/investor-login')}
+              onClick={() => navigate('/login')}
               className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Back to Login
@@ -185,7 +185,7 @@ export default function PasswordResetPage() {
             Redirecting to login page in a few seconds...
           </p>
           <button
-            onClick={() => navigate('/investor-login?reset=success')}
+            onClick={() => navigate('/login?reset=success')}
             className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
             Go to Login
@@ -288,7 +288,7 @@ export default function PasswordResetPage() {
 
               <button
                 type="button"
-                onClick={() => navigate('/investor-login')}
+                onClick={() => navigate('/login')}
                 className="w-full flex items-center justify-center px-4 py-2 text-blue-600 hover:text-blue-800 transition-colors"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
