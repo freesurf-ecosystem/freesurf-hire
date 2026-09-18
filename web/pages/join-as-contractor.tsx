@@ -3,11 +3,11 @@ import Head from 'next/head';
 import Header from '../src/components/Layout/Header';
 import ContractorLeadsLanding from '../src/components/contractorleadslanding/ContractorLeadsLanding';
 
-export default function LeadsForPropertyBuyers() {
+export default function JoinAsContractor() {
   const pageUrl = 'https://freesurf.tools/join-as-contractor/';
   const pageTitle = 'Join as a Contractor - FreeSurf';
   const pageDescription =
-    'FreeSurf is a free, open-source network where contractors, tradespeople, and freelancers get found by clients searching for what they do. No lead fees, no commission, no subscription.';
+    'FreeSurf is a free, open-source network where contractors, tradespeople, and freelancers can find clients. No lead fees, no commission, no subscription.';
 
   return (
     <>

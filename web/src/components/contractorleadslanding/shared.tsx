@@ -1,6 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, CheckCircle, type LucideIcon } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { ArrowRight, CheckCircle, Search, type LucideIcon } from 'lucide-react';
 import Footer from '../Layout/Footer';
+import Graphic from '../landing/components/Graphic';
+import { MARKETPLACE_COMPARISON } from '../../config/marketplaceComparison';
+import { services } from '../../data/services';
 
 type NavigateHandler = (path: string) => void;
 type RevealVariant = 'up' | 'left' | 'right' | 'scale';
@@ -61,19 +64,19 @@ interface LeadPageFrameProps {
 }
 
 interface LeadHeroSectionProps {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   accentTitle?: string;
-  description: string;
-  signals: string[];
+  description: React.ReactNode;
+  signals?: string[];
   primaryActionLabel: string;
   onPrimaryAction: () => void;
   secondaryActionLabel?: string;
   onSecondaryAction?: () => void;
-  snapshotLabel: string;
-  snapshotTitle: string;
-  snapshotBadge: string;
-  snapshotCards: LeadHeroSignalCard[];
+  snapshotLabel?: string;
+  snapshotTitle?: string;
+  snapshotBadge?: string;
+  snapshotCards?: LeadHeroSignalCard[];
 }
 
 interface LeadFeatureStripSectionProps {
@@ -146,10 +149,10 @@ interface RevealOnScrollProps {
 }
 
 interface AnimatedHeadlineProps {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   accentTitle?: string;
-  description: string;
+  description: React.ReactNode;
 }
 
 function getRevealTransform(variant: RevealVariant) {
@@ -282,12 +285,14 @@ export function RevealOnScroll({
 function AnimatedHeadline({ eyebrow, title, accentTitle, description }: AnimatedHeadlineProps) {
   return (
     <div className="max-w-3xl">
-      <RevealOnScroll variant="up" delayMs={0} durationMs={640}>
-        <div className="inline-flex items-center rounded-full border border-[#dcc8a8] bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#8f5c22] shadow-sm backdrop-blur">
-          {eyebrow}
-        </div>
-      </RevealOnScroll>
-      <h1 className="mt-6 text-4xl font-bold leading-tight text-slate-950 md:text-6xl">
+      {eyebrow ? (
+        <RevealOnScroll variant="up" delayMs={0} durationMs={640}>
+          <div className="inline-flex items-center rounded-full border border-[#dcc8a8] bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#8f5c22] shadow-sm backdrop-blur">
+            {eyebrow}
+          </div>
+        </RevealOnScroll>
+      ) : null}
+      <h1 className={`${eyebrow ? 'mt-6' : ''} text-4xl font-bold leading-tight text-slate-950 md:text-6xl`}>
         <RevealOnScroll variant="up" delayMs={80} durationMs={760}>
           <span className="block">{title}</span>
         </RevealOnScroll>
@@ -298,9 +303,7 @@ function AnimatedHeadline({ eyebrow, title, accentTitle, description }: Animated
         ) : null}
       </h1>
       <RevealOnScroll variant="up" delayMs={240} durationMs={760}>
-        <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600 md:text-xl">
-          {description}
-        </p>
+        <div className="mt-6 max-w-2xl text-lg leading-8 text-slate-600 md:text-xl">{description}</div>
       </RevealOnScroll>
     </div>
   );
@@ -330,11 +333,18 @@ export function LeadHeroSection({
   snapshotBadge,
   snapshotCards,
 }: LeadHeroSectionProps) {
+  const hasSnapshot = Boolean(snapshotCards && snapshotCards.length > 0);
+  const hasSignals = Boolean(signals && signals.length > 0);
+
   return (
     <section className="relative overflow-hidden border-b border-slate-200 bg-white">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-90" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <div
+          className={`grid grid-cols-1 gap-12 ${
+            hasSnapshot ? 'lg:grid-cols-[1.05fr_0.95fr] lg:items-center' : ''
+          }`}
+        >
           <RevealOnScroll>
             <div>
               <AnimatedHeadline
@@ -343,15 +353,17 @@ export function LeadHeroSection({
                 accentTitle={accentTitle}
                 description={description}
               />
-              <div className="mt-8 flex flex-wrap gap-3">
-                {signals.map((signal, index) => (
-                  <RevealOnScroll key={signal} variant="up" delayMs={320 + index * 80} durationMs={620}>
-                    <div className="rounded-full border border-[#dfd6c6] bg-white/85 px-4 py-2 text-sm text-slate-700 shadow-sm">
-                      {signal}
-                    </div>
-                  </RevealOnScroll>
-                ))}
-              </div>
+              {hasSignals ? (
+                <div className="mt-8 flex flex-wrap gap-3">
+                  {signals!.map((signal, index) => (
+                    <RevealOnScroll key={signal} variant="up" delayMs={320 + index * 80} durationMs={620}>
+                      <div className="rounded-full border border-[#dfd6c6] bg-white/85 px-4 py-2 text-sm text-slate-700 shadow-sm">
+                        {signal}
+                      </div>
+                    </RevealOnScroll>
+                  ))}
+                </div>
+              ) : null}
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                 <RevealOnScroll variant="up" delayMs={480} durationMs={620}>
                   <button
@@ -376,51 +388,55 @@ export function LeadHeroSection({
             </div>
           </RevealOnScroll>
 
-          <RevealOnScroll className="lg:pl-6" variant="right" delayMs={180} durationMs={820}>
-            <div className="relative mx-auto max-w-xl">
-              <div className="absolute -left-8 top-10 hidden h-32 w-32 rounded-full bg-[#eef6f8] blur-3xl lg:block" />
-              <div className="absolute -right-6 bottom-10 hidden h-36 w-36 rounded-full bg-[#eef2f8] blur-3xl lg:block" />
-              <div className="relative overflow-hidden rounded-[30px] border border-[#dfd6c6] bg-white/88 p-6 shadow-[0_30px_80px_rgba(15,23,42,0.08)] backdrop-blur">
-                <div className="flex items-center justify-between border-b border-[#ece4d8] pb-4">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{snapshotLabel}</p>
-                    <h2 className="mt-2 text-2xl font-bold text-slate-950">{snapshotTitle}</h2>
+          {hasSnapshot ? (
+            <RevealOnScroll className="lg:pl-6" variant="right" delayMs={180} durationMs={820}>
+              <div className="relative mx-auto max-w-xl">
+                <div className="absolute -left-8 top-10 hidden h-32 w-32 rounded-full bg-[#eef6f8] blur-3xl lg:block" />
+                <div className="absolute -right-6 bottom-10 hidden h-36 w-36 rounded-full bg-[#eef2f8] blur-3xl lg:block" />
+                <div className="relative overflow-hidden rounded-[30px] border border-[#dfd6c6] bg-white/88 p-6 shadow-[0_30px_80px_rgba(15,23,42,0.08)] backdrop-blur">
+                  <div className="flex items-center justify-between border-b border-[#ece4d8] pb-4">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{snapshotLabel}</p>
+                      <h2 className="mt-2 text-2xl font-bold text-slate-950">{snapshotTitle}</h2>
+                    </div>
+                    {snapshotBadge ? (
+                      <div className="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600">
+                        {snapshotBadge}
+                      </div>
+                    ) : null}
                   </div>
-                  <div className="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600">
-                    {snapshotBadge}
+
+                  <div className="mt-6 space-y-4">
+                    {snapshotCards!.map((card, index) => {
+                      const { wrapper, eyebrow: eyebrowClass, iconWrapper, body } = getHeroCardClasses(card.tone);
+                      const Icon = card.icon;
+
+                      return (
+                        <RevealOnScroll
+                          key={card.title}
+                          className={wrapper}
+                          variant={index % 2 === 0 ? 'left' : 'right'}
+                          delayMs={260 + index * 110}
+                          durationMs={760}
+                        >
+                          <div className="flex items-start justify-between gap-4">
+                            <div>
+                              <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${eyebrowClass}`}>{card.eyebrow}</p>
+                              <h3 className="mt-2 text-lg font-semibold text-slate-900">{card.title}</h3>
+                              <p className={`mt-2 text-sm leading-6 ${body}`}>{card.description}</p>
+                            </div>
+                            <div className={iconWrapper}>
+                              <Icon className="h-6 w-6" />
+                            </div>
+                          </div>
+                        </RevealOnScroll>
+                      );
+                    })}
                   </div>
-                </div>
-
-                <div className="mt-6 space-y-4">
-                  {snapshotCards.map((card, index) => {
-                    const { wrapper, eyebrow: eyebrowClass, iconWrapper, body } = getHeroCardClasses(card.tone);
-                    const Icon = card.icon;
-
-                    return (
-                      <RevealOnScroll
-                        key={card.title}
-                        className={wrapper}
-                        variant={index % 2 === 0 ? 'left' : 'right'}
-                        delayMs={260 + index * 110}
-                        durationMs={760}
-                      >
-                        <div className="flex items-start justify-between gap-4">
-                          <div>
-                            <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${eyebrowClass}`}>{card.eyebrow}</p>
-                            <h3 className="mt-2 text-lg font-semibold text-slate-900">{card.title}</h3>
-                            <p className={`mt-2 text-sm leading-6 ${body}`}>{card.description}</p>
-                          </div>
-                          <div className={iconWrapper}>
-                            <Icon className="h-6 w-6" />
-                          </div>
-                        </div>
-                      </RevealOnScroll>
-                    );
-                  })}
                 </div>
               </div>
-            </div>
-          </RevealOnScroll>
+            </RevealOnScroll>
+          ) : null}
         </div>
       </div>
     </section>
@@ -552,6 +568,175 @@ export function LeadPricingSection({
             </div>
           </RevealOnScroll>
         </div>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * The FreeSurf vs. traditional marketplaces chart, styled for the lead landing
+ * pages. Content comes from src/config/marketplaceComparison.ts, shared with the
+ * homepage so the claims can't drift.
+ */
+export function LeadComparisonChartSection({
+  eyebrow,
+  title,
+  description,
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <section className="py-20 bg-white border-b border-slate-200">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <RevealOnScroll className="text-center max-w-4xl mx-auto">
+          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#8f5c22]">{eyebrow}</p>
+          <h2 className="mt-4 text-3xl font-bold text-slate-950 md:text-5xl">{title}</h2>
+          <p className="mt-5 text-lg leading-8 text-slate-600">{description}</p>
+        </RevealOnScroll>
+
+        <div className="mt-14 space-y-6">
+          {MARKETPLACE_COMPARISON.map((row, index) => (
+            <RevealOnScroll key={row.concept} variant="up" delayMs={Math.min(index * 70, 280)} durationMs={700}>
+              <div className="rounded-3xl border border-[#e7dfd2] bg-white p-6 shadow-[0_18px_50px_rgba(15,23,42,0.05)]">
+                <div className="flex items-start gap-4">
+                  <span className="flex h-14 w-14 flex-shrink-0 items-center justify-center text-[#8f5c22]">
+                    <Graphic src={row.us} className="h-10 w-10" />
+                  </span>
+                  <p className="min-w-0 flex-1 text-base font-semibold leading-7 text-slate-950">
+                    {row.freesurf}
+                  </p>
+                </div>
+
+                <div className="mt-4 flex items-start gap-4 sm:pl-18">
+                  <p className="flex-1 text-sm italic leading-7 text-slate-500">
+                    <span className="font-semibold text-slate-600">Other marketplaces:</span> {row.other}
+                  </p>
+                  <span className="flex h-14 w-14 flex-shrink-0 items-center justify-center text-slate-900">
+                    <Graphic src={row.them} className="h-10 w-10" />
+                  </span>
+                </div>
+              </div>
+            </RevealOnScroll>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Skill lookup: a contractor searches for their own trade instead of scrolling a
+ * wall of categories. Selecting a match goes to that service's landing page,
+ * which is where the profile signup starts.
+ *
+ * "Propose a new skill" is a mailto for now - it should become a suggestions
+ * page once there's somewhere to store them.
+ */
+export function LeadSkillSearchSection({
+  eyebrow,
+  title,
+  description,
+  navigate,
+  proposeHref = 'mailto:support@freesurf.tools?subject=New%20skill%20suggestion',
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+  navigate: NavigateHandler;
+  proposeHref?: string;
+}) {
+  const [query, setQuery] = useState('');
+  const [highlighted, setHighlighted] = useState(-1);
+
+  const matches = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return [];
+    return services.filter((s) => s.name.toLowerCase().includes(q)).slice(0, 12);
+  }, [query]);
+
+  const go = (slug: string) => {
+    setQuery('');
+    setHighlighted(-1);
+    navigate(`/${slug}`);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (matches.length === 0) return;
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      setHighlighted((i) => (i + 1) % matches.length);
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      setHighlighted((i) => (i <= 0 ? matches.length - 1 : i - 1));
+    } else if (event.key === 'Enter' && highlighted >= 0) {
+      event.preventDefault();
+      go(matches[highlighted].slug);
+    } else if (event.key === 'Escape') {
+      setQuery('');
+      setHighlighted(-1);
+    }
+  };
+
+  return (
+    <section className="py-20 bg-white border-b border-slate-200">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <RevealOnScroll className="text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#8f5c22]">{eyebrow}</p>
+          <h2 className="mt-4 text-3xl font-bold text-slate-950 md:text-5xl">{title}</h2>
+          <p className="mt-5 text-lg leading-8 text-slate-600">{description}</p>
+        </RevealOnScroll>
+
+        <RevealOnScroll className="mt-10" variant="up" delayMs={120}>
+          <div className="relative">
+            <div className="flex items-center gap-3 rounded-2xl border border-[#dfd6c6] bg-white px-4 py-4 shadow-[0_18px_50px_rgba(15,23,42,0.05)] focus-within:border-[#c67b2b]">
+              <Search className="h-5 w-5 flex-shrink-0 text-slate-400" />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setHighlighted(-1);
+                }}
+                onKeyDown={handleKeyDown}
+                placeholder="Search for your skill, e.g. handyman, video editing"
+                aria-label="Search skills"
+                className="w-full bg-transparent text-base text-slate-900 outline-none placeholder:text-slate-400"
+              />
+            </div>
+
+            {query.trim() && (
+              <div className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-2xl border border-[#e7dfd2] bg-white shadow-[0_24px_60px_rgba(15,23,42,0.12)]">
+                {matches.length === 0 ? (
+                  <p className="px-4 py-3 text-sm text-slate-500">No matching skill yet.</p>
+                ) : (
+                  matches.map((service, index) => (
+                    <button
+                      key={service.slug}
+                      type="button"
+                      onMouseEnter={() => setHighlighted(index)}
+                      onClick={() => go(service.slug)}
+                      className={`flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm transition-colors ${
+                        index === highlighted ? 'bg-[#faf6ef] text-slate-950' : 'text-slate-700'
+                      }`}
+                    >
+                      <span>{service.name}</span>
+                      <span className="text-[10px] uppercase tracking-wide text-slate-400">{service.scope}</span>
+                    </button>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
+
+          <p className="mt-6 text-center text-sm text-slate-500">
+            Can&apos;t find your skill?{' '}
+            <a href={proposeHref} className="font-medium text-[#8f5c22] underline hover:text-slate-900">
+              Propose a new skill
+            </a>
+          </p>
+        </RevealOnScroll>
       </div>
     </section>
   );

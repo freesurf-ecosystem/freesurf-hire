@@ -44,11 +44,11 @@ const faqs: { question: string; answer: React.ReactNode }[] = [
     question: 'How does pricing work for contractors?',
     answer: (
       <>
-        The FreeSurf network is currently free for early participants. There are no per-lead charges, no monthly
-        subscriptions, and no long-term contracts. As we develop the network we plan to move toward an ads / PPC model,
-        and early participants can receive free leads while the network is still in development. Full details are on the{' '}
+        FreeSurf is free to use. There are no per-lead charges, no commission on your work, no monthly subscriptions,
+        and no long-term contracts — that is the model rather than an introductory offer. The platform is also open
+        source, so you can check how it works. Full details are on the{' '}
         <a href="/join-as-contractor" className="text-blue-600 underline">
-          buyer leads page
+          join as a contractor page
         </a>
         .
       </>

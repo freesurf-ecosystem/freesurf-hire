@@ -1,10 +1,12 @@
 /**
  * FreeSurf pricing configuration.
  *
- * FreeSurf is free to use — no lead fees, no commissions, no subscriptions.
- * Billing is intentionally disabled; there is no pricing matrix.
+ * FreeSurf is free to use. That is the model, not an introductory offer:
+ * the goal is to connect clients and contractors directly, without lead fees,
+ * commission, or a subscription in between.
  */
 
-export const FREE_LEAD_OFFER_SHORT = 'Free for early participants';
-export const FREE_LEAD_OFFER_LONG =
-  'The network is free for early participants right now. No charges, no monthly fees, and no long-term contracts.';
+export const FREE_TO_USE_SHORT = 'Free to use';
+
+export const FREE_TO_USE_LONG =
+  'FreeSurf is free to use. No lead fees, no commission on your work, and no subscription — that is the model, not an introductory offer.';
