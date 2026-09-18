@@ -26,6 +26,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Diagnostics: shows which variable names are actually populated, without
+      # printing values. If these are all false, the org variables either don't
+      # exist or haven't been granted to this repository.
+      - name: Verify build config
+        run: |
+          echo "vars.SUPABASE_URL               present: ${{ vars.SUPABASE_URL != '' }}"
+          echo "vars.SUPABASE_PUBLIC_KEY        present: ${{ vars.SUPABASE_PUBLIC_KEY != '' }}"
+          echo "vars.NEXT_PUBLIC_SUPABASE_URL   present: ${{ vars.NEXT_PUBLIC_SUPABASE_URL != '' }}"
+          echo "vars.NEXT_PUBLIC_SUPABASE_PUBLIC_KEY present: ${{ vars.NEXT_PUBLIC_SUPABASE_PUBLIC_KEY != '' }}"
+          echo "vars.NEXT_PUBLIC_SUPABASE_ANON_KEY   present: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY != '' }}"
+          echo "resolved URL empty: ${{ (vars.SUPABASE_URL || vars.NEXT_PUBLIC_SUPABASE_URL) == '' }}"
+          echo "resolved KEY empty: ${{ (vars.SUPABASE_PUBLIC_KEY || vars.NEXT_PUBLIC_SUPABASE_PUBLIC_KEY || vars.NEXT_PUBLIC_SUPABASE_ANON_KEY) == '' }}"
+
       # Generates public/sitemap.xml. With local pages quarantined
       # (src/config/seo.json) this is one ~160 KB file covering the static pages,
       # legal pages, and the 925 remote service pages. It only materialises the
@@ -43,12 +56,9 @@ jobs:
           #
           # The *environment* names MUST be NEXT_PUBLIC_* — Next.js only inlines
           # that prefix into the browser bundle. The *GitHub variable* names are
-          # free-form, so they use the ecosystem-wide naming (SUPABASE_URL /
-          # SUPABASE_PUBLIC_KEY, matching SUPABASE_SECRET_KEY) rather than the
-          # Next-specific prefix.
+          # free-form, so accept either convention.
           #
-          # Set these once at the org level (Settings -> Secrets and variables ->
-          # Actions -> Variables). They are public by design; the secret key is a
-          # Cloudflare Worker secret and is never referenced during the build.
-          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_PUBLIC_KEY: ${{ vars.SUPABASE_PUBLIC_KEY }}
+          # They are public by design; the secret key is a Cloudflare Worker
+          # secret and is never referenced during the build.
+          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.SUPABASE_URL || vars.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_PUBLIC_KEY: ${{ vars.SUPABASE_PUBLIC_KEY || vars.NEXT_PUBLIC_SUPABASE_PUBLIC_KEY || vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
