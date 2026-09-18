@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { useNavigate } from '../../lib/navigation-compat';
 import { 
   Mail, Eye, EyeOff, AlertCircle, CheckCircle, RefreshCw

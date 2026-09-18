@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from '../lib/navigation-compat';
 import { Lock, Eye, EyeOff, CheckCircle, AlertCircle, ArrowLeft, Home } from 'lucide-react';
 import { supabase } from '../lib/supabase';

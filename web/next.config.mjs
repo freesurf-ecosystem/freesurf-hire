@@ -168,7 +168,10 @@ const nextConfig = {
   // - Authentication (investor dashboard/signup)
   // Requires: Node.js server (Digital Ocean App Platform)
   
-  trailingSlash: true,
+  // No trailing slash: /signup not /signup/. Cleaner for contractors publishing
+  // their own links, and it matches how production already serves the legal
+  // pages. Canonicals and the sitemap generator use the same form.
+  trailingSlash: false,
   images: {
     unoptimized: true,
   },

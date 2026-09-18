@@ -4,11 +4,14 @@ import { CheckCircle } from 'lucide-react';
 interface ContractorSignupSuccessProps {
   onGoToDashboard: () => void;
   onGoToHomepage: () => void;
+  /** Optional note, e.g. when a Feedfree Digest subscription didn't go through. */
+  note?: string;
 }
 
 export default function ContractorSignupSuccess({
   onGoToDashboard,
-  onGoToHomepage
+  onGoToHomepage,
+  note
 }: ContractorSignupSuccessProps) {
   return (
     <div>
@@ -19,6 +22,7 @@ export default function ContractorSignupSuccess({
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Welcome to FreeSurf!</h2>
         <p className="text-gray-600 mb-6">
           Your contractor profile has been created. Clients can now find you in search and send you requests.
+          {note ? <span className="text-gray-500">{note}</span> : null}
         </p>
         <div className="space-y-4">
           <button

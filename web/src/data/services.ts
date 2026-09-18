@@ -1,4 +1,4 @@
-﻿// AUTO-GENERATED from src/data/taxonomy/skills.json - do not edit by hand.
+// AUTO-GENERATED from src/data/taxonomy/skills.json - do not edit by hand.
 // Regenerate when the taxonomy changes.
 
 export interface ServiceOption {

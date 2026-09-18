@@ -58,7 +58,7 @@ export default function SourcesPage() {
           name="description"
           content="The public datasets, graphics and infrastructure FreeSurf relies on."
         />
-        <link rel="canonical" href="https://freesurf.tools/sources/" />
+        <link rel="canonical" href="https://freesurf.tools/sources" />
       </Head>
       <Header currentView="browse" />
       <main className="bg-white min-h-screen">

@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from '../../lib/navigation-compat';
 import { supabase } from '../../lib/supabase';
 import DashboardHeader from './DashboardHeader';
@@ -165,7 +165,7 @@ export default function ContractorDashboard() {
                     {contacts.map((c) => (
                       <div key={c.id} className="border border-gray-200 rounded-lg p-4">
                         <p className="font-medium text-gray-900">{c.client_name || 'Client'}</p>
-                        <p className="text-sm text-gray-600">{c.client_email || ''} {c.client_phone ? `Â· ${c.client_phone}` : ''}</p>
+                        <p className="text-sm text-gray-600">{c.client_email || ''} {c.client_phone ? `· ${c.client_phone}` : ''}</p>
                       </div>
                     ))}
                   </div>

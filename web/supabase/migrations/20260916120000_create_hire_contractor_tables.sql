@@ -51,6 +51,10 @@ create table if not exists public.hire_contractor_profiles (
   user_id uuid not null references auth.users(id) on delete cascade,
 
   -- identity (public fields only - contact details live in hire_contractor_private)
+  -- Split so a contractor can be shown as "Jane D." if they prefer not to publish
+  -- a full surname. display_name is the composed form, kept for display/search.
+  first_name text,
+  last_name text,
   display_name text,
   contact_name text,
   company text,

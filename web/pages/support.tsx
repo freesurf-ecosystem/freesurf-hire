@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import Head from 'next/head';
 import Header from '../src/components/Layout/Header';
 
@@ -82,7 +82,7 @@ export default function SupportPage() {
           name="description"
           content="Contact FreeSurf support, find answers to common questions, and learn how to manage your account."
         />
-        <link rel="canonical" href="https://freesurf.tools/support/" />
+        <link rel="canonical" href="https://freesurf.tools/support" />
       </Head>
       <Header currentView="browse" />
       <main className="bg-white">

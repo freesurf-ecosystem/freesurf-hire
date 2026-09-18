@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from '../../lib/navigation-compat';
 import { Plus, User, ChevronDown, LogOut, X, Home, LayoutGrid } from 'lucide-react';
 import { supabase } from '../../lib/supabase';

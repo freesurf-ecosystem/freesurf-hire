@@ -1,4 +1,4 @@
-﻿import { Building2, Globe, MapPin, Shield } from 'lucide-react';
+import { Building2, Globe, MapPin, Shield } from 'lucide-react';
 import { useNavigate } from '../../lib/navigation-compat';
 import { FREE_TO_USE_LONG } from '../../config/pricing';
 import {

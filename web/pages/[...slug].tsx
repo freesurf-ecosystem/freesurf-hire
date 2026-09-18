@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { INDEX_LOCAL_PAGES, INDEX_REMOTE_SERVICE_PAGES } from '../src/config/seo';
@@ -38,15 +38,15 @@ export default function DynamicPage({ pageType, state, location, locationType, s
     const base = 'https://freesurf.tools';
     switch (pageType) {
       case 'service':
-        return `${base}/${serviceSlug}/`;
+        return `${base}/${serviceSlug}`;
       case 'service-location':
-        return `${base}/${serviceSlug}/${createSlug(state ?? '')}/${location}/`;
+        return `${base}/${serviceSlug}/${createSlug(state ?? '')}/${location}`;
       case 'service-zip':
-        return `${base}/${serviceSlug}/${zip}/`;
+        return `${base}/${serviceSlug}/${zip}`;
       case 'contractor-login':
-        return `${base}/login/`;
+        return `${base}/login`;
       case 'join-as-contractor':
-        return `${base}/join-as-contractor/`;
+        return `${base}/join-as-contractor`;
       default:
         return base;
     }
@@ -56,7 +56,7 @@ export default function DynamicPage({ pageType, state, location, locationType, s
     switch (pageType) {
       case 'service': {
         const svc = services.find((s) => s.slug === serviceSlug);
-        return `${svc?.name ?? 'Service'} â€” Hire on FreeSurf`;
+        return `${svc?.name ?? 'Service'} — Hire on FreeSurf`;
       }
       case 'service-location': {
         const svc = services.find((s) => s.slug === serviceSlug);
@@ -81,23 +81,23 @@ export default function DynamicPage({ pageType, state, location, locationType, s
         const svc = services.find((s) => s.slug === serviceSlug);
         const name = svc?.name ?? 'a service';
         return svc?.scope === 'remote'
-          ? `Hire a ${name} freelancer on FreeSurf. Free to use, no lead fees or commissions â€” connect directly.`
-          : `Find ${name} pros near you on FreeSurf. Free to use, no lead fees or commissions â€” connect directly.`;
+          ? `Hire a ${name} freelancer on FreeSurf. Free to use, no lead fees or commissions — connect directly.`
+          : `Find ${name} pros near you on FreeSurf. Free to use, no lead fees or commissions — connect directly.`;
       }
       case 'service-location': {
         const svc = services.find((s) => s.slug === serviceSlug);
         const name = svc?.name ?? 'a service';
-        return `Find and hire trusted ${name} in ${location}, ${state}. Compare local pros and remote freelancers â€” free to use, no lead fees or commissions.`;
+        return `Find and hire trusted ${name} in ${location}, ${state}. Compare local pros and remote freelancers — free to use, no lead fees or commissions.`;
       }
       case 'service-zip': {
         const svc = services.find((s) => s.slug === serviceSlug);
         const name = svc?.name ?? 'a service';
-        return `Find and hire trusted ${name} in zipcode ${zip}. Free to use â€” no lead fees or commissions.`;
+        return `Find and hire trusted ${name} in zipcode ${zip}. Free to use — no lead fees or commissions.`;
       }
       case 'contractor-login':
         return 'Log in to your FreeSurf contractor account.';
       case 'join-as-contractor':
-        return 'Join the FreeSurf network as a contractor. Free to use â€” no lead fees or commissions.';
+        return 'Join the FreeSurf network as a contractor. Free to use — no lead fees or commissions.';
       default:
         return 'FreeSurf is a free, open-source platform connecting clients and contractors directly.';
     }

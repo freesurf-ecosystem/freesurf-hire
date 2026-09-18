@@ -1,10 +1,10 @@
-﻿import React from 'react';
+import React from 'react';
 import Head from 'next/head';
 import Header from '../src/components/Layout/Header';
 import ContractorLeadsLanding from '../src/components/contractorleadslanding/ContractorLeadsLanding';
 
 export default function JoinAsContractor() {
-  const pageUrl = 'https://freesurf.tools/join-as-contractor/';
+  const pageUrl = 'https://freesurf.tools/join-as-contractor';
   const pageTitle = 'Join as a Contractor - FreeSurf';
   const pageDescription =
     'FreeSurf is a free, open-source network where contractors, tradespeople, and freelancers can find clients. No lead fees, no commission, no subscription.';

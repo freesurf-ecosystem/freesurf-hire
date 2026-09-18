@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from '../lib/navigation-compat';
 import { CheckCircle, Home, RefreshCw } from 'lucide-react';
 import { supabase } from '../lib/supabase';
@@ -14,7 +14,7 @@ export default function EmailVerificationSuccess() {
 
   const handleEmailVerification = async () => {
     try {
-      console.log('ðŸ” Processing email verification...');
+      console.log('🔍 Processing email verification...');
       
       // Wait for Supabase to process the auth tokens
       await new Promise(resolve => setTimeout(resolve, 2000));
@@ -27,7 +27,7 @@ export default function EmailVerificationSuccess() {
       }
       
       if (session?.user) {
-        console.log('âœ… Email verified successfully for:', session.user.email);
+        console.log('✅ Email verified successfully for:', session.user.email);
         
         // Check if they have a contractor profile
         const { data: contractorData, error: contractorError } = await supabase

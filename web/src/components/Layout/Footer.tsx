@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { ECOSYSTEM_TOOLS, ECOSYSTEM_GITHUB } from '../../config/ecosystem';
 
 interface FooterProps {
@@ -124,7 +124,7 @@ export default function Footer({ navigate }: FooterProps) {
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              Â© {new Date().getFullYear()} FreeSurf. All rights reserved.
+              © {new Date().getFullYear()} FreeSurf. All rights reserved.
             </p>
             <div className="flex flex-wrap justify-center gap-4 mt-2 sm:mt-0">
               <a

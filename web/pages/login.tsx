@@ -1,11 +1,11 @@
-﻿import React from 'react';
+import React from 'react';
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 import ContractorLogin from '../src/components/ContractorLogin';
 import { generateBreadcrumbSchema, generateWebPageSchema } from '../src/utils/schemaGenerator';
 
 export default function ContractorLoginPage() {
-  const pageUrl = 'https://freesurf.tools/login/';
+  const pageUrl = 'https://freesurf.tools/login';
   const pageDescription = 'Log in to your FreeSurf contractor account to manage your profile and client requests.';
   const webPageSchema = generateWebPageSchema({
     name: 'Contractor Login - FreeSurf',

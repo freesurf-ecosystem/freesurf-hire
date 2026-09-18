@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 
 /**
  * Sitemap generation.
@@ -76,9 +76,9 @@ function writeUrlset(file, entries, outDir = OUT) {
 // ── Static + legal pages ───────────────────────────────────────────────────────
 const entries = [
   { loc: `${BASE}/`, changefreq: 'weekly', priority: '1.0' },
-  { loc: `${BASE}/join-as-contractor/`, changefreq: 'weekly', priority: '0.9' },
-  { loc: `${BASE}/resources/`, changefreq: 'weekly', priority: '0.7' },
-  { loc: `${BASE}/support/`, changefreq: 'monthly', priority: '0.4' },
+  { loc: `${BASE}/join-as-contractor`, changefreq: 'weekly', priority: '0.9' },
+  { loc: `${BASE}/resources`, changefreq: 'weekly', priority: '0.7' },
+  { loc: `${BASE}/support`, changefreq: 'monthly', priority: '0.4' },
   // NOTE: no trailing slash. The legal pages are static HTML served via
   // next.config rewrites, and in production `/terms/` 307-redirects to `/terms`
   // (the opposite of `next dev`, where trailingSlash adds the slash). A sitemap
@@ -92,7 +92,7 @@ const entries = [
 let remoteCount = 0;
 if (seo.sitemapIncludeRemoteServices) {
   for (const s of remoteServices) {
-    entries.push({ loc: `${BASE}/${s.slug}/`, changefreq: 'monthly', priority: '0.6' });
+    entries.push({ loc: `${BASE}/${s.slug}`, changefreq: 'monthly', priority: '0.6' });
     remoteCount++;
   }
 }
@@ -112,7 +112,7 @@ if (seo.sitemapIncludeLocalPages) {
         skippedUnknownState++;
         continue;
       }
-      urls.push(`${BASE}/${s.slug}/${stateSlug}/${l.city}/`);
+      urls.push(`${BASE}/${s.slug}/${stateSlug}/${l.city}`);
     }
     localTotal += writeUrlset(
       `sitemap-local-${s.slug}.xml`,

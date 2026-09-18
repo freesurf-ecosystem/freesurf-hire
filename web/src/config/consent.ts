@@ -1,9 +1,9 @@
-﻿// Canonical consent disclosure text + versioning for FreeSurf.
+// Canonical consent disclosure text + versioning for FreeSurf.
 //
 // Every place a user clicks "I agree" must use one of the helpers below so the
 // exact wording they saw can be reconstructed for audits or regulator requests.
 // The version string is what gets written to the database alongside the
-// snapshotted text â€” bump it whenever the wording changes.
+// snapshotted text — bump it whenever the wording changes.
 
 export const CONSENT_DISCLOSURE_VERSION = '2026.09.17.v1';
 
@@ -22,14 +22,14 @@ export const TERMS_STORAGE_KEY = 'freesurf.terms.accepted';
 
 /**
  * The Terms line. This is the *contract* half of the pair, so it is phrased as
- * affirmative agreement â€” and it is what gets logged (with IP + timestamp) to
+ * affirmative agreement — and it is what gets logged (with IP + timestamp) to
  * `hire_terms_acceptances` when someone accepts.
  */
 export const TERMS_ACCEPTANCE_TEXT = 'I agree to the Terms of Use';
 
 /**
  * The Privacy line. A privacy policy is a *notice*, not a contract: we inform,
- * the visitor acknowledges. Keeping it out of the "I agree" matters under GDPR â€”
+ * the visitor acknowledges. Keeping it out of the "I agree" matters under GDPR —
  * consent must be freely given and unbundled, and bundling privacy acceptance
  * with contract acceptance is a common way to invalidate it.
  */

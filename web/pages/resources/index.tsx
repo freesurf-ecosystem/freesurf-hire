@@ -4,7 +4,7 @@ import Header from '../../src/components/Layout/Header';
 import ResourcesPage from '../../src/components/resources/components/ResourcesPage';
 
 export default function Resources() {
-  const pageUrl = 'https://freesurf.tools/resources/';
+  const pageUrl = 'https://freesurf.tools/resources';
 
   return (
     <>
