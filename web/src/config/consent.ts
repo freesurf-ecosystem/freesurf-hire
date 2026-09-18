@@ -11,8 +11,8 @@ export const CONSENT_DISCLOSURE_VERSION = '2026.09.17.v1';
 // static HTML in web/public, ported verbatim from the links repo (the single
 // source of truth for legal wording) and mapped by rewrites in next.config.mjs.
 // Legacy /terms-of-use and /privacy-policy routes redirect here.
-export const TERMS_OF_USE_URL = 'https://freesurf.tools/terms/';
-export const PRIVACY_POLICY_URL = 'https://freesurf.tools/privacy/';
+export const TERMS_OF_USE_URL = 'https://freesurf.tools/terms';
+export const PRIVACY_POLICY_URL = 'https://freesurf.tools/privacy';
 
 /**
  * localStorage key remembering a visitor's Terms acceptance, so the gate

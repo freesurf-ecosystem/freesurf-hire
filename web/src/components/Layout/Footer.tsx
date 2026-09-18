@@ -135,13 +135,13 @@ export default function Footer({ navigate }: FooterProps) {
               >
                 GitHub
               </a>
-              <a href="https://freesurf.tools/privacy/" className="text-gray-400 hover:text-white text-sm transition-colors">
+              <a href="https://freesurf.tools/privacy" className="text-gray-400 hover:text-white text-sm transition-colors">
                 Privacy Policy
               </a>
-              <a href="https://freesurf.tools/terms/" className="text-gray-400 hover:text-white text-sm transition-colors">
+              <a href="https://freesurf.tools/terms" className="text-gray-400 hover:text-white text-sm transition-colors">
                 Terms of Use
               </a>
-              <a href="https://freesurf.tools/eula/" className="text-gray-400 hover:text-white text-sm transition-colors">
+              <a href="https://freesurf.tools/eula" className="text-gray-400 hover:text-white text-sm transition-colors">
                 EULA
               </a>
               <a
