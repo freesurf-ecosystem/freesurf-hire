@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { INDEX_PROGRAMMATIC_PAGES } from '../src/config/seo';
+import { INDEX_LOCAL_PAGES, INDEX_REMOTE_SERVICE_PAGES } from '../src/config/seo';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import ServiceLocationLanding from '../src/components/ServiceLocationLanding';
 import ServiceZipLanding from '../src/components/ServiceZipLanding';
@@ -27,9 +27,12 @@ const createSlug = (text: string) => text.toLowerCase().replace(/\s+/g, '-').rep
 export default function DynamicPage({ pageType, state, location, locationType, serviceSlug, zip }: DynamicPageProps) {
   const router = useRouter();
 
-  // Programmatic pages are taxonomy-driven, not inventory-driven.
-  const isProgrammaticPage =
-    pageType === 'service' || pageType === 'service-location' || pageType === 'service-zip';
+  // Remote service pages carry real editorial content, so they are indexable.
+  // Local city/zip pages are taxonomy-driven rather than inventory-driven and
+  // stay quarantined until there is content behind them. See src/config/seo.ts.
+  const shouldNoindex =
+    (pageType === 'service' && !INDEX_REMOTE_SERVICE_PAGES) ||
+    ((pageType === 'service-location' || pageType === 'service-zip') && !INDEX_LOCAL_PAGES);
 
   const getCanonicalUrl = () => {
     const base = 'https://freesurf.tools';
@@ -145,7 +148,7 @@ export default function DynamicPage({ pageType, state, location, locationType, s
         <meta name="description" content={getPageDescription()} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="canonical" href={getCanonicalUrl()} />
-        {isProgrammaticPage && !INDEX_PROGRAMMATIC_PAGES && (
+        {shouldNoindex && (
           // Keep the pages reachable, but out of the index until there is real
           // content behind them. See src/config/seo.ts.
           <meta name="robots" content="noindex, follow" />

@@ -26,14 +26,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # NOTE: sitemaps are deliberately NOT generated here yet.
-      #
-      # `npm run sitemaps:generate` materialises local-services x cities =
-      # ~6.98M URLs across 523 files (1.2 GB). Every one of those pages is
-      # indexable and, with no contractors signed up, empty. Submitting millions
-      # of thin pages is an SEO risk, and a 1.2 GB asset bundle would slow every
-      # deploy. Re-enable once the generator is driven by real inventory (only
-      # emit service x location pairs that actually have contractors).
+      # Generates public/sitemap.xml. With local pages quarantined
+      # (src/config/seo.json) this is one ~160 KB file covering the static pages,
+      # legal pages, and the 925 remote service pages. It only materialises the
+      # ~7M local city pages / 1.2 GB when sitemapIncludeLocalPages is turned on,
+      # so this stays cheap until there is inventory behind those pages.
+      - name: Generate sitemaps
+        run: npm run sitemaps:generate
 
       - name: Build & deploy (OpenNext → Cloudflare)
         run: npm run deploy

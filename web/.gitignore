@@ -68,3 +68,4 @@ mobile/credentials.json
 
 # Generated programmatic SEO sitemaps (built at deploy, not committed)
 /public/sitemaps/
+/public/sitemap.xml

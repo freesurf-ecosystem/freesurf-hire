@@ -1,5 +1,9 @@
 {
   "generated": "2026-09-18",
+  "quarantine": {
+    "localPages": true,
+    "remoteServicePages": false
+  },
   "rules": {
     "local": "/{service}/{state}/{city}",
     "remote": "/{service}"
@@ -8,8 +12,9 @@
     "localServices": 521,
     "remoteServices": 925,
     "cityPairs": 13402,
-    "localCityPages": 6982442,
-    "remotePages": 925
+    "localCityPages": 0,
+    "remotePages": 925,
+    "sitemapUrls": 932
   },
   "remoteServices": [
     "2d",

@@ -1,21 +1,29 @@
+import seo from './seo.json';
+
 /**
  * SEO gates for the programmatic landing pages.
  *
- * The service pages are generated from the taxonomy, not from real inventory:
+ * These live in seo.json so the sitemap generator
+ * (scripts/sitemaps/generate-service-sitemaps.mjs) reads the same values -
+ * otherwise the sitemap and the robots meta tags drift apart, which is worse
+ * than either being wrong on its own.
  *
- *   /{service}                      remote services
- *   /{service}/{state}/{city}       local services x ~13,400 cities
- *   /{service}/{zip}                zipcode search results
+ * The two page families are gated separately on purpose:
  *
- * That is ~6.98M URLs. With no contractors signed up they are empty, and
- * submitting millions of thin pages is a well-documented way to get a site
- * assessed as low quality - which is very hard to walk back.
+ *   /{service}                  remote services. These have real editorial
+ *                               content (how it works, guarantees, FAQ), so
+ *                               they are indexable now.
  *
- * So they are noindexed for now, and should be unwound in batches once there is
- * enough real content (contractor profiles + supporting articles) to justify
- * indexing them. Set this to true when that's the case.
- *
- * Note: "noindex, follow" is used deliberately - the pages stay reachable and
- * link equity still flows, they just don't get indexed.
+ *   /{service}/{state}/{city}   local services x ~13,400 cities
+ *   /{service}/{zip}            zipcode search results
+ *                               ~6.98M URLs generated from the taxonomy rather
+ *                               than from inventory. With no contractors they
+ *                               are empty, and submitting millions of thin
+ *                               pages gets a site assessed as low quality.
+ *                               Quarantined until there is real content, then
+ *                               unwound in batches.
  */
-export const INDEX_PROGRAMMATIC_PAGES = false;
+export const INDEX_REMOTE_SERVICE_PAGES = seo.indexRemoteServicePages;
+export const INDEX_LOCAL_PAGES = seo.indexLocalPages;
+export const SITEMAP_INCLUDE_REMOTE_SERVICES = seo.sitemapIncludeRemoteServices;
+export const SITEMAP_INCLUDE_LOCAL_PAGES = seo.sitemapIncludeLocalPages;
