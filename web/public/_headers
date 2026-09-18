@@ -1,2 +1,11 @@
 /_next/static/*
   Cache-Control: public,max-age=31536000,immutable
+
+# Static legal pages. Without an explicit charset the server sends a bare
+# `text/html`, and some clients (and tools) then guess the wrong encoding.
+/privacy.html
+  Content-Type: text/html; charset=utf-8
+/terms.html
+  Content-Type: text/html; charset=utf-8
+/eula.html
+  Content-Type: text/html; charset=utf-8
