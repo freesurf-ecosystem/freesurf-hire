@@ -191,6 +191,16 @@ const nextConfig = {
       permanent: true,
     }));
   },
+  async headers() {
+    // The legal pages are static HTML served through rewrites, so the asset
+    // layer's _headers file doesn't reach them and the response goes out as a
+    // bare `text/html`. Browsers still honour the in-page <meta charset>, but
+    // tools that don't parse it guess wrong, so set it explicitly.
+    return ['/privacy', '/terms', '/eula'].map((source) => ({
+      source,
+      headers: [{ key: 'Content-Type', value: 'text/html; charset=utf-8' }],
+    }));
+  },
   async rewrites() {
     // The canonical legal pages are static HTML, ported verbatim from the links
     // repo so the exact legal wording is preserved. These rewrites map the
