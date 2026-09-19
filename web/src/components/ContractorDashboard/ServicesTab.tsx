@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Plus, X } from 'lucide-react';
+import { Plus, X, Map as MapIcon } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { services } from '../../data/services';
+import ZipMapPicker from './ZipMapPicker';
 
 interface ServicesTabProps {
   profile: any;
@@ -19,6 +20,7 @@ export default function ServicesTab({ profile, onSaved }: ServicesTabProps) {
   const [query, setQuery] = useState('');
   const [showList, setShowList] = useState(false);
   const [zip, setZip] = useState('');
+  const [showMap, setShowMap] = useState(false);
   const [error, setError] = useState('');
 
   // Services and service area live as array columns on the profile row, so the
@@ -98,6 +100,12 @@ export default function ServicesTab({ profile, onSaved }: ServicesTabProps) {
     if (await save({ service_zips: next })) setZips(next);
   };
 
+  // Map clicks both add and remove, so the same zipcode can be toggled.
+  const toggleZip = async (value: string) => {
+    const next = zips.includes(value) ? zips.filter((z) => z !== value) : [...zips, value];
+    if (await save({ service_zips: next })) setZips(next);
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-lg p-8 space-y-8">
       <div>
@@ -168,7 +176,33 @@ export default function ServicesTab({ profile, onSaved }: ServicesTabProps) {
       {/* Service area. Zipcodes only: the local search matches on the exact zip
           a client enters, so a state would never match anything. */}
       <div id="service-area" className="scroll-mt-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-3">Where you work</h3>
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+          <h3 className="text-lg font-semibold text-gray-900">Where you work</h3>
+          <button
+            type="button"
+            onClick={() => setShowMap((v) => !v)}
+            className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          >
+            <MapIcon className="h-4 w-4" />
+            {showMap ? 'Type zipcodes instead' : 'Pick zipcodes on a map'}
+          </button>
+        </div>
+
+        <p className="mb-3 text-sm text-gray-600">
+          Clients search by zipcode, and your profile only appears in the zipcodes you list here.
+          Add every zipcode you are willing to travel to.
+        </p>
+
+        {showMap && (
+          <div className="mb-4">
+            <ZipMapPicker
+              selected={zips}
+              onToggle={toggleZip}
+              centerZip={profile.base_zip_code || undefined}
+            />
+          </div>
+        )}
+
         <div className="flex gap-3">
           <input
             type="text"

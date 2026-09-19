@@ -6,6 +6,7 @@ import EmailVerificationPage from '../EmailVerificationPage';
 import ContractorSignupStep1 from './ContractorSignupStep1';
 import { CONSENT_DISCLOSURE_VERSION, getContractorConsentDisclosure, TERMS_OF_USE_URL, PRIVACY_POLICY_URL } from '../../config/consent';
 import { FEEDFREE_DIGEST_URL, SIGNUP_NOTE_KEY, SUBSCRIPTION_DISCLOSURE, UPDATE_LISTS } from '../../config/subscriptions';
+import { buildDisplayName } from '../../lib/displayName';
 
 const titleCase = (value: string) => value.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
@@ -129,10 +130,23 @@ export default function ContractorSignup() {
         .upsert(
           {
             user_id: user.id,
-            first_name: formData.firstName.trim(),
-            last_name: formData.lastName.trim(),
-            display_name: `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim(),
-            contact_name: `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim(),
+            // The public row carries only the derived name. First/last go to
+            // hire_contractor_private below. New profiles default to the
+            // personal form ("Jane D.") - the dashboard can switch to the
+            // business name later.
+            display_name: buildDisplayName({
+              mode: 'personal',
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              company: formData.company,
+            }),
+            contact_name: buildDisplayName({
+              mode: 'personal',
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              company: formData.company,
+            }),
+            name_display: 'personal',
             company: formData.company.trim() || null,
             website: formData.website.trim() || null,
             bio: formData.bio.trim() || null,
@@ -159,13 +173,15 @@ export default function ContractorSignup() {
 
       if (profileError) throw profileError;
 
-      // Contact details live in a separate table with no public access, so they
-      // can't be harvested from the search payload.
+      // Contact details and the full legal name live in a separate table with no
+      // public access, so they can't be harvested from the search payload.
       const { error: privateError } = await supabase
         .from('hire_contractor_private')
         .upsert(
           {
             contractor_id: profile.id,
+            first_name: formData.firstName.trim() || null,
+            last_name: formData.lastName.trim() || null,
             email: user.email ?? formData.email ?? null,
             phone: formData.phone.trim() || null,
             updated_at: new Date().toISOString(),

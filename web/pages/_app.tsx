@@ -4,6 +4,10 @@ import Script from 'next/script';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import '../src/index.css';
+// Global CSS for the MapLibre map used by the contractor service-area picker.
+// Pages Router only allows global stylesheets in _app, so it lives here rather
+// than in the component that uses it.
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();

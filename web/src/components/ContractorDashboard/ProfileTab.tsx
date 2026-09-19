@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Save, X } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { buildDisplayName, NameDisplay } from '../../lib/displayName';
 
 interface ProfileTabProps {
   profile: any;
@@ -11,7 +12,9 @@ const slugify = (value: string) => value.toLowerCase().replace(/[^a-z0-9-]/g, ''
 
 export default function ProfileTab({ profile, onSaved }: ProfileTabProps) {
   const [form, setForm] = useState({
-    display_name: profile.display_name ?? '',
+    first_name: '',
+    last_name: '',
+    name_display: (profile.name_display ?? 'personal') as NameDisplay,
     contact_name: profile.contact_name ?? '',
     company: profile.company ?? '',
     email: '',
@@ -33,8 +36,9 @@ export default function ProfileTab({ profile, onSaved }: ProfileTabProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  // Contact details are in hire_contractor_private, so don't write them back
-  // until we've read the existing values (owner-only row, RLS permits).
+  // Contact details and the full legal name are in hire_contractor_private, so
+  // don't write them back until we've read the existing values (owner-only row,
+  // RLS permits).
   const [privateLoaded, setPrivateLoaded] = useState(false);
 
   useEffect(() => {
@@ -42,12 +46,18 @@ export default function ProfileTab({ profile, onSaved }: ProfileTabProps) {
     const load = async () => {
       const { data } = await supabase
         .from('hire_contractor_private')
-        .select('email,phone')
+        .select('first_name,last_name,email,phone')
         .eq('contractor_id', profile.id)
         .maybeSingle();
 
       if (!cancelled && data) {
-        setForm((prev) => ({ ...prev, email: data.email ?? '', phone: data.phone ?? '' }));
+        setForm((prev) => ({
+          ...prev,
+          first_name: data.first_name ?? '',
+          last_name: data.last_name ?? '',
+          email: data.email ?? '',
+          phone: data.phone ?? '',
+        }));
       }
       if (!cancelled) setPrivateLoaded(true);
     };
@@ -64,11 +74,21 @@ export default function ProfileTab({ profile, onSaved }: ProfileTabProps) {
     setSuccess('');
     setIsSaving(true);
     try {
+      // display_name is derived, never typed: the public row must not carry a
+      // full surname when the contractor chose the personal form.
+      const publicName = buildDisplayName({
+        mode: form.name_display,
+        firstName: form.first_name,
+        lastName: form.last_name,
+        company: form.company,
+      });
+
       const { data, error: saveError } = await supabase
         .from('hire_contractor_profiles')
         .update({
-          display_name: form.display_name || null,
-          contact_name: form.contact_name || null,
+          display_name: publicName,
+          contact_name: publicName,
+          name_display: form.name_display,
           company: form.company || null,
           website: form.website || null,
           bio: form.bio || null,
@@ -97,6 +117,8 @@ export default function ProfileTab({ profile, onSaved }: ProfileTabProps) {
           .upsert(
             {
               contractor_id: profile.id,
+              first_name: form.first_name || null,
+              last_name: form.last_name || null,
               email: form.email || null,
               phone: form.phone || null,
               updated_at: new Date().toISOString(),
@@ -144,12 +166,9 @@ export default function ProfileTab({ profile, onSaved }: ProfileTabProps) {
       {success && <div className="bg-green-50 border border-green-200 text-green-700 text-sm rounded-lg px-3 py-2">{success}</div>}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {field('Display name', 'display_name', { placeholder: 'Jane Doe' })}
-        {field('Contact name', 'contact_name')}
+        {field('First name', 'first_name', { placeholder: 'Jane' })}
+        {field('Last name', 'last_name', { placeholder: 'Doe' })}
         {field('Company', 'company')}
-        {/* Public username is intentionally not editable yet - it will come back
-            when the Linktree-style profile URL work lands. It stays on the row
-            and is preserved on save (see handleSave). */}
         {field('Email', 'email', { type: 'email' })}
         {field('Phone', 'phone', { type: 'tel' })}
         {field('Website', 'website', { placeholder: 'https://example.com' })}
@@ -158,6 +177,48 @@ export default function ProfileTab({ profile, onSaved }: ProfileTabProps) {
         {field('Years of experience', 'years_experience', { type: 'number' })}
         {field('Hourly rate (USD)', 'hourly_rate', { type: 'number' })}
         {field('License number', 'license_number')}
+      </div>
+
+      {/* How the profile is presented publicly. The full name never leaves
+          hire_contractor_private, so "my name" publishes as "Jane D." only. */}
+      <div className="rounded-lg border border-gray-200 p-4">
+        <p className="text-sm font-medium text-gray-700 mb-3">
+          How should your profile appear to clients?
+        </p>
+        <div className="space-y-2">
+          {(['personal', 'business'] as NameDisplay[]).map((mode) => (
+            <label key={mode} className="flex items-start gap-2 text-sm text-gray-700">
+              <input
+                type="radio"
+                name="name_display"
+                checked={form.name_display === mode}
+                onChange={() => update('name_display', mode)}
+                className="mt-1"
+              />
+              <span>
+                {mode === 'personal'
+                  ? 'My name — first name and last initial'
+                  : 'My business name'}
+                {mode === 'business' && !form.company.trim() && (
+                  <span className="block text-xs text-amber-700">
+                    Add a company name above, or we&apos;ll fall back to your personal name.
+                  </span>
+                )}
+              </span>
+            </label>
+          ))}
+        </div>
+        <p className="mt-3 text-sm text-gray-500">
+          Clients will see:{' '}
+          <span className="font-medium text-gray-900">
+            {buildDisplayName({
+              mode: form.name_display,
+              firstName: form.first_name,
+              lastName: form.last_name,
+              company: form.company,
+            }) || '—'}
+          </span>
+        </p>
       </div>
 
       <div>

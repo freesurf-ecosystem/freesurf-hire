@@ -17,12 +17,14 @@
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "sitemaps:generate": "node scripts/sitemaps/generate-service-sitemaps.mjs"
+    "sitemaps:generate": "node scripts/sitemaps/generate-service-sitemaps.mjs",
+    "geo:build": "node scripts/geo/build-zip-centroids.mjs"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.20.6",
     "@supabase/supabase-js": "^2.53.0",
     "lucide-react": "^0.460.0",
+    "maplibre-gl": "^6.10.0",
     "next": "^15.5.7",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

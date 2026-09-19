@@ -50,14 +50,16 @@ create table if not exists public.hire_contractor_profiles (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
 
-  -- identity (public fields only - contact details live in hire_contractor_private)
-  -- Split so a contractor can be shown as "Jane D." if they prefer not to publish
-  -- a full surname. display_name is the composed form, kept for display/search.
-  first_name text,
-  last_name text,
+  -- identity (public fields only - contact details and the full legal name live
+  -- in hire_contractor_private). display_name is the ONLY name shown publicly,
+  -- and is derived from name_display: the company name, or "Jane D." for a
+  -- personal profile. Keeping first_name/last_name out of this table is what
+  -- makes the "first name + last initial" option real rather than cosmetic.
   display_name text,
   contact_name text,
   company text,
+  name_display text not null default 'personal'
+    check (name_display in ('business', 'personal')),
   -- display preference only: whether to offer a "show phone number" button.
   -- The number itself is in hire_contractor_private. Not sensitive on its own.
   show_phone boolean not null default true,
@@ -144,6 +146,10 @@ create table if not exists public.hire_contractor_profiles (
 create table if not exists public.hire_contractor_private (
   contractor_id uuid primary key
     references public.hire_contractor_profiles(id) on delete cascade,
+  -- The full legal name lives here, not on the public row, so a contractor can
+  -- publish as "Jane D." without the surname being readable.
+  first_name text,
+  last_name text,
   email text,
   phone text,
   created_at timestamptz not null default now(),
