@@ -210,6 +210,13 @@ export default function ContractorCard({ contractor }: ContractorCardProps) {
             </div>
           )}
           
+          {contractor.showBusinessAddress && contractor.businessAddress && (
+            <div className="flex items-start text-sm text-gray-500 mb-2">
+              <MapPin className="h-4 w-4 mr-1 mt-0.5 flex-shrink-0" />
+              <span>{contractor.businessAddress}</span>
+            </div>
+          )}
+
           <div className="flex items-center text-sm text-gray-500 mb-3">
             <MapPin className="h-4 w-4 mr-1" />
             <span>

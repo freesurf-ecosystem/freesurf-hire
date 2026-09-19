@@ -27,3 +27,12 @@ export const SUBSCRIPTION_DISCLOSURE =
 
 /** Feedfree Digest is double opt-in and managed by the feedless app. */
 export const FEEDFREE_DIGEST_URL = 'https://feedfree.tech';
+
+/**
+ * One-shot handoff from the signup flow to the dashboard.
+ *
+ * Signup finishes by navigating to /dashboard, so there is no interstitial
+ * success screen to report a failed Digest subscription on. The note is written
+ * here and read (then cleared) by the dashboard welcome banner.
+ */
+export const SIGNUP_NOTE_KEY = 'freesurf.signup.note';

@@ -121,8 +121,6 @@ export default function ContractorLeadsLanding() {
         }
         primaryActionLabel="Create Your Free Profile"
         onPrimaryAction={handleGetStarted}
-        secondaryActionLabel="Sign in"
-        onSecondaryAction={() => navigate('/login')}
       />
 
       <LeadFeatureStripSection

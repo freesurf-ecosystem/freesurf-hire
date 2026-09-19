@@ -45,6 +45,9 @@ export interface Contractor {
   isActive?: boolean;
   /** Public-view flag: whether the phone may be revealed on demand. */
   showPhone?: boolean;
+  /** Optional business address, only rendered when the contractor opted in. */
+  businessAddress?: string;
+  showBusinessAddress?: boolean;
 }
 
 export interface GoogleReview {

@@ -6,12 +6,14 @@ import { locations } from '../../data/locationData';
 
 interface ServicesTabProps {
   profile: any;
+  /** Lets the dashboard refresh its onboarding state after a save. */
+  onSaved?: () => void;
 }
 
 const titleCase = (value: string) => value.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 const serviceNameBySlug = new Map(services.map((s) => [s.slug, s.name]));
 
-export default function ServicesTab({ profile }: ServicesTabProps) {
+export default function ServicesTab({ profile, onSaved }: ServicesTabProps) {
   const [serviceSlugs, setServiceSlugs] = useState<string[]>([]);
   const [zips, setZips] = useState<string[]>([]);
   const [states, setStates] = useState<string[]>([]);
@@ -62,6 +64,7 @@ export default function ServicesTab({ profile }: ServicesTabProps) {
       setError(saveError.message);
       return false;
     }
+    onSaved?.();
     return true;
   };
 

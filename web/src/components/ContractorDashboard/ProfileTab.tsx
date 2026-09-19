@@ -20,6 +20,8 @@ export default function ProfileTab({ profile, onSaved }: ProfileTabProps) {
     bio: profile.bio ?? '',
     avatar_url: profile.avatar_url ?? '',
     base_zip_code: profile.base_zip_code ?? '',
+    business_address: profile.business_address ?? '',
+    show_business_address: profile.show_business_address ?? false,
     username: profile.username ?? '',
     hourly_rate: profile.hourly_rate ?? '',
     rate_notes: profile.rate_notes ?? '',
@@ -72,6 +74,8 @@ export default function ProfileTab({ profile, onSaved }: ProfileTabProps) {
           bio: form.bio || null,
           avatar_url: form.avatar_url || null,
           base_zip_code: form.base_zip_code || null,
+          business_address: form.business_address || null,
+          show_business_address: form.business_address ? Boolean(form.show_business_address) : false,
           username: form.username ? slugify(form.username) : null,
           hourly_rate: form.hourly_rate === '' ? null : Number(form.hourly_rate),
           rate_notes: form.rate_notes || null,
@@ -152,6 +156,25 @@ export default function ProfileTab({ profile, onSaved }: ProfileTabProps) {
         {field('Years of experience', 'years_experience', { type: 'number' })}
         {field('Hourly rate (USD)', 'hourly_rate', { type: 'number' })}
         {field('License number', 'license_number')}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Business address</label>
+        <input
+          value={form.business_address}
+          onChange={(e) => update('business_address', e.target.value)}
+          placeholder="123 Main St, Springfield, IL 62704"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-900 outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <label className="mt-2 flex items-center gap-2 text-sm text-gray-700">
+          <input
+            type="checkbox"
+            checked={form.show_business_address}
+            disabled={!form.business_address.trim()}
+            onChange={(e) => update('show_business_address', e.target.checked)}
+          />
+          Show my business address on my public profile
+        </label>
       </div>
 
       <div>

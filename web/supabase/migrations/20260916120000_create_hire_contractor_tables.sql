@@ -65,6 +65,10 @@ create table if not exists public.hire_contractor_profiles (
   bio text,
   avatar_url text,
   base_zip_code text,
+  -- Optional, and only published when the contractor opts in. Many work from a
+  -- vehicle or a home address they would rather not put on a public profile.
+  business_address text,
+  show_business_address boolean not null default false,
 
   -- public identity (profile URL is /{username})
   username text unique,

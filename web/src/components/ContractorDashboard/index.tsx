@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useNavigate } from '../../lib/navigation-compat';
 import { supabase } from '../../lib/supabase';
+import { SIGNUP_NOTE_KEY } from '../../config/subscriptions';
 import DashboardHeader from './DashboardHeader';
 import DashboardSidebar from './DashboardSidebar';
 import ProfileTab from './ProfileTab';
@@ -12,6 +14,7 @@ type Tab = 'profile' | 'preferences' | 'leads' | 'contacts' | 'notifications';
 
 export default function ContractorDashboard() {
   const navigate = useNavigate();
+  const router = useRouter();
   const [profile, setProfile] = useState<any>(null);
   const [requests, setRequests] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,10 +22,31 @@ export default function ContractorDashboard() {
   const [isPausing, setIsPausing] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [signupNote, setSignupNote] = useState('');
 
   useEffect(() => {
     loadDashboard();
   }, []);
+
+  // Signup sends new contractors here with ?welcome=1 (there is no success
+  // screen). Pick up the flag and any note signup left behind, then drop the
+  // query param so a refresh doesn't replay the banner.
+  useEffect(() => {
+    if (router.query.welcome !== '1') return;
+    setShowWelcome(true);
+    try {
+      const note = window.localStorage.getItem(SIGNUP_NOTE_KEY);
+      if (note) {
+        setSignupNote(note);
+        window.localStorage.removeItem(SIGNUP_NOTE_KEY);
+      }
+    } catch {
+      // Storage disabled - the note is a nicety, not critical.
+    }
+    router.replace('/dashboard', undefined, { shallow: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query.welcome]);
 
   const loadDashboard = async () => {
     setIsLoading(true);
@@ -129,6 +153,12 @@ export default function ContractorDashboard() {
     ).values()
   );
 
+  const serviceZips: string[] = profile.service_zips || [];
+  // The intake form only seeds the base zipcode, so one-or-fewer means the
+  // contractor hasn't chosen a service area yet and is nearly unfindable.
+  const needsServiceArea = serviceZips.length <= 1;
+  const showOnboarding = (showWelcome || needsServiceArea) && activeTab !== 'preferences';
+
   return (
     <div className="min-h-screen bg-gray-50">
       <DashboardHeader
@@ -151,8 +181,33 @@ export default function ContractorDashboard() {
           />
 
           <div className="lg:col-span-3">
+            {showOnboarding && (
+              <div className="mb-6 rounded-xl border border-blue-200 bg-blue-50 p-6">
+                <h2 className="text-lg font-semibold text-gray-900">
+                  {showWelcome
+                    ? 'Welcome to FreeSurf — your profile is live'
+                    : 'Choose the zipcodes you work in'}
+                </h2>
+                <p className="mt-2 text-sm text-gray-700">
+                  Clients search by zipcode, and your profile only appears in the zipcodes you
+                  list.
+                  {serviceZips.length === 1
+                    ? ` Right now that is just your base zipcode (${serviceZips[0]}), so only clients searching there will find you.`
+                    : ' You have not listed any yet, so you are not showing up in local search.'}{' '}
+                  Add every zipcode you are willing to travel to.
+                </p>
+                {signupNote && <p className="mt-2 text-sm text-amber-700">{signupNote}</p>}
+                <button
+                  onClick={() => setActiveTab('preferences')}
+                  className="mt-4 bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                >
+                  Add service zipcodes
+                </button>
+              </div>
+            )}
+
             {activeTab === 'profile' && <ProfileTab profile={profile} onSaved={setProfile} />}
-            {activeTab === 'preferences' && <ServicesTab profile={profile} />}
+            {activeTab === 'preferences' && <ServicesTab profile={profile} onSaved={loadDashboard} />}
             {activeTab === 'leads' && <LeadsTab requests={requests} />}
             {activeTab === 'notifications' && <NotificationsTab profile={profile} />}
             {activeTab === 'contacts' && (

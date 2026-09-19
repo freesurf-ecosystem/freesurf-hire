@@ -4,19 +4,12 @@ import {
   Mail, Eye, EyeOff, AlertCircle, CheckCircle, RefreshCw
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
-import {
-  FEEDFREE_DIGEST_URL,
-  SUBSCRIPTION_DISCLOSURE,
-  UPDATE_LISTS,
-} from '../../config/subscriptions';
 
 interface ContractorSignupStep1Props {
   formData: {
     email: string;
     password: string;
     confirmPassword: string;
-    productUpdates: boolean;
-    ecosystemUpdates: boolean;
   };
   setFormData: (data: any) => void;
   isLoading: boolean;
@@ -129,18 +122,10 @@ export default function ContractorSignupStep1({
     }
 
     try {
-      const selectedLists = [
-        ...(formData.productUpdates ? [UPDATE_LISTS.PRODUCT] : []),
-        ...(formData.ecosystemUpdates ? [UPDATE_LISTS.ECOSYSTEM] : []),
-      ];
-
       const { data, error } = await supabase.auth.signUp({
           email: formData.email,
           password: formData.password,
           options: {
-            data: {
-              update_lists: selectedLists,
-            },
             emailRedirectTo: typeof window !== 'undefined' ? `${window.location.origin}/signup` : '/signup',
           }
         });
@@ -149,19 +134,8 @@ export default function ContractorSignupStep1({
         throw error;
       }
 
-      // Record the marketing opt-ins server-side (IP + version) so the consent
-      // is auditable. Fire-and-forget: never block signup on it.
-      if (selectedLists.length > 0) {
-        void fetch('/api/subscribe/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: formData.email,
-            lists: selectedLists,
-            source: 'contractor_signup',
-          }),
-        }).catch(() => {});
-      }
+      // Marketing opt-ins are collected on the profile step (step 2), which every
+      // signup path reaches - social sign-in skips this step entirely.
 
       // Push contractor signup event to GTM Data Layer (account created)
       if (typeof window !== 'undefined' && window.dataLayer) {
@@ -305,55 +279,6 @@ export default function ContractorSignupStep1({
               {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           </div>
-        </div>
-
-        <div className="space-y-3">
-          <label className="flex items-start gap-3 rounded-lg border border-gray-200 p-4">
-            <input
-              type="checkbox"
-              checked={formData.productUpdates}
-              onChange={(e) => setFormData({ ...formData, productUpdates: e.target.checked })}
-              className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-            />
-            <span>
-              <span className="block text-sm font-medium text-gray-900">
-                Email me updates about the FreeSurf contractor network
-              </span>
-              <span className="block text-xs text-gray-500">
-                Product news and changes that affect your profile.
-              </span>
-            </span>
-          </label>
-
-          <label className="flex items-start gap-3 rounded-lg border border-gray-200 p-4">
-            <input
-              type="checkbox"
-              checked={formData.ecosystemUpdates}
-              onChange={(e) => setFormData({ ...formData, ecosystemUpdates: e.target.checked })}
-              className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-            />
-            <span>
-              <span className="block text-sm font-medium text-gray-900">
-                Email me about other FreeSurf products
-              </span>
-              <span className="block text-xs text-gray-500">
-                Occasional news about our other free tools. {SUBSCRIPTION_DISCLOSURE}
-              </span>
-            </span>
-          </label>
-
-          <p className="px-1 text-xs text-gray-500">
-            Want the Feedfree Digest?{' '}
-            <a
-              href={FEEDFREE_DIGEST_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:underline"
-            >
-              Subscribe here
-            </a>{' '}
-            (it uses a confirmation email).
-          </p>
         </div>
 
         {error && (

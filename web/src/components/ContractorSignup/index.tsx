@@ -4,9 +4,8 @@ import { supabase } from '../../lib/supabase';
 import { services } from '../../data/services';
 import EmailVerificationPage from '../EmailVerificationPage';
 import ContractorSignupStep1 from './ContractorSignupStep1';
-import ContractorSignupSuccess from './ContractorSignupSuccess';
 import { CONSENT_DISCLOSURE_VERSION, getContractorConsentDisclosure, TERMS_OF_USE_URL, PRIVACY_POLICY_URL } from '../../config/consent';
-import { FEEDFREE_DIGEST_URL, SUBSCRIPTION_DISCLOSURE, UPDATE_LISTS } from '../../config/subscriptions';
+import { FEEDFREE_DIGEST_URL, SIGNUP_NOTE_KEY, SUBSCRIPTION_DISCLOSURE, UPDATE_LISTS } from '../../config/subscriptions';
 
 const titleCase = (value: string) => value.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
@@ -46,6 +45,9 @@ export default function ContractorSignup() {
     phone: '',
     showPhone: true,
     baseZipCode: '',
+    // Optional. Only ever shown publicly when the contractor opts in below.
+    businessAddress: '',
+    showBusinessAddress: false,
     bio: '',
     website: '',
     yearsExperience: '' as string | number,
@@ -54,9 +56,6 @@ export default function ContractorSignup() {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [serviceQuery, setServiceQuery] = useState('');
   const [showServiceList, setShowServiceList] = useState(false);
-  const [serviceZips, setServiceZips] = useState<string[]>([]);
-  const [zipPick, setZipPick] = useState('');
-  const [digestNote, setDigestNote] = useState('');
 
   const filteredServices = useMemo(() => {
     const q = serviceQuery.trim().toLowerCase();
@@ -100,14 +99,6 @@ export default function ContractorSignup() {
     setShowServiceList(false);
   };
   const removeService = (slug: string) => setSelectedServices((prev) => prev.filter((s) => s !== slug));
-  const addServiceZip = () => {
-    const zip = zipPick.trim();
-    if (/^\d{5}$/.test(zip) && !serviceZips.includes(zip)) {
-      setServiceZips((prev) => [...prev, zip]);
-    }
-    setZipPick('');
-  };
-  const removeServiceZip = (zip: string) => setServiceZips((prev) => prev.filter((z) => z !== zip));
 
   const handleSubmit = async () => {
     setError('');
@@ -146,13 +137,14 @@ export default function ContractorSignup() {
             website: formData.website.trim() || null,
             bio: formData.bio.trim() || null,
             base_zip_code: formData.baseZipCode.trim() || null,
+            business_address: formData.businessAddress.trim() || null,
+            show_business_address: formData.businessAddress.trim() ? formData.showBusinessAddress : false,
             show_phone: formData.showPhone,
             years_experience: formData.yearsExperience === '' ? null : Number(formData.yearsExperience),
             service_slugs: selectedServices,
-            // Base zip first, then any additional areas. Deduped.
-            service_zips: Array.from(
-              new Set([...(formData.baseZipCode.trim() ? [formData.baseZipCode.trim()] : []), ...serviceZips])
-            ),
+            // Service area is edited from the dashboard - the profile starts out
+            // findable in the contractor's own base zipcode and nowhere else.
+            service_zips: formData.baseZipCode.trim() ? [formData.baseZipCode.trim()] : [],
             is_published: true,
             is_searchable: true,
             published_at: new Date().toISOString(),
@@ -204,6 +196,9 @@ export default function ContractorSignup() {
 
       // The Feedfree Digest is a separate double opt-in list managed by the
       // feedless app, so it goes through their function (same Supabase project).
+      // Collected in a local so it can be handed to the dashboard - setting state
+      // here would not be visible before we navigate away.
+      let signupNote = '';
       if (formData.feedfreeDigest && user.email) {
         try {
           const { data: digestData, error: digestError } = await supabase.functions.invoke(
@@ -211,14 +206,23 @@ export default function ContractorSignup() {
             { body: { email: user.email, topics: [] } }
           );
           if (digestError || digestData?.ok === false) {
-            setDigestNote(' Note: we could not subscribe you to the Feedfree Digest — you can join at feedfree.tech.');
+            signupNote = 'We could not subscribe you to the Feedfree Digest — you can join at feedfree.tech.';
           }
         } catch {
-          setDigestNote(' Note: we could not subscribe you to the Feedfree Digest — you can join at feedfree.tech.');
+          signupNote = 'We could not subscribe you to the Feedfree Digest — you can join at feedfree.tech.';
         }
       }
 
-      setCurrentStep(3);
+      // No interstitial success page: the dashboard is where the profile gets
+      // finished (service zipcodes), so send them straight there.
+      if (signupNote) {
+        try {
+          window.localStorage.setItem(SIGNUP_NOTE_KEY, signupNote);
+        } catch {
+          // Private mode / storage disabled - the note is a nicety, not critical.
+        }
+      }
+      navigate('/dashboard?welcome=1');
     } catch (err: any) {
       setError(err?.message || 'Failed to create your profile');
     } finally {
@@ -401,104 +405,80 @@ export default function ContractorSignup() {
                 </div>
               </div>
 
-              {/* Service area. Zipcodes rather than states, because the local
-                  search matches on the exact zip a client enters. */}
+              {/* Business address is optional and off by default - many
+                  contractors work from a vehicle or a home they'd rather not
+                  publish. */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Zipcodes you serve
+                  Business address
                 </label>
-                <p className="mb-2 text-xs text-gray-500">
-                  For local work — remote skills don&apos;t need a location.
-                </p>
-                <div className="flex gap-3">
+                <input
+                  value={formData.businessAddress}
+                  onChange={(e) => setFormData({ ...formData, businessAddress: e.target.value })}
+                  placeholder="123 Main St, Springfield, IL 62704"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-900 outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <label className="mt-2 flex items-start gap-2 text-xs text-gray-600">
                   <input
-                    inputMode="numeric"
-                    value={zipPick}
-                    onChange={(e) => setZipPick(e.target.value.replace(/[^0-9]/g, '').slice(0, 5))}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        addServiceZip();
-                      }
-                    }}
-                    placeholder="Add a zipcode..."
-                    className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-gray-900 outline-none focus:ring-2 focus:ring-blue-500"
+                    type="checkbox"
+                    checked={formData.showBusinessAddress}
+                    disabled={!formData.businessAddress.trim()}
+                    onChange={(e) => setFormData({ ...formData, showBusinessAddress: e.target.checked })}
+                    className="mt-0.5 h-3.5 w-3.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 disabled:opacity-50"
                   />
-                  <button
-                    type="button"
-                    onClick={addServiceZip}
-                    disabled={!/^\d{5}$/.test(zipPick.trim())}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
-                  >
-                    Add
-                  </button>
-                </div>
-                <div className="flex flex-wrap gap-2 mt-3">
-                  {serviceZips.length === 0 ? (
-                    <p className="text-sm text-gray-500">
-                      No additional zipcodes yet. Your base zipcode is included automatically.
-                    </p>
-                  ) : (
-                    serviceZips.map((zip) => (
-                      <span key={zip} className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-3 py-1 text-sm text-gray-700">
-                        {zip}
-                        <button type="button" onClick={() => removeServiceZip(zip)} className="text-gray-400 hover:text-red-600">×</button>
-                      </span>
-                    ))
-                  )}
-                </div>
+                  <span>Show my business address on my public profile</span>
+                </label>
               </div>
 
+              <p className="text-xs text-gray-500">
+                Your service zipcodes are set from your dashboard after you finish here.
+              </p>
+
               {/* Notification opt-ins. On this step (not the account step) so
-                  social sign-in doesn't skip them. */}
+                  social sign-in doesn't skip them, and styled as plain rows so
+                  they sit at the same width as the terms agreement below. */}
               <div className="space-y-3">
                 <p className="text-sm font-medium text-gray-700">Email preferences</p>
 
-                <label className="flex items-start gap-3 rounded-lg border border-gray-200 p-4">
+                <label className="flex items-start gap-2 text-sm text-gray-600">
                   <input
                     type="checkbox"
                     checked={formData.productUpdates}
                     onChange={(e) => setFormData({ ...formData, productUpdates: e.target.checked })}
-                    className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="mt-1"
                   />
                   <span>
-                    <span className="block text-sm font-medium text-gray-900">
-                      Email me updates about the FreeSurf contractor network
-                    </span>
+                    Email me updates about the FreeSurf contractor network
                     <span className="block text-xs text-gray-500">
                       Product news and changes that affect your profile.
                     </span>
                   </span>
                 </label>
 
-                <label className="flex items-start gap-3 rounded-lg border border-gray-200 p-4">
+                <label className="flex items-start gap-2 text-sm text-gray-600">
                   <input
                     type="checkbox"
                     checked={formData.ecosystemUpdates}
                     onChange={(e) => setFormData({ ...formData, ecosystemUpdates: e.target.checked })}
-                    className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="mt-1"
                   />
                   <span>
-                    <span className="block text-sm font-medium text-gray-900">
-                      Email me about other FreeSurf products
-                    </span>
+                    Email me about other FreeSurf products
                     <span className="block text-xs text-gray-500">
                       Occasional news about our other free tools. {SUBSCRIPTION_DISCLOSURE}
                     </span>
                   </span>
                 </label>
 
-                <label className="flex items-start gap-3 rounded-lg border border-gray-200 p-4">
+                <label className="flex items-start gap-2 text-sm text-gray-600">
                   <input
                     type="checkbox"
                     checked={formData.feedfreeDigest}
                     onChange={(e) => setFormData({ ...formData, feedfreeDigest: e.target.checked })}
-                    className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="mt-1"
                   />
                   <span>
-                    <span className="block text-sm font-medium text-gray-900">
-                      Subscribe to the Feedfree Digest
-                    </span>
+                    Subscribe to the Feedfree Digest
                     <span className="block text-xs text-gray-500">
                       Curated long-form social posts covering AI, SEO and marketing.{' '}
                       <a
@@ -536,14 +516,6 @@ export default function ContractorSignup() {
                 {isLoading ? 'Creating profile...' : 'Create my profile'}
               </button>
             </div>
-          )}
-
-          {currentStep === 3 && (
-            <ContractorSignupSuccess
-              note={digestNote}
-              onGoToDashboard={() => navigate('/dashboard')}
-              onGoToHomepage={() => navigate('/')}
-            />
           )}
         </div>
       </div>
