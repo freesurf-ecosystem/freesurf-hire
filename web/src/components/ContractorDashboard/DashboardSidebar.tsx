@@ -1,15 +1,15 @@
 import React from 'react';
 import { 
   User, Star, AlertCircle, CheckCircle, RefreshCw, 
-  FileText, Phone, Settings, Pause, Play, Mail
+  FileText, Phone, Pause, Play, Mail
 } from 'lucide-react';
 import { Contractor } from '../../types';
 
 interface DashboardSidebarProps {
   contractor: Contractor;
   leadsCount: number;
-  activeTab: 'profile' | 'preferences' | 'leads' | 'contacts';
-  setActiveTab: (tab: 'profile' | 'preferences' | 'leads' | 'contacts') => void;
+  activeTab: 'profile' | 'leads' | 'contacts' | 'notifications';
+  setActiveTab: (tab: 'profile' | 'leads' | 'contacts' | 'notifications') => void;
   handlePauseToggle: () => void;
   isPausing: boolean;
   error: string;
@@ -134,17 +134,7 @@ export default function DashboardSidebar({
               <User className="h-5 w-5" />
               <span>Profile</span>
             </button>
-            
-            <button
-              onClick={() => setActiveTab('preferences')}
-              className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                activeTab === 'preferences' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              <Settings className="h-5 w-5" />
-              <span>Services &amp; Service Area</span>
-            </button>
-            
+
             <button
               onClick={() => setActiveTab('leads')}
               className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${

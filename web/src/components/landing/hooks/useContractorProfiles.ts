@@ -39,12 +39,17 @@ export const useContractorProfiles = ({
           return;
         }
 
-        // One indexed query, against the public projection view. The view
-        // excludes phone/email, so they can't be harvested from the payload.
-        // Columns are listed explicitly rather than select('*') for the same
-        // reason - the view is the contract.
+        // Reads the profiles table directly. This previously targeted a
+        // `hire_contractor_public` view that was never created by any migration,
+        // so every lookup 404'd and no contractor cards ever rendered.
+        //
+        // No view is needed for privacy: email and phone live in
+        // hire_contractor_private (owner-only RLS), so this table holds nothing
+        // that cannot be public. Row visibility comes from the
+        // "hire profiles public read searchable" RLS policy, and the columns are
+        // still listed explicitly rather than select('*').
         let query = supabase
-          .from('hire_contractor_public')
+          .from('hire_contractor_profiles')
           .select(
             [
               'id',

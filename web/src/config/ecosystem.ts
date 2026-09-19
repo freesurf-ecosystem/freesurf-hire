@@ -31,14 +31,14 @@ export const ECOSYSTEM_TOOLS: EcosystemTool[] = [
     description: 'Cross-post to your networks at once.',
   },
   {
-    name: 'Transcriber',
+    name: 'AI Transcriber',
     href: 'https://transcribe.freesurf.tools',
     host: 'transcribe.freesurf.tools',
     status: 'Live',
     description: 'Record, transcribe, and summarize audio.',
   },
   {
-    name: 'Reader',
+    name: 'AI Natural Voice Reader',
     href: 'https://reader.freesurf.tools',
     host: 'reader.freesurf.tools',
     status: 'Live',

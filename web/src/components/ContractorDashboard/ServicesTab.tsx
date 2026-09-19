@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Plus, X } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { services } from '../../data/services';
-import { locations } from '../../data/locationData';
 
 interface ServicesTabProps {
   profile: any;
@@ -16,11 +15,9 @@ const serviceNameBySlug = new Map(services.map((s) => [s.slug, s.name]));
 export default function ServicesTab({ profile, onSaved }: ServicesTabProps) {
   const [serviceSlugs, setServiceSlugs] = useState<string[]>([]);
   const [zips, setZips] = useState<string[]>([]);
-  const [states, setStates] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [showList, setShowList] = useState(false);
-  const [stateAbbr, setStateAbbr] = useState('');
   const [zip, setZip] = useState('');
   const [error, setError] = useState('');
 
@@ -30,7 +27,7 @@ export default function ServicesTab({ profile, onSaved }: ServicesTabProps) {
     setIsLoading(true);
     const { data, error: loadError } = await supabase
       .from('hire_contractor_profiles')
-      .select('service_slugs,service_zips,service_states')
+      .select('service_slugs,service_zips')
       .eq('id', profile.id)
       .maybeSingle();
 
@@ -39,7 +36,6 @@ export default function ServicesTab({ profile, onSaved }: ServicesTabProps) {
     } else if (data) {
       setServiceSlugs(data.service_slugs || []);
       setZips(data.service_zips || []);
-      setStates(data.service_states || []);
     }
     setIsLoading(false);
   };
@@ -52,7 +48,6 @@ export default function ServicesTab({ profile, onSaved }: ServicesTabProps) {
   const save = async (patch: {
     service_slugs?: string[];
     service_zips?: string[];
-    service_states?: string[];
   }) => {
     setError('');
     const { error: saveError } = await supabase
@@ -90,32 +85,17 @@ export default function ServicesTab({ profile, onSaved }: ServicesTabProps) {
   };
 
   const addArea = async () => {
-    if (zip.trim()) {
-      const value = zip.trim();
-      if (!zips.includes(value)) {
-        const next = [...zips, value];
-        if (await save({ service_zips: next })) setZips(next);
-      }
-      setZip('');
-      return;
+    const value = zip.trim();
+    if (value && !zips.includes(value)) {
+      const next = [...zips, value];
+      if (await save({ service_zips: next })) setZips(next);
     }
-    if (stateAbbr) {
-      if (!states.includes(stateAbbr)) {
-        const next = [...states, stateAbbr];
-        if (await save({ service_states: next })) setStates(next);
-      }
-      setStateAbbr('');
-    }
+    setZip('');
   };
 
   const removeZip = async (value: string) => {
     const next = zips.filter((z) => z !== value);
     if (await save({ service_zips: next })) setZips(next);
-  };
-
-  const removeState = async (value: string) => {
-    const next = states.filter((s) => s !== value);
-    if (await save({ service_states: next })) setStates(next);
   };
 
   return (
@@ -185,33 +165,28 @@ export default function ServicesTab({ profile, onSaved }: ServicesTabProps) {
         </div>
       </div>
 
-      {/* Service area */}
-      <div>
+      {/* Service area. Zipcodes only: the local search matches on the exact zip
+          a client enters, so a state would never match anything. */}
+      <div id="service-area" className="scroll-mt-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-3">Where you work</h3>
-        <div className="flex flex-col sm:flex-row gap-3">
-          <select
-            value={stateAbbr}
-            onChange={(e) => setStateAbbr(e.target.value)}
-            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-gray-900 outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">Add a state...</option>
-            {locations.map((l) => (
-              <option key={l.state} value={l.state}>
-                {l.name}
-              </option>
-            ))}
-          </select>
+        <div className="flex gap-3">
           <input
             type="text"
             inputMode="numeric"
             value={zip}
             onChange={(e) => setZip(e.target.value.replace(/[^0-9]/g, '').slice(0, 5))}
-            placeholder="or add a zipcode"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                addArea();
+              }
+            }}
+            placeholder="Add a zipcode..."
             className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-gray-900 outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
             onClick={addArea}
-            disabled={!zip.trim() && !stateAbbr}
+            disabled={!/^\d{5}$/.test(zip.trim())}
             className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
           >
             <Plus className="h-4 w-4" />
@@ -220,33 +195,20 @@ export default function ServicesTab({ profile, onSaved }: ServicesTabProps) {
         </div>
 
         <div className="flex flex-wrap gap-2 mt-4">
-          {zips.length === 0 && states.length === 0 ? (
+          {zips.length === 0 ? (
             <p className="text-sm text-gray-500">No service area set yet.</p>
           ) : (
-            <>
-              {states.map((abbr) => (
-                <span
-                  key={`state-${abbr}`}
-                  className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-3 py-1 text-sm text-gray-700"
-                >
-                  {locations.find((l) => l.state === abbr)?.name || abbr}
-                  <button onClick={() => removeState(abbr)} className="text-gray-400 hover:text-red-600" aria-label="Remove">
-                    <X className="h-3.5 w-3.5" />
-                  </button>
-                </span>
-              ))}
-              {zips.map((value) => (
-                <span
-                  key={`zip-${value}`}
-                  className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-3 py-1 text-sm text-gray-700"
-                >
-                  {value}
-                  <button onClick={() => removeZip(value)} className="text-gray-400 hover:text-red-600" aria-label="Remove">
-                    <X className="h-3.5 w-3.5" />
-                  </button>
-                </span>
-              ))}
-            </>
+            zips.map((value) => (
+              <span
+                key={`zip-${value}`}
+                className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-3 py-1 text-sm text-gray-700"
+              >
+                {value}
+                <button onClick={() => removeZip(value)} className="text-gray-400 hover:text-red-600" aria-label="Remove">
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </span>
+            ))
           )}
         </div>
       </div>

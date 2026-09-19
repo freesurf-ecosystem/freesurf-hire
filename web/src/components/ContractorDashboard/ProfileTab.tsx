@@ -147,7 +147,9 @@ export default function ProfileTab({ profile, onSaved }: ProfileTabProps) {
         {field('Display name', 'display_name', { placeholder: 'Jane Doe' })}
         {field('Contact name', 'contact_name')}
         {field('Company', 'company')}
-        {field('Public username', 'username', { placeholder: 'jane-plumbing' })}
+        {/* Public username is intentionally not editable yet - it will come back
+            when the Linktree-style profile URL work lands. It stays on the row
+            and is preserved on save (see handleSave). */}
         {field('Email', 'email', { type: 'email' })}
         {field('Phone', 'phone', { type: 'tel' })}
         {field('Website', 'website', { placeholder: 'https://example.com' })}

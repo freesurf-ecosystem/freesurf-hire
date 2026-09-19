@@ -10,7 +10,7 @@ import ServicesTab from './ServicesTab';
 import LeadsTab from './LeadsTab';
 import NotificationsTab from './NotificationsTab';
 
-type Tab = 'profile' | 'preferences' | 'leads' | 'contacts' | 'notifications';
+type Tab = 'profile' | 'leads' | 'contacts' | 'notifications';
 
 export default function ContractorDashboard() {
   const navigate = useNavigate();
@@ -45,7 +45,6 @@ export default function ContractorDashboard() {
       // Storage disabled - the note is a nicety, not critical.
     }
     router.replace('/dashboard', undefined, { shallow: true });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query.welcome]);
 
   const loadDashboard = async () => {
@@ -157,7 +156,11 @@ export default function ContractorDashboard() {
   // The intake form only seeds the base zipcode, so one-or-fewer means the
   // contractor hasn't chosen a service area yet and is nearly unfindable.
   const needsServiceArea = serviceZips.length <= 1;
-  const showOnboarding = (showWelcome || needsServiceArea) && activeTab !== 'preferences';
+  // Services & service area now live on the profile tab, so the banner just
+  // scrolls to them rather than switching tabs.
+  const scrollToServiceArea = () => {
+    document.getElementById('service-area')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -181,7 +184,7 @@ export default function ContractorDashboard() {
           />
 
           <div className="lg:col-span-3">
-            {showOnboarding && (
+            {(showWelcome || needsServiceArea) && (
               <div className="mb-6 rounded-xl border border-blue-200 bg-blue-50 p-6">
                 <h2 className="text-lg font-semibold text-gray-900">
                   {showWelcome
@@ -198,7 +201,7 @@ export default function ContractorDashboard() {
                 </p>
                 {signupNote && <p className="mt-2 text-sm text-amber-700">{signupNote}</p>}
                 <button
-                  onClick={() => setActiveTab('preferences')}
+                  onClick={scrollToServiceArea}
                   className="mt-4 bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
                 >
                   Add service zipcodes
@@ -206,8 +209,12 @@ export default function ContractorDashboard() {
               </div>
             )}
 
-            {activeTab === 'profile' && <ProfileTab profile={profile} onSaved={setProfile} />}
-            {activeTab === 'preferences' && <ServicesTab profile={profile} onSaved={loadDashboard} />}
+            {activeTab === 'profile' && (
+              <div className="space-y-8">
+                <ProfileTab profile={profile} onSaved={setProfile} />
+                <ServicesTab profile={profile} onSaved={loadDashboard} />
+              </div>
+            )}
             {activeTab === 'leads' && <LeadsTab requests={requests} />}
             {activeTab === 'notifications' && <NotificationsTab profile={profile} />}
             {activeTab === 'contacts' && (

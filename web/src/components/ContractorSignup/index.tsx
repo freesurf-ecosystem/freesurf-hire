@@ -362,6 +362,10 @@ export default function ContractorSignup() {
               {/* Services */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Services you offer *</label>
+                <p className="mb-2 text-xs text-gray-500">
+                  Just pick the main ones for now — you can add, remove or change these any time
+                  from your dashboard.
+                </p>
                 <div className="relative">
                   <input
                     value={serviceQuery}
