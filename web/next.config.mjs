@@ -209,6 +209,8 @@ const nextConfig = {
       { source: '/terms/', destination: '/terms.html' },
       { source: '/eula', destination: '/eula.html' },
       { source: '/eula/', destination: '/eula.html' },
+      { source: '/child-safety', destination: '/child-safety.html' },
+      { source: '/child-safety/', destination: '/child-safety.html' },
     ];
   },
   // Disable server-side features for static export
