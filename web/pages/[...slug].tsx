@@ -27,9 +27,9 @@ const createSlug = (text: string) => text.toLowerCase().replace(/\s+/g, '-').rep
 export default function DynamicPage({ pageType, state, location, locationType, serviceSlug, zip }: DynamicPageProps) {
   const router = useRouter();
 
-  // Remote service pages carry real editorial content, so they are indexable.
-  // Local city/zip pages are taxonomy-driven rather than inventory-driven and
-  // stay quarantined until there is content behind them. See src/config/seo.ts.
+  // Remote service pages and local city/zip pages are both taxonomy-driven
+  // rather than inventory-driven, so they stay quarantined (noindex, follow)
+  // until there is content behind them. See src/config/seo.ts.
   const shouldNoindex =
     (pageType === 'service' && !INDEX_REMOTE_SERVICE_PAGES) ||
     ((pageType === 'service-location' || pageType === 'service-zip') && !INDEX_LOCAL_PAGES);

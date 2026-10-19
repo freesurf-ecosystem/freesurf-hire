@@ -1,6 +1,6 @@
 {
-  "indexRemoteServicePages": true,
+  "indexRemoteServicePages": false,
   "indexLocalPages": false,
-  "sitemapIncludeRemoteServices": true,
+  "sitemapIncludeRemoteServices": false,
   "sitemapIncludeLocalPages": false
 }

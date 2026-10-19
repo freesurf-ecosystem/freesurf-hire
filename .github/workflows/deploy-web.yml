@@ -39,11 +39,11 @@ jobs:
           echo "resolved URL empty: ${{ (vars.SUPABASE_URL || vars.NEXT_PUBLIC_SUPABASE_URL) == '' }}"
           echo "resolved KEY empty: ${{ (vars.SUPABASE_PUBLIC_KEY || vars.NEXT_PUBLIC_SUPABASE_PUBLIC_KEY || vars.NEXT_PUBLIC_SUPABASE_ANON_KEY) == '' }}"
 
-      # Generates public/sitemap.xml. With local pages quarantined
-      # (src/config/seo.json) this is one ~160 KB file covering the static pages,
-      # legal pages, and the 925 remote service pages. It only materialises the
-      # ~7M local city pages / 1.2 GB when sitemapIncludeLocalPages is turned on,
-      # so this stays cheap until there is inventory behind those pages.
+      # Generates public/sitemap.xml. With both page families quarantined
+      # (src/config/seo.json) this is a small file covering only the static and
+      # legal pages. Turning on sitemapIncludeRemoteServices adds the ~925
+      # remote service pages; turning on sitemapIncludeLocalPages additionally
+      # materialises the ~7M local city pages / 1.2 GB.
       - name: Generate sitemaps
         run: npm run sitemaps:generate
 

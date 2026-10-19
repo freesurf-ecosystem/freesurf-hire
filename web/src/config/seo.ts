@@ -10,9 +10,12 @@ import seo from './seo.json';
  *
  * The two page families are gated separately on purpose:
  *
- *   /{service}                  remote services. These have real editorial
- *                               content (how it works, guarantees, FAQ), so
- *                               they are indexable now.
+ *   /{service}                  remote services. These are quarantined for now
+ *                               too: the taxonomy generates ~925 URLs, which is
+ *                               more surface than the current inventory
+ *                               supports. They stay reachable with
+ *                               noindex, follow and can be re-enabled on their
+ *                               own once there is real demand behind them.
  *
  *   /{service}/{state}/{city}   local services x ~13,400 cities
  *   /{service}/{zip}            zipcode search results

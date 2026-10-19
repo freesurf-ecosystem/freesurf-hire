@@ -6,10 +6,10 @@
  * Two modes, driven by src/config/seo.json (the same file the app reads for its
  * robots meta tags, so the two can't disagree):
  *
- *   quarantine on (default)  One small public/sitemap.xml containing the static
- *                            pages, the legal pages, and the remote service
- *                            pages. Local city/zip pages are excluded because
- *                            they are noindexed and empty.
+ *   quarantine on (default)  One small public/sitemap.xml containing only the
+ *                            static and legal pages. Remote service pages and
+ *                            local city/zip pages are excluded because they are
+ *                            noindexed in the app.
  *
  *   quarantine off           Also materialises the full local set: one
  *                            sitemap-local-{service}.xml per local service
