@@ -13,6 +13,12 @@ export default function HomePage() {
         <title>FreeSurf | Open-source contractor network</title>
         <meta name="description" content="Open-source marketplace connecting contractors and small businesses with individuals who need a home service or freelancer help" />
         <link rel="canonical" href="https://freesurf.tools/" />
+        <meta property="og:title" content="FreeSurf | Open-source contractor network" />
+        <meta property="og:description" content="Open-source marketplace connecting contractors and small businesses with individuals who need a home service or freelancer help" />
+        <meta property="og:url" content="https://freesurf.tools/" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:title" content="FreeSurf | Open-source contractor network" />
+        <meta name="twitter:description" content="Open-source marketplace connecting contractors and small businesses with individuals who need a home service or freelancer help" />
         <script
           id="organization-schema"
           type="application/ld+json"
