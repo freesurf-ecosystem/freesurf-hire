@@ -217,9 +217,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true, // Temporarily ignore during migration
   },
-  eslint: {
-    ignoreDuringBuilds: true, // Temporarily ignore during migration
-  },
   // Environment variables are now NEXT_PUBLIC_* format (Next.js standard)
   // These are embedded at build time and available in the browser
   // Webpack config to make env vars available in browser

@@ -10,22 +10,22 @@
   "scripts": {
     "dev": "next dev -p 3000",
     "clean": "node -e \"const fs = require('fs'); const path = require('path'); ['out', '.next', 'node_modules/.cache'].forEach(dir => { const p = path.join('.', dir); if(fs.existsSync(p)) fs.rmSync(p, {recursive: true}); });\"",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start -p 8080",
     "lint": "eslint .",
-    "preview": "opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion && opennextjs-cloudflare deploy",
-    "upload": "opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion && opennextjs-cloudflare upload",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "sitemaps:generate": "node scripts/sitemaps/generate-service-sitemaps.mjs",
     "geo:build": "node scripts/geo/build-zip-centroids.mjs"
   },
   "dependencies": {
-    "@opennextjs/cloudflare": "^1.20.6",
+    "@opennextjs/cloudflare": "^1.20.13",
     "@supabase/supabase-js": "^2.53.0",
     "lucide-react": "^0.460.0",
     "maplibre-gl": "^6.10.0",
-    "next": "^15.5.7",
+    "next": "^16.4.3",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-markdown": "^10.1.0",
@@ -47,6 +47,6 @@
     "terser": "^5.44.1",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.3.0",
-    "wrangler": "^4.132.0"
+    "wrangler": "^4.154.0"
   }
 }
