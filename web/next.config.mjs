@@ -159,6 +159,20 @@ const legacyPathRedirects = [
   ['/laundry-mats/:path*', '/laundromats/:path*'],
 ];
 
+// Legal pages are static HTML served at clean URLs via rewrites below.
+// Redirect the .html and trailing-slash variants to the canonical clean URL
+// with a permanent (308) status so search engines consolidate duplicate URLs.
+const legalPathRedirects = [
+  ['/privacy.html', '/privacy'],
+  ['/privacy/', '/privacy'],
+  ['/terms.html', '/terms'],
+  ['/terms/', '/terms'],
+  ['/eula.html', '/eula'],
+  ['/eula/', '/eula'],
+  ['/child-safety.html', '/child-safety'],
+  ['/child-safety/', '/child-safety'],
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // REMOVED: output: 'export' - Now using Server-Side Rendering
@@ -185,7 +199,7 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react', '@supabase/supabase-js'],
   },
   async redirects() {
-    return [...legacyPathRedirects, ...resourceSlugRedirects].map(([source, destination]) => ({
+    return [...legalPathRedirects, ...legacyPathRedirects, ...resourceSlugRedirects].map(([source, destination]) => ({
       source,
       destination,
       permanent: true,
