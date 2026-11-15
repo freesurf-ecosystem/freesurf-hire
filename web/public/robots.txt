@@ -4,8 +4,6 @@ Allow: /
 # Sitemaps
 Sitemap: https://freesurf.tools/sitemap.xml
 
-# Crawl-delay for respectful crawling
-Crawl-delay: 1
 
 # Important pages for crawlers
 Allow: /

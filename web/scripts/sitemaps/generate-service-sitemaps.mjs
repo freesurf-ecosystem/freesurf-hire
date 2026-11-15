@@ -79,13 +79,8 @@ const entries = [
   { loc: `${BASE}/join-as-contractor`, changefreq: 'weekly', priority: '0.9' },
   { loc: `${BASE}/resources`, changefreq: 'weekly', priority: '0.7' },
   { loc: `${BASE}/support`, changefreq: 'monthly', priority: '0.4' },
-  // NOTE: no trailing slash. The legal pages are static HTML served via
-  // next.config rewrites, and in production `/terms/` 307-redirects to `/terms`
-  // (the opposite of `next dev`, where trailingSlash adds the slash). A sitemap
-  // must list the URL that returns 200, so this matches production.
-  { loc: `${BASE}/privacy`, changefreq: 'yearly', priority: '0.3' },
-  { loc: `${BASE}/terms`, changefreq: 'yearly', priority: '0.3' },
-  { loc: `${BASE}/eula`, changefreq: 'yearly', priority: '0.3' },
+  // Legal pages (/privacy, /terms, /eula) are deliberately left out: they carry
+  // noindex and add nothing to search, so they shouldn't spend crawl attention.
 ];
 
 // ── Remote service pages: /{service} ───────────────────────────────────────────
